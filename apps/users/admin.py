@@ -19,7 +19,7 @@ class UserCreationForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ("name", "document", "email", "cell_phone", "fixed_phone", "password")
+        fields = ("name", "email", "password")
 
     def clean_password_confirmation(self):
         password = self.cleaned_data.get("password")
@@ -41,7 +41,7 @@ class UserChangeForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ("name", "document", "email", "cell_phone", "fixed_phone", "password")
+        fields = ("name", "email", "password")
 
     def clean_password(self):
         return self.initial["password"]
@@ -54,10 +54,7 @@ class UserAdmin(BaseUserAdmin):
     list_display = (
         "id",
         "name",
-        "document",
         "email",
-        "cell_phone",
-        "fixed_phone",
         "is_admin",
     )
     list_display_links = ("id", "name")
@@ -68,10 +65,7 @@ class UserAdmin(BaseUserAdmin):
             {
                 "fields": (
                     "name",
-                    "document",
                     "email",
-                    "cell_phone",
-                    "fixed_phone",
                     "password",
                 )
             },
@@ -87,9 +81,6 @@ class UserAdmin(BaseUserAdmin):
                 "fields": (
                     "name",
                     "email",
-                    "document",
-                    "cell_phone",
-                    "fixed_phone",
                     "password",
                     "password_confirmation",
                 ),

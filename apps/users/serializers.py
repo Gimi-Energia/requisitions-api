@@ -15,35 +15,18 @@ class UserSerializer(serializers.ModelSerializer):
         fields = (
             "id",
             "name",
-            "document",
             "email",
-            "cell_phone",
-            "fixed_phone",
             "password",
             "password_confirm",
         )
 
     def validate(self, data):
-        if not valid_document(data["document"]):
-            raise serializers.ValidationError({"document": "Invalid document number!"})
         if not valid_name(data["name"]):
             raise serializers.ValidationError(
                 {"name": "Don't include numbers in this field!"}
             )
         if not valid_email(data["email"]):
             raise serializers.ValidationError({"email": "Invalid email!"})
-        if not valid_phone(data["cell_phone"]):
-            raise serializers.ValidationError(
-                {
-                    "cell_phone": "The mobile number must follow the pattern: (XX) 9XXXX-XXXX!"
-                }
-            )
-        if data.get("fixed_phone") and not valid_phone(data["fixed_phone"]):
-            raise serializers.ValidationError(
-                {
-                    "fixed_phone": "The fixed number must follow the pattern: (XX) XXXX-XXXX!"
-                }
-            )
         if not equal_passwords(data["password"], data["password_confirm"]):
             raise serializers.ValidationError(
                 {"password_confirm": "Password don't match"}

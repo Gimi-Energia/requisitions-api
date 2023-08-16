@@ -11,17 +11,14 @@ from apps.users.validators.superuser import *
 
 class UserManager(BaseUserManager):
     def create_user(
-        self, name, email, document, cell_phone, fixed_phone, password=None
+        self, name, email, password=None
     ):
         if not email:
             raise ValueError("Users must have an email address")
 
         user = self.model(
             name=name,
-            document=document,
             email=self.normalize_email(email),
-            cell_phone=cell_phone,
-            fixed_phone=fixed_phone,
         )
 
         user.set_password(password)
@@ -30,14 +27,11 @@ class UserManager(BaseUserManager):
         return user
 
     def create_superuser(
-        self, name, email, document, cell_phone, fixed_phone=None, password=None
+        self, name, email, password=None
     ):
         user = self.create_user(
             name=name,
-            document=document,
             email=email,
-            cell_phone=cell_phone,
-            fixed_phone=fixed_phone,
             password=password,
         )
 
@@ -52,17 +46,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     id = models.UUIDField(primary_key=True, unique=True, default=uuid4, editable=False)
     username = None
     name = models.CharField(_("Complete Name"), max_length=100, validators=[valid_name])
-    document = models.CharField(
-        _("CNPJ/CPF"), unique=True, max_length=14, validators=[valid_document]
-    )
     email = models.EmailField(
         _("E-mail"), unique=True, max_length=100, validators=[valid_email]
-    )
-    cell_phone = models.CharField(
-        _("Cell Phone"), max_length=11, validators=[valid_phone]
-    )
-    fixed_phone = models.CharField(
-        _("Fixed Phone"), max_length=10, null=True, blank=True, validators=[valid_phone]
     )
     is_active = models.BooleanField(_("Active Account"), default=True)
     is_admin = models.BooleanField(_("Administrator"), default=False)
@@ -72,7 +57,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ["name", "document", "cell_phone"]
+    REQUIRED_FIELDS = ["name",]
 
     def __str__(self):
         return self.email
