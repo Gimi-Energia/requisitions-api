@@ -39,6 +39,7 @@ router = routers.DefaultRouter()
 urlpatterns = [
 	path('', include(router.urls)),
     path('admin/', admin.site.urls),
+    path('', include('apps.users.urls')),
     path('api/token/', TokenObtainPairView.as_view(), name='token-obtain'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token-refresh'),
     path('api/swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
