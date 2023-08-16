@@ -30,8 +30,7 @@ SECRET_KEY = str(os.getenv('SECRET_KEY'))
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = str(os.getenv('DEBUG'))
 
-ALLOWED_HOSTS = str(os.getenv('DEBUG')).split(' ')
-
+ALLOWED_HOSTS = str(os.getenv('ALLOWED_HOSTS')).split(' ')
 
 # Application definition
 
@@ -48,7 +47,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'django_filters',
 
-    'apps.users.apps.UsersConfig'
+    'apps.users.apps.UsersConfig',
 ]
 
 MIDDLEWARE = [
@@ -144,6 +143,8 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+AUTH_USER_MODEL = 'users.User'
+
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
@@ -170,6 +171,7 @@ SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('Bearer',),
     'USER_ID_FIELD': 'email',
     'USER_ID_CLAIM': 'user_token',
-    'AUTH_TOKEN_CLASSES': ('apps.tokens.models.CustomToken'),
+    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken', 
+                           'rest_framework_simplejwt.tokens.RefreshToken'),
     'TOKEN_TYPE_CLAIM': 'token_type',
 }
