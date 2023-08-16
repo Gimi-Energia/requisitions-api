@@ -30,7 +30,7 @@ SECRET_KEY = str(os.getenv('SECRET_KEY'))
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = str(os.getenv('DEBUG'))
 
-ALLOWED_HOSTS = ['127.0.0.1',]
+ALLOWED_HOSTS = str(os.getenv('DEBUG')).split(' ')
 
 
 # Application definition
@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'django_filters',
 
-    'apps.app.apps.AppConfig'
+    'apps.users.apps.UsersConfig'
 ]
 
 MIDDLEWARE = [
