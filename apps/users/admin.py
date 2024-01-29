@@ -8,9 +8,7 @@ from apps.users.validators.superuser import valid_password
 
 
 class UserCreationForm(forms.ModelForm):
-    password = forms.CharField(
-        label="Password", widget=forms.PasswordInput, validators=[valid_password]
-    )
+    password = forms.CharField(label="Password", widget=forms.PasswordInput, validators=[valid_password])
     password_confirm = forms.CharField(
         label="Password confirmation",
         widget=forms.PasswordInput,
@@ -19,7 +17,7 @@ class UserCreationForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ("name", "email", "password")
+        fields = ("name", "email", "phone", "type", "password")
 
     def clean_password_confirmation(self):
         password = self.cleaned_data.get("password")
@@ -41,7 +39,7 @@ class UserChangeForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ("name", "email", "password")
+        fields = ("name", "email", "phone", "type", "password")
 
     def clean_password(self):
         return self.initial["password"]
@@ -55,6 +53,8 @@ class UserAdmin(BaseUserAdmin):
         "id",
         "name",
         "email",
+        "phone",
+        "type",
         "is_admin",
     )
     list_display_links = ("id", "name")
@@ -66,6 +66,8 @@ class UserAdmin(BaseUserAdmin):
                 "fields": (
                     "name",
                     "email",
+                    "phone",
+                    "type",
                     "password",
                 )
             },
@@ -81,18 +83,21 @@ class UserAdmin(BaseUserAdmin):
                 "fields": (
                     "name",
                     "email",
+                    "phone",
+                    "type",
                     "password",
                     "password_confirmation",
                 ),
             },
         ),
     )
-    search_fields = ("email", "name", "document")
+    search_fields = ("email", "name", "phone", "type")
     ordering = ("name",)
     filter_horizontal = (
         "groups",
         "user_permissions",
     )
     list_per_page = 15
+
 
 admin.site.register(User, UserAdmin)

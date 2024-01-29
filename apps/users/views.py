@@ -9,7 +9,7 @@ class UsersList(generics.ListCreateAPIView):
     serializer_class = UserSerializer
     queryset = User.objects.all()
     filter_backends = [filters.OrderingFilter, filters.SearchFilter]
-    search_fields = ["name", "document"]
+    search_fields = ["name", "email"]
     permission_classes = [AllowAny]
 
 
