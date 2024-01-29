@@ -10,6 +10,7 @@ class UsersList(generics.ListCreateAPIView):
     queryset = User.objects.all()
     filter_backends = [filters.OrderingFilter, filters.SearchFilter]
     search_fields = ["name", "email"]
+    ordering_fields = ["name", "email", "type", "department"]
     permission_classes = [AllowAny]
 
 

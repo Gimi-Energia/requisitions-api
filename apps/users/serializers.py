@@ -1,7 +1,13 @@
 from django.contrib.auth.hashers import make_password
 from rest_framework import serializers
 from apps.users.models import User
-from apps.users.validators.api import valid_email, valid_name, valid_password, equal_passwords, valid_phone
+from apps.users.validators.api import (
+    valid_email,
+    valid_name,
+    valid_password,
+    equal_passwords,
+    valid_phone,
+)
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -16,6 +22,7 @@ class UserSerializer(serializers.ModelSerializer):
             "email",
             "phone",
             "type",
+            "department",
             "password",
             "password_confirm",
         )
@@ -26,12 +33,16 @@ class UserSerializer(serializers.ModelSerializer):
         if not valid_email(data["email"]):
             raise serializers.ValidationError({"email": "Invalid email!"})
         if not valid_phone(data["phone"]):
-            raise serializers.ValidationError({"phone": "O número de celular deve seguir o padrão: (XX) 9XXXX-XXXX!"})
+            raise serializers.ValidationError(
+                {"phone": "O número de celular deve seguir o padrão: (XX) 9XXXX-XXXX!"}
+            )
         if not equal_passwords(data["password"], data["password_confirm"]):
             raise serializers.ValidationError({"password_confirm": "Password don't match"})
         if not valid_password(data["password"]):
             raise serializers.ValidationError(
-                {"password": "The password must have at least 8 characters, lowercase, uppercase, number and symbol"}
+                {
+                    "password": "The password must have at least 8 characters, lowercase, uppercase, number and symbol"
+                }
             )
         return data
 
