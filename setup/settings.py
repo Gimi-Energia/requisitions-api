@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     "django_filters",
     "apps.users.apps.UsersConfig",
     "apps.departments.apps.DepartmentsConfig",
+    "apps.products.apps.ProductsConfig",
 ]
 
 MIDDLEWARE = [
