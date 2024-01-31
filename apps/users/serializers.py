@@ -25,6 +25,7 @@ class UserSerializer(serializers.ModelSerializer):
             "department",
             "password",
             "password_confirm",
+            "is_admin",
         )
 
     def validate(self, data):
