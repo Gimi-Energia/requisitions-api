@@ -7,4 +7,4 @@ class Department(models.Model):
     name = models.CharField(_("Name"), max_length=50)
 
     def __str__(self):
-        return self.name
+        return f"{self.id} - {self.name}"
