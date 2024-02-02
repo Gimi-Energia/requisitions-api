@@ -15,7 +15,7 @@ class Requisition(models.Model):
     id = models.UUIDField(primary_key=True, unique=True, default=uuid4, editable=False)
     company = models.CharField(_("Company"), choices=COMPANIES, default="Gimi", max_length=4)
     department = models.ForeignKey(
-        Department, verbose_name=_("Department"), on_delete=models.CASCADE, default="43b6d79d-c5f8-4bcc-b08f-9c3c3f3976b4"
+        Department, verbose_name=_("Department"), on_delete=models.CASCADE
     )
     date = models.DateField(_("Date"), default=date.today)
     user = models.ForeignKey(User, verbose_name=_("User"), on_delete=models.CASCADE)
