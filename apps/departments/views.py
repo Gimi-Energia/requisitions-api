@@ -1,3 +1,4 @@
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, generics
 from rest_framework.permissions import IsAuthenticated
 
@@ -9,9 +10,10 @@ from utils.permissions import IsAdminPost, IsAuthenticatedGet
 class DepartmentList(generics.ListCreateAPIView):
     queryset = Department.objects.all()
     serializer_class = DepartmentSerializer
-    filter_backends = [filters.OrderingFilter, filters.SearchFilter]
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
     search_fields = ["id", "name"]
     ordering_fields = ["name"]
+    filterset_fields = ["id", "name"]
 
     def get_permissions(self):
         if self.request.method == "GET":

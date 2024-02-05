@@ -1,3 +1,4 @@
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, generics
 from rest_framework.permissions import IsAuthenticated
 from apps.requisitions.models import Requisition, RequisitionProduct
@@ -7,10 +8,11 @@ from apps.requisitions.serializers import RequisitionSerializer, RequisitionProd
 class RequisitionListCreateView(generics.ListCreateAPIView):
     queryset = Requisition.objects.all()
     serializer_class = RequisitionSerializer
-    filter_backends = [filters.OrderingFilter, filters.SearchFilter]
-    search_fields = ["company", "date", "user__pk", "motive", "is_approved"]
-    ordering_fields = ["date", "user__pk", "motive", "is_approved"]
-    # permission_classes = [IsAuthenticated]
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
+    search_fields = ["company", "date", "user__id", "motive", "is_approved"]
+    ordering_fields = ["date", "user__id", "motive", "is_approved"]
+    filterset_fields = ["company", "date", "user__id", "is_approved"]
+    permission_classes = [IsAuthenticated]
 
 
 class RequisitionDetailView(generics.RetrieveUpdateDestroyAPIView):

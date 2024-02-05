@@ -1,3 +1,4 @@
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, generics
 from rest_framework.permissions import IsAuthenticated
 
@@ -9,9 +10,10 @@ from utils.permissions import AllowAnyPost, IsAdminGet
 class UsersList(generics.ListCreateAPIView):
     serializer_class = UserSerializer
     queryset = User.objects.all()
-    filter_backends = [filters.OrderingFilter, filters.SearchFilter]
-    search_fields = ["email", "type", "department__name", "is_admin"]
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
+    search_fields = ["id", "email", "type", "department__name", "is_admin"]
     ordering_fields = ["name", "email", "type", "department__name"]
+    filterset_fields = ["id", "email", "type", "department__name", "is_admin"]
 
     def get_permissions(self):
         if self.request.method == "GET":
