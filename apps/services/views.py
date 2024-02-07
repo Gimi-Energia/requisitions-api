@@ -13,7 +13,7 @@ class ServiceList(generics.ListCreateAPIView):
     search_fields = []
     ordering_fields = []
     filterset_fields = []
-    authentication_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
 
 class ServiceDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -29,7 +29,7 @@ class ServiceTypeList(generics.ListCreateAPIView):
     search_fields = []
     ordering_fields = []
     filterset_fields = []
-    authentication_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
 
 class ServiceTypeDetail(generics.RetrieveUpdateDestroyAPIView):
