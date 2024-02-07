@@ -31,6 +31,7 @@ urlpatterns = [
     path("", include("apps.departments.urls")),
     path("", include("apps.products.urls")),
     path("", include("apps.purchases.urls")),
+    path("", include("apps.services.urls")),
     path("api/token/", CustomTokenObtainPairView.as_view(), name="token-obtain"),
     path("api/token/refresh/", TokenRefreshView.as_view(), name="token-refresh"),
     path("api/swagger/", schema_view.with_ui("swagger", cache_timeout=0), name="schema-swagger-ui"),
