@@ -4,8 +4,9 @@ from uuid import uuid4
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from apps.users.models import User
 from apps.departments.models import Department
+from apps.providers.models import Provider
+from apps.users.models import User
 
 COMPANIES = [("Gimi", "Gimi"), ("GBL", "GBL"), ("GPB", "GPB"), ("GS", "GS"), ("GIR", "GIR")]
 STATUS = [("Pending", "Pending"), ("Approved", "Approved"), ("Denied", "Denied")]
@@ -34,6 +35,7 @@ class Service(models.Model):
     )
     motive = models.CharField(_("Motive"), max_length=50)
     obs = models.TextField(_("Observation"))
+    provider = models.ForeignKey(Provider, verbose_name=_("Provider"), on_delete=models.CASCADE)
     service = models.ForeignKey(ServiceType, verbose_name=_("Service"), on_delete=models.CASCADE)
     value = models.DecimalField(_("Value"), max_digits=7, decimal_places=2)
     status = models.CharField(_("Status"), choices=STATUS, default="Pending", max_length=8)
