@@ -11,7 +11,7 @@ from utils.token import CustomTokenObtainPairView
 
 schema_view = get_schema_view(
     openapi.Info(
-        title="Purchase Requisition API",
+        title="Requisitions API",
         default_version="v1",
         description="API Rest",
         terms_of_service="#",
@@ -32,6 +32,7 @@ urlpatterns = [
     path("", include("apps.products.urls")),
     path("", include("apps.purchases.urls")),
     path("", include("apps.services.urls")),
+    path("", include("apps.providers.urls")),
     path("api/token/", CustomTokenObtainPairView.as_view(), name="token-obtain"),
     path("api/token/refresh/", TokenRefreshView.as_view(), name="token-refresh"),
     path("api/swagger/", schema_view.with_ui("swagger", cache_timeout=0), name="schema-swagger-ui"),
