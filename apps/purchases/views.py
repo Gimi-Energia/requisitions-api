@@ -13,7 +13,7 @@ class PurchaseListCreateView(generics.ListCreateAPIView):
     search_fields = []
     ordering_fields = []
     filterset_fields = []
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
 
 class PurchaseDetailView(generics.RetrieveUpdateDestroyAPIView):

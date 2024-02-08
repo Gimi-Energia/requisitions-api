@@ -11,7 +11,7 @@ class PurchaseProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PurchaseProduct
-        fields = ("product_id", "quantity", "status")
+        fields = ("product_id", "quantity", "price", "status")
 
 
 class PurchaseSerializer(serializers.ModelSerializer):
@@ -40,9 +40,10 @@ class PurchaseSerializer(serializers.ModelSerializer):
         for product_data in products_data:
             product = product_data["product"]
             quantity = product_data["quantity"]
+            price = product_data["price"]
             status = product_data["status"]
             PurchaseProduct.objects.create(
-                purchase=purchase, product=product, quantity=quantity, status=status
+                purchase=purchase, product=product, quantity=quantity, price=price, status=status
             )
 
         return purchase

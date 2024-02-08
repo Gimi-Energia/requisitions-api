@@ -45,11 +45,12 @@ class Purchase(models.Model):
 class PurchaseProduct(models.Model):
     purchase = models.ForeignKey(Purchase, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    quantity = models.PositiveIntegerField(_("Quantity"))
+    quantity = models.DecimalField(_("Quantity"), max_digits=10, decimal_places=2)
+    price = models.DecimalField(_("Price"), max_digits=10, decimal_places=2)
     status = models.CharField(_("Status"), choices=STATUS, default="Pending", max_length=8)
 
     def __str__(self):
-        return f"{self.quantity} x {self.product}"
+        return f"{self.product} - {self.quantity}x{self.price}"
 
     class Meta:
         unique_together = ("purchase", "product")
