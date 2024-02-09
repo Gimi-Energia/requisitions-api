@@ -31,6 +31,9 @@ class ContractsDataAPIView(APIView):
                 if item["status"] != "CANCELADO" and item["etapa"] != "CANCELADO":
                     item_info = {
                         "id": str(item["id"]),
+                        "company": {3060: "Gimi", 3061: "GBL", 3062: "GPB"}.get(
+                            item["codigo_empresa"], None
+                        ),
                         "contract_number": item["identificacao"],
                         "control_number": item["numero_controle"],
                         "client_name": item["cliente"]["nome"],
@@ -53,13 +56,13 @@ class ContractsDataAPIView(APIView):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        MAX_PAGES = 1000  # Defina um número máximo de páginas a serem consultadas
+        MAX_PAGES = 1000
 
         try:
             for page_number in range(1, MAX_PAGES + 1):
                 items = self.fetch_data_list(page_number, token, secret)
-                if not items:  # Verifique se a lista de itens está vazia
-                    break  # Pare de iterar pelas páginas
+                if not items:
+                    break
                 for item in items:
                     contract_id = item["id"]
                     new_freight_value = item["freight_value"]
@@ -72,6 +75,7 @@ class ContractsDataAPIView(APIView):
                     else:
                         new_contract = Contract(
                             id=contract_id,
+                            company=item["company"],
                             contract_number=item["contract_number"],
                             control_number=item["control_number"],
                             client_name=item["client_name"],

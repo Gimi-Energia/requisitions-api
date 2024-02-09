@@ -45,6 +45,7 @@ class UserManager(BaseUserManager):
         return user
 
 
+COMPANIES = [("Gimi", "Gimi"), ("GBL", "GBL"), ("GPB", "GPB"), ("GS", "GS"), ("GIR", "GIR")]
 TYPES = [("Requester", "Requester"), ("Manager", "Manager"), ("Approver", "Approver")]
 
 
@@ -57,6 +58,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         _("Phone"), max_length=11, validators=[valid_phone], blank=True, null=True
     )
     type = models.CharField(_("Type"), choices=TYPES, max_length=9, default="Requester")
+    company = models.CharField(_("Company"), choices=COMPANIES, default="Gimi", max_length=4)
     department = models.ForeignKey(
         Department, verbose_name=_("Department"), on_delete=models.CASCADE
     )
@@ -68,7 +70,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ["name", "type", "department"]
+    REQUIRED_FIELDS = ["name", "type", "company", "department"]
 
     def __str__(self):
         return self.email

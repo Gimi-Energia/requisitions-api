@@ -11,9 +11,9 @@ class UsersList(generics.ListCreateAPIView):
     serializer_class = UserSerializer
     queryset = User.objects.all()
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
-    search_fields = ["id", "email", "type", "department__name", "is_admin"]
+    search_fields = ["id", "email", "type", "company", "department__name", "is_admin"]
     ordering_fields = ["name", "email", "type", "department__name"]
-    filterset_fields = ["id", "email", "type", "department__name", "is_admin"]
+    filterset_fields = ["id", "email", "type", "company", "department__name", "is_admin"]
 
     def get_permissions(self):
         if self.request.method == "GET":
