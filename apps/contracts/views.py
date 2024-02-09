@@ -1,3 +1,4 @@
+import os
 import time
 
 import requests
@@ -47,10 +48,12 @@ class ContractsDataAPIView(APIView):
             return None
 
     def get(self, request):
-        token = request.headers.get("TOKEN", None)
-        secret = request.headers.get("SECRET", None)
+        company = str(request.headers.get("Company", None)).upper()
 
-        if not token or not secret:
+        token = str(os.getenv(f"TOKEN_{company}"))
+        secret = str(os.getenv(f"SECRET_{company}"))
+
+        if not company:
             return Response(
                 {"message": "Token and secret are required in headers."},
                 status=status.HTTP_400_BAD_REQUEST,
