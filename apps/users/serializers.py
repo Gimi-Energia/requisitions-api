@@ -22,7 +22,7 @@ class UserSerializer(serializers.ModelSerializer):
             "email",
             "phone",
             "type",
-            "company"
+            "company",
             "department",
             "password",
             "password_confirm",

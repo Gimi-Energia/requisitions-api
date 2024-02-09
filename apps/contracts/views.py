@@ -101,7 +101,7 @@ class ContractList(generics.ListCreateAPIView):
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
     search_fields = []
     ordering_fields = []
-    filterset_fields = []
+    filterset_fields = ["company", "contract_number"]
 
     # def get_permissions(self):
     #     if self.request.method == "GET":
