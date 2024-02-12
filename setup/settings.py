@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     "apps.purchases.apps.PurchasesConfig",
     "apps.services.apps.ServicesConfig",
     "apps.providers.apps.ProvidersConfig",
+    "apps.freights.apps.FreightsConfig",
 ]
 
 MIDDLEWARE = [
@@ -97,7 +98,7 @@ DATABASES = {
     }
 }
 
-DATABASES["default"] = dj_database_url.parse(str(os.getenv("DATABASE_URL")))
+# DATABASES["default"] = dj_database_url.parse(str(os.getenv("DATABASE_URL")))
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
