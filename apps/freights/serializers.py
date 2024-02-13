@@ -31,6 +31,7 @@ class FreightSerializer(serializers.ModelSerializer):
             "quotations",
             "approver",
             "approval_date",
+            "cet_number",
         )
 
     def create(self, validated_data):

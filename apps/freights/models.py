@@ -45,6 +45,7 @@ class Freight(models.Model):
         related_name="freight_approver",
     )
     approval_date = models.DateField(_("Approval Date"), blank=True, null=True)
+    cet_number = models.CharField(_("CET Number"), max_length=20)
 
     def __str__(self):
         return self.id
