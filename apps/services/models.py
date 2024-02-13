@@ -9,7 +9,7 @@ from apps.providers.models import Provider
 from apps.users.models import User
 
 COMPANIES = [("Gimi", "Gimi"), ("GBL", "GBL"), ("GPB", "GPB"), ("GS", "GS"), ("GIR", "GIR")]
-STATUS = [("Pending", "Pending"), ("Approved", "Approved"), ("Denied", "Denied")]
+STATUS = [("Opened", "Opened"), ("Approved", "Approved"), ("Denied", "Denied")]
 
 
 class ServiceType(models.Model):

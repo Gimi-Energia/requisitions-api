@@ -9,7 +9,7 @@ from apps.products.models import Product
 from apps.departments.models import Department
 
 COMPANIES = [("Gimi", "Gimi"), ("GBL", "GBL"), ("GPB", "GPB"), ("GS", "GS"), ("GIR", "GIR")]
-STATUS = [("Pending", "Pending"), ("Approved", "Approved"), ("Denied", "Denied")]
+STATUS = [("Opened", "Opened"), ("Approved", "Approved"), ("Denied", "Denied")]
 
 
 class Purchase(models.Model):

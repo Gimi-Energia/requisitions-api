@@ -9,7 +9,12 @@ from apps.providers.models import Transporter
 from apps.departments.models import Department
 
 COMPANIES = [("Gimi", "Gimi"), ("GBL", "GBL"), ("GPB", "GPB"), ("GS", "GS"), ("GIR", "GIR")]
-STATUS = [("Pending", "Pending"), ("Approved", "Approved"), ("Denied", "Denied")]
+STATUS = [
+    ("Opened", "Opened"),
+    ("Pending", "Pending"),
+    ("Denied", "Denied"),
+    ("Approved", "Approved"),
+]
 
 
 class Freight(models.Model):
