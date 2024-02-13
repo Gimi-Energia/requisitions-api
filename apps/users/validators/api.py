@@ -31,7 +31,7 @@ def equal_passwords(password, password_confirm):
 
 
 def valid_password(password):
-    model = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&+=-_/,.])[A-Za-z\d@$!%*?&+=-_/,.]{8,}$"
+    model = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!#%*?&+=-_/,.])[A-Za-z\d@$!%#*?&+=-_/,.]{8,}$"
     response = re.findall(model, password)
     if response:
         return True
