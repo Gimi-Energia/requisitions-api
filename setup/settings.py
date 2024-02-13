@@ -98,7 +98,7 @@ DATABASES = {
     }
 }
 
-DATABASES["default"] = dj_database_url.parse(str(os.getenv("DATABASE_URL")))
+DATABASES["default"] = dj_database_url.parse(str(os.getenv("POSTGRES_URL")))
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
