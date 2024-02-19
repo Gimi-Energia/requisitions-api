@@ -20,20 +20,25 @@ def valid_phone(phone):
     model = r"^\(?\d{2}\)?\d{5}\d{4}$"
     response = re.findall(model, phone)
     if not response:
-        return ValidationError("O número de celular deve seguir o padrão: (XX) 9XXXX-XXXX!", "invalid")
+        return ValidationError(
+            "O número de celular deve seguir o padrão: (XX) 9XXXX-XXXX!", "invalid"
+        )
 
     return ValidationError("Número inválido!", "invalid")
 
 
 def valid_password(password):
-    model = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&+=-_/,.])[A-Za-z\d@$!%*?&+=-_/,.]{8,}$"
+    model = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%#*?&+=-_/,.])[A-Za-z\d@$!%*#?&+=-_/,.]{8,}$"
     if len(password) < 8:
         raise ValidationError(
-            "This password is too short. It must contain at least 8 characters.", code="password_too_short"
+            "This password is too short. It must contain at least 8 characters.",
+            code="password_too_short",
         )
 
     if password.isdigit():
-        raise ValidationError("This password is entirely numeric.", code="password_entirely_numeric")
+        raise ValidationError(
+            "This password is entirely numeric.", code="password_entirely_numeric"
+        )
 
     if not re.findall(model, password):
         raise ValidationError(
