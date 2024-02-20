@@ -4,7 +4,7 @@ from apps.services.views import ServiceList, ServiceDetail, ServiceTypeList, Ser
 
 urlpatterns = [
     path("api/services/", ServiceList.as_view(), name="services-list"),
-    path("api/services/<str:pk>/", ServiceDetail.as_view(), name="services-detail"),
     path("api/services/types/", ServiceTypeList.as_view(), name="services-type-list"),
+    path("api/services/<str:pk>/", ServiceDetail.as_view(), name="services-detail"),
     path("api/services/types/<str:pk>/", ServiceTypeDetail.as_view(), name="services-ttpe-detail"),
 ]

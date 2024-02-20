@@ -13,7 +13,7 @@ class FreightListCreateView(generics.ListCreateAPIView):
     search_fields = []
     ordering_fields = []
     filterset_fields = []
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
 
 class FreightDetailView(generics.RetrieveUpdateDestroyAPIView):

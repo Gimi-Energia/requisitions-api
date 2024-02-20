@@ -64,8 +64,10 @@ class ContractsDataAPIView(APIView):
         try:
             for page_number in range(1, MAX_PAGES + 1):
                 items = self.fetch_data_list(page_number, token, secret)
+
                 if not items:
                     break
+                
                 for item in items:
                     contract_id = item["id"]
                     new_freight_value = item["freight_value"]
@@ -106,15 +108,15 @@ class ContractList(generics.ListCreateAPIView):
     ordering_fields = []
     filterset_fields = ["company", "contract_number"]
 
-    # def get_permissions(self):
-    #     if self.request.method == "GET":
-    #         return [IsAuthenticatedGet()]
-    #     elif self.request.method == "POST":
-    #         return [IsAdminPost()]
-    #     return super().get_permissions()
+    def get_permissions(self):
+        if self.request.method == "GET":
+            return [IsAuthenticatedGet()]
+        elif self.request.method == "POST":
+            return [IsAdminPost()]
+        return super().get_permissions()
 
 
 class ContractDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Contract.objects.all()
     serializer_class = ContractSerializer
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
