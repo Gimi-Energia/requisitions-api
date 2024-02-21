@@ -47,3 +47,19 @@ class PurchaseSerializer(serializers.ModelSerializer):
             )
 
         return purchase
+
+    def update(self, instance, validated_data):
+        products_data = validated_data.pop("purchaseproduct_set", None)
+
+        if products_data:
+            if hasattr(instance, "purchaseproduct_set"):
+                for purchase_product in instance.purchaseproduct_set.all():
+                    for product_data in products_data:
+                        if purchase_product.product == product_data.get("product"):
+                            if purchase_product.status != product_data.get("status"):
+                                purchase_product.status = product_data.get("status")
+                                purchase_product.save()
+
+        instance.save()
+
+        return instance
