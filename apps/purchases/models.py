@@ -19,6 +19,7 @@ class Purchase(models.Model):
         Department, verbose_name=_("Department"), on_delete=models.CASCADE
     )
     request_date = models.DateField(_("Request Date"), default=date.today)
+    execution_date = models.DateField(_("Execution Date"), default=date.today)
     requester = models.ForeignKey(
         User, verbose_name=_("Requester"), on_delete=models.CASCADE, related_name="Requester"
     )

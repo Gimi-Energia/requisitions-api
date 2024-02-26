@@ -24,6 +24,7 @@ class Freight(models.Model):
         Department, verbose_name=_("Department"), on_delete=models.CASCADE
     )
     request_date = models.DateField(_("Request Date"), default=date.today)
+    execution_date = models.DateField(_("Execution Date"), default=date.today)
     requester = models.ForeignKey(
         User,
         verbose_name=_("Requester"),
@@ -45,7 +46,7 @@ class Freight(models.Model):
         related_name="freight_approver",
     )
     approval_date = models.DateField(_("Approval Date"), blank=True, null=True)
-    cet_number = models.CharField(_("CET Number"), max_length=20)
+    cte_number = models.CharField(_("CTE Number"), max_length=20, blank=True, null=True)
 
     def __str__(self):
         return str(self.id)

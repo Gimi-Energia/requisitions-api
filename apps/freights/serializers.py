@@ -2,6 +2,7 @@ from rest_framework import serializers
 
 from apps.providers.models import Transporter
 from apps.freights.models import Freight, FreightQuotation
+from utils.validators.valid_date import retroactive_date
 
 
 class FreightQuotationSerializer(serializers.ModelSerializer):
@@ -33,6 +34,23 @@ class FreightSerializer(serializers.ModelSerializer):
             "approval_date",
             "cet_number",
         )
+
+    def validate(self, data):
+        print(data)
+        if data.get("request_date") and not retroactive_date(data["request_date"]):
+            raise serializers.ValidationError(
+                {"request_date": "A data da requisição não pode ser retroativa."}, 422
+            )
+        if data.get("execution_date") and not retroactive_date(data["execution_date"]):
+            raise serializers.ValidationError(
+                {"execution_date": "A data da execução não pode ser retroativa."}, 422
+            )
+        if data.get("approval_date") and not retroactive_date(data["approval_date"]):
+            raise serializers.ValidationError(
+                {"approval_date": "A data da aprovação não pode ser retroativa."}, 422
+            )
+
+        return data
 
     def create(self, validated_data):
         quotations_data = validated_data.pop("freightquotation_set")
