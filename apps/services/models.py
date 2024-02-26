@@ -2,6 +2,7 @@ from datetime import date
 from uuid import uuid4
 
 from django.db import models
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 from apps.departments.models import Department
@@ -26,8 +27,8 @@ class Service(models.Model):
     department = models.ForeignKey(
         Department, verbose_name=_("Department"), on_delete=models.CASCADE
     )
+    created_at = models.DateTimeField(_("Created At"), default=timezone.now)
     request_date = models.DateField(_("Request Date"), default=date.today)
-    execution_date = models.DateField(_("Execution Date"), default=date.today)
     requester = models.ForeignKey(
         User,
         verbose_name=_("Requester"),

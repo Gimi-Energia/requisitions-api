@@ -2,11 +2,12 @@ from datetime import date
 from uuid import uuid4
 
 from django.db import models
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
-from apps.users.models import User
-from apps.products.models import Product
 from apps.departments.models import Department
+from apps.products.models import Product
+from apps.users.models import User
 
 COMPANIES = [("Gimi", "Gimi"), ("GBL", "GBL"), ("GPB", "GPB"), ("GS", "GS"), ("GIR", "GIR")]
 STATUS = [("Opened", "Opened"), ("Approved", "Approved"), ("Denied", "Denied")]
@@ -18,8 +19,8 @@ class Purchase(models.Model):
     department = models.ForeignKey(
         Department, verbose_name=_("Department"), on_delete=models.CASCADE
     )
+    created_at = models.DateTimeField(_("Created At"), default=timezone.now)
     request_date = models.DateField(_("Request Date"), default=date.today)
-    execution_date = models.DateField(_("Execution Date"), default=date.today)
     requester = models.ForeignKey(
         User, verbose_name=_("Requester"), on_delete=models.CASCADE, related_name="Requester"
     )
