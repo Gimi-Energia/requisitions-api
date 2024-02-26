@@ -10,7 +10,7 @@ class Contract(models.Model):
     contract_number = models.CharField(_("Contract Number"), max_length=10)
     control_number = models.CharField(_("Control Number"), max_length=8, null=True, blank=True)
     client_name = models.CharField(_("Client Name"), max_length=120)
-    project_name = models.CharField(_("Client Name"), max_length=120, null=True, blank=True)
+    project_name = models.CharField(_("Project Name"), max_length=120, null=True, blank=True)
     freight_value = models.FloatField(_("Freight Value"), null=True, blank=True)
 
     def __str__(self):
