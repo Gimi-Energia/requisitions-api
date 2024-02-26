@@ -11,15 +11,15 @@ from apps.departments.models import Department
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, name, email, phone, type, department, password=None):
+    def create_user(self, name, email, type, company, department=None, phone=None, password=None):
         if not email:
             raise ValueError("Users must have an email address")
 
         user = self.model(
             name=name,
             email=self.normalize_email(email),
-            phone=phone,
             type=type,
+            company=company,
             department=department,
         )
 
@@ -28,13 +28,14 @@ class UserManager(BaseUserManager):
 
         return user
 
-    def create_superuser(self, name, email, phone, type, department, password=None):
+    def create_superuser(
+        self, name, email, type, company, department=None, phone=None, password=None
+    ):
         user = self.create_user(
             name=name,
-            email=email,
-            phone=phone,
+            email=self.normalize_email(email),
             type=type,
-            department=department,
+            company=company,
             password=password,
         )
 
@@ -60,7 +61,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     type = models.CharField(_("Type"), choices=TYPES, max_length=9, default="Requester")
     company = models.CharField(_("Company"), choices=COMPANIES, default="Gimi", max_length=5)
     department = models.ForeignKey(
-        Department, verbose_name=_("Department"), on_delete=models.CASCADE
+        Department, verbose_name=_("Department"), on_delete=models.CASCADE, blank=True, null=True
     )
     is_active = models.BooleanField(_("Active Account"), default=True)
     is_admin = models.BooleanField(_("Administrator"), default=False)
