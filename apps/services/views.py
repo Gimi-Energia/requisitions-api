@@ -30,7 +30,7 @@ class ServiceDetail(generics.RetrieveUpdateDestroyAPIView):
         new_instance = self.get_object()
         new_status = new_instance.status
 
-        if old_status == "Approved" and new_status == "Approved":
+        if old_status != "Approved" and new_status == "Approved":
             subject = "Aprovação de Solicitação de Serviço"
             html_message = f"""
             <html>
