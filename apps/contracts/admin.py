@@ -1,3 +1,24 @@
 from django.contrib import admin
+from apps.contracts.models import Contract
 
-# Register your models here.
+
+class Contracts(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "company",
+        "contract_number",
+        "control_number",
+        "client_name",
+        "project_name",
+        "freight_value",
+    )
+    list_display_links = ("id",)
+    search_fields = (
+        "contract_number",
+        "control_number",
+    )
+    list_per_page = 25
+    ordering = ("contract_number", "control_number")
+
+
+admin.site.register(Contract, Contracts)
