@@ -50,4 +50,4 @@ class Service(models.Model):
     approval_date = models.DateField(_("Approval Date"), blank=True, null=True)
 
     def __str__(self):
-        return self.id
+        return str(self.id)

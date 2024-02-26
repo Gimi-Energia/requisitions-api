@@ -48,7 +48,7 @@ class Freight(models.Model):
     cet_number = models.CharField(_("CET Number"), max_length=20)
 
     def __str__(self):
-        return self.id
+        return str(self.id)
 
 
 class FreightQuotation(models.Model):
