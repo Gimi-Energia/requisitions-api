@@ -20,19 +20,7 @@ class PurchaseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Purchase
-        fields = (
-            "id",
-            "company",
-            "department",
-            "request_date",
-            "requester",
-            "motive",
-            "obs",
-            "status",
-            "products",
-            "approver",
-            "approval_date",
-        )
+        fields = "__all__"
 
     def validate(self, data):
         print(data)
