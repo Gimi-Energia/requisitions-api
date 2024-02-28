@@ -10,9 +10,14 @@ from apps.providers.models import Transporter
 from apps.users.models import User
 
 COMPANIES = [("Gimi", "Gimi"), ("GBL", "GBL"), ("GPB", "GPB"), ("GS", "GS"), ("GIR", "GIR")]
-STATUS = [
+STATUS_FREIGHTS = [
     ("Opened", "Opened"),
     ("Pending", "Pending"),
+    ("Denied", "Denied"),
+    ("Approved", "Approved"),
+]
+STATUS_QUOTATIONS = [
+    ("Opened", "Opened"),
     ("Denied", "Denied"),
     ("Approved", "Approved"),
 ]
@@ -34,7 +39,7 @@ class Freight(models.Model):
     )
     motive = models.CharField(_("Motive"), max_length=50)
     obs = models.TextField(_("Observation"))
-    status = models.CharField(_("Status"), choices=STATUS, default="Pending", max_length=8)
+    status = models.CharField(_("Status"), choices=STATUS_FREIGHTS, default="Pending", max_length=8)
     quotations = models.ManyToManyField(
         Transporter, through="FreightQuotation", verbose_name=_("quotations")
     )
@@ -57,7 +62,9 @@ class FreightQuotation(models.Model):
     freight = models.ForeignKey(Freight, on_delete=models.CASCADE)
     transporter = models.ForeignKey(Transporter, on_delete=models.CASCADE)
     price = models.DecimalField(_("Price"), max_digits=10, decimal_places=2)
-    status = models.CharField(_("Status"), choices=STATUS, default="Pending", max_length=8)
+    status = models.CharField(
+        _("Status"), choices=STATUS_QUOTATIONS, default="Pending", max_length=8
+    )
 
     def __str__(self):
         return f"{self.transporter} - {self.price}"
