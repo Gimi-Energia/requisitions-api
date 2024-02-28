@@ -32,7 +32,7 @@ class FreightSerializer(serializers.ModelSerializer):
             "quotations",
             "approver",
             "approval_date",
-            "cet_number",
+            "cte_number",
         )
 
     def validate(self, data):
