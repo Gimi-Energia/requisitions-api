@@ -85,9 +85,9 @@ class ProductList(generics.ListCreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
-    search_fields = ["code", "un"]
+    search_fields = ["code", "description"]
     ordering_fields = ["code", "un", "price"]
-    filterset_fields = ["code"]
+    filterset_fields = ["code", "description"]
 
     def get_permissions(self):
         if self.request.method == "GET":
