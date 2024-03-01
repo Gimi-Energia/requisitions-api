@@ -23,7 +23,6 @@ class PurchaseSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     def validate(self, data):
-        print(data)
         if data.get("request_date") and not retroactive_date(data["request_date"]):
             raise serializers.ValidationError(
                 {"request_date": "A data da requisição não pode ser retroativa."}
@@ -61,10 +60,19 @@ class PurchaseSerializer(serializers.ModelSerializer):
             if hasattr(instance, "purchaseproduct_set"):
                 for purchase_product in instance.purchaseproduct_set.all():
                     for product_data in products_data:
+                        status = product_data.get("status")
+                        quantity = product_data.get("quantity")
+                        price = product_data.get("price")
+
                         if purchase_product.product == product_data.get("product"):
-                            if purchase_product.status != product_data.get("status"):
-                                purchase_product.status = product_data.get("status")
-                                purchase_product.save()
+                            if status and purchase_product.status != status:
+                                purchase_product.status = status
+                            if quantity and purchase_product.quantity != quantity:
+                                purchase_product.quantity = quantity
+                            if price and purchase_product.price != price:
+                                purchase_product.price = price
+
+                            purchase_product.save()
 
         for key, value in validated_data.items():
             setattr(instance, key, value)
