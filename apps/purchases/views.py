@@ -4,6 +4,7 @@ from rest_framework import filters, generics, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
+from apps.products.models import Product
 from apps.purchases.models import Purchase, PurchaseProduct
 from apps.purchases.serializers import PurchaseProductSerializer, PurchaseSerializer
 
@@ -31,7 +32,7 @@ class PurchaseDetailView(generics.RetrieveUpdateDestroyAPIView):
         new_status = new_instance.status
 
         if old_status != "Approved" and new_status == "Approved":
-            products_info = []
+            table_rows = []
 
             purchase_pk = self.kwargs.get("pk")
             purchase_products = PurchaseProduct.objects.filter(purchase=purchase_pk)
@@ -39,12 +40,26 @@ class PurchaseDetailView(generics.RetrieveUpdateDestroyAPIView):
             for purchase_product in purchase_products:
                 if purchase_product.status == "Approved":
                     product_code = purchase_product.product.code
+                    product = Product.objects.filter(code=product_code).first()
+                    product_description = product.description
                     product_quantity = purchase_product.quantity
                     product_price = purchase_product.price
-                    product_info = f"<br>  {product_code} - Quantidade: {product_quantity} - Preço: R$ {product_price}"
-                    products_info.append(product_info)
+                    table_row = f"<tr><td>{product_code}</td><td>{product_description}</td><td>{product_quantity}</td><td>R$ {product_price}</td></tr>"
+                    table_rows.append(table_row)
 
-            products_list = ", ".join(products_info)
+            table_body = "".join(table_rows)
+
+            table_html = f"""
+            <table border="1">
+                <tr>
+                    <th>Código</th>
+                    <th>Descrição</th>
+                    <th>Quantidade</th>
+                    <th>Preço Un.</th>
+                </tr>
+                {table_body}
+            </table>
+            """
 
             subject = "Aprovação de Solicitação de Compra"
             html_message = f"""
@@ -52,6 +67,15 @@ class PurchaseDetailView(generics.RetrieveUpdateDestroyAPIView):
                 <head>
                     <style>
                         * {'{ font-size: 1rem; }'}
+                        table {{
+                            border-collapse: collapse;
+                        }}
+                        th, td {{
+                            border: 1px solid black;
+                            padding: 5px;
+                            text-align: left;
+                            font-size: 0.9rem;
+                        }}
                     </style>
                 </head>
                 <body>
@@ -67,19 +91,17 @@ class PurchaseDetailView(generics.RetrieveUpdateDestroyAPIView):
                             <p>Dados da solicitação:</p>
                             <li>Empresa: {new_instance.company}</li>
                             <li>Departamento: {new_instance.department}</li>
-                            <li>Data da solicitação: 
+                            <li>Data solicitada: 
                                 {new_instance.request_date.strftime("%d/%m/%Y")}
                             </li>
                             <li>Motivo: {new_instance.motive}</li>
                             <li>Obsevações: {new_instance.obs}</li>
-                            <li>Produtos: {products_list}</li>
+                            <li>Produtos: <br>{table_html}</li>
                         </ul>
                     </div>
                 </body>
             </html>
             """
-
-            print(html_message)
 
             send_mail(
                 subject,

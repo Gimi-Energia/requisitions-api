@@ -52,7 +52,7 @@ class ServiceDetail(generics.RetrieveUpdateDestroyAPIView):
                             <p>Dados da solicitação:</p>
                             <li>Empresa: {new_instance.company}</li>
                             <li>Departamento: {new_instance.department}</li>
-                            <li>Data da solicitação: 
+                            <li>Data solicitada: 
                                 {new_instance.request_date.strftime("%d/%m/%Y")}
                             </li>
                             <li>Motivo: {new_instance.motive}</li>
@@ -65,8 +65,6 @@ class ServiceDetail(generics.RetrieveUpdateDestroyAPIView):
                 </body>
             </html>
             """
-
-            print(html_message)
 
             send_mail(
                 subject,
