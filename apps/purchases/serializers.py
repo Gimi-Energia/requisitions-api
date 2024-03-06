@@ -40,6 +40,14 @@ class PurchaseSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         products_data = validated_data.pop("purchaseproduct_set")
+
+        if len(set((product_data["product"],) for product_data in products_data)) != len(
+            products_data
+        ):
+            raise serializers.ValidationError(
+                {"products": "Não é permitido produtos repetidos."}
+            )
+        
         purchase = Purchase.objects.create(**validated_data)
 
         for product_data in products_data:
