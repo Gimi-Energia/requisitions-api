@@ -20,20 +20,7 @@ class FreightSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Freight
-        fields = (
-            "id",
-            "company",
-            "department",
-            "request_date",
-            "requester",
-            "motive",
-            "obs",
-            "status",
-            "quotations",
-            "approver",
-            "approval_date",
-            "cte_number",
-        )
+        fields = "__all__"
 
     def validate(self, data):
         print(data)
@@ -54,6 +41,14 @@ class FreightSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         quotations_data = validated_data.pop("freightquotation_set")
+
+        if len(set((quotation_data["transporter"],) for quotation_data in quotations_data)) != len(
+            quotations_data
+        ):
+            raise serializers.ValidationError(
+                {"quotations": "Não é permitido transportadoras repetidas."}
+            )
+
         freight = Freight.objects.create(**validated_data)
 
         for quotation_data in quotations_data:
@@ -65,3 +60,28 @@ class FreightSerializer(serializers.ModelSerializer):
             )
 
         return freight
+
+    def update(self, instance, validated_data):
+        quotations_data = validated_data.pop("freightquotation_set", None)
+
+        if quotations_data:
+            if hasattr(instance, "freightquotation_set"):
+                for freight_quotation in instance.freightquotation_set.all():
+                    for quotation_data in quotations_data:
+                        status = quotation_data.get("status")
+                        price = quotation_data.get("price")
+
+                        if freight_quotation.transporter == quotation_data.get("transporter"):
+                            if status and freight_quotation.status != status:
+                                freight_quotation.status = status
+                            if price and freight_quotation.price != price:
+                                freight_quotation.price = price
+
+                            freight_quotation.save()
+
+        for key, value in validated_data.items():
+            setattr(instance, key, value)
+
+        instance.save()
+
+        return instance
