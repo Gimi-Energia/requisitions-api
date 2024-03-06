@@ -57,7 +57,7 @@ class ServiceDetail(generics.RetrieveUpdateDestroyAPIView):
                             </li>
                             <li>Motivo: {new_instance.motive}</li>
                             <li>Obsevações: {new_instance.obs}</li>
-                            <li>Prestador: {new_instance.provider.name}</li>
+                            <li>Prestador: {new_instance.provider}</li>
                             <li>Serviço: {new_instance.service.description}</li>
                             <li>Valor: R$ {new_instance.value}</li>
                         </ul>
