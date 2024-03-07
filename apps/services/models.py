@@ -50,7 +50,7 @@ class Service(models.Model):
         null=True,
         related_name="service_approver",
     )
-    approval_date = models.DateField(_("Approval Date"), blank=True, null=True)
+    approval_date = models.DateTimeField(_("Approval Date"), blank=True, null=True)
 
     def __str__(self):
         return str(self.id)

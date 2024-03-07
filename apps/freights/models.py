@@ -51,7 +51,7 @@ class Freight(models.Model):
         null=True,
         related_name="freight_approver",
     )
-    approval_date = models.DateField(_("Approval Date"), blank=True, null=True)
+    approval_date = models.DateTimeField(_("Approval Date"), blank=True, null=True)
     cte_number = models.CharField(_("CTE Number"), max_length=20, blank=True, null=True)
 
     def __str__(self):
