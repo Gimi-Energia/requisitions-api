@@ -27,10 +27,6 @@ class PurchaseSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 {"request_date": "A data da requisição não pode ser retroativa."}
             )
-        if data.get("approval_date") and not retroactive_date(data["approval_date"]):
-            raise serializers.ValidationError(
-                {"approval_date": "A data da aprovação não pode ser retroativa."}
-            )
 
         return data
 
@@ -40,10 +36,8 @@ class PurchaseSerializer(serializers.ModelSerializer):
         if len(set((product_data["product"],) for product_data in products_data)) != len(
             products_data
         ):
-            raise serializers.ValidationError(
-                {"products": "Não é permitido produtos repetidos."}
-            )
-        
+            raise serializers.ValidationError({"products": "Não é permitido produtos repetidos."})
+
         purchase = Purchase.objects.create(**validated_data)
 
         for product_data in products_data:

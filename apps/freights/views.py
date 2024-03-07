@@ -117,5 +117,5 @@ class FreightQuotationListCreateView(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        freight_pk = self.kwargs["freight_pk"]
+        freight_pk = self.kwargs["pk"]
         return FreightQuotation.objects.filter(freight=freight_pk)
