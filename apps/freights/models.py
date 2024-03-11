@@ -5,6 +5,7 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
+from apps.contracts.models import Contract
 from apps.departments.models import Department
 from apps.providers.models import Transporter
 from apps.users.models import User
@@ -41,7 +42,7 @@ class Freight(models.Model):
     obs = models.TextField(_("Observation"))
     status = models.CharField(_("Status"), choices=STATUS_FREIGHTS, default="Pending", max_length=8)
     quotations = models.ManyToManyField(
-        Transporter, through="FreightQuotation", verbose_name=_("quotations")
+        Transporter, through="FreightQuotation", verbose_name=_("Quotations")
     )
     approver = models.ForeignKey(
         User,
@@ -53,6 +54,13 @@ class Freight(models.Model):
     )
     approval_date = models.DateTimeField(_("Approval Date"), blank=True, null=True)
     cte_number = models.CharField(_("CTE Number"), max_length=20, blank=True, null=True)
+    contract = models.ForeignKey(
+        Contract,
+        verbose_name=_("Contract"),
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
+    )
 
     def __str__(self):
         return str(self.id)
@@ -61,6 +69,7 @@ class Freight(models.Model):
 class FreightQuotation(models.Model):
     freight = models.ForeignKey(Freight, on_delete=models.CASCADE)
     transporter = models.ForeignKey(Transporter, on_delete=models.CASCADE)
+    name_other = models.CharField(_("Name Other"), max_length=50, blank=True, null=True)
     price = models.DecimalField(_("Price"), max_digits=10, decimal_places=2)
     status = models.CharField(
         _("Status"), choices=STATUS_QUOTATIONS, default="Pending", max_length=8
