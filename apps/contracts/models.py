@@ -11,7 +11,8 @@ class Contract(models.Model):
     control_number = models.CharField(_("Control Number"), max_length=8, null=True, blank=True)
     client_name = models.CharField(_("Client Name"), max_length=120)
     project_name = models.CharField(_("Project Name"), max_length=120, null=True, blank=True)
-    freight_value = models.FloatField(_("Freight Value"), null=True, blank=True)
+    freight_estimated = models.FloatField(_("Freight Estimated"), null=True, blank=True)
+    freight_consumed = models.FloatField(_("Freight Consumed"), default=0)
 
     def __str__(self):
         return self.contract_number

@@ -10,7 +10,8 @@ class Contracts(admin.ModelAdmin):
         "control_number",
         "client_name",
         "project_name",
-        "freight_value",
+        "freight_estimated",
+        "freight_consumed",
     )
     list_display_links = ("id",)
     search_fields = (
