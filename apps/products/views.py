@@ -1,9 +1,10 @@
-import json
 import os
 import time
 from uuid import uuid4
 
 import requests
+from django.db.models import Count
+from django.http import HttpResponse
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, generics, status
 from rest_framework.permissions import IsAuthenticated
@@ -58,19 +59,20 @@ class ProductsDataAPIView(APIView):
                     break
 
                 for item in items:
-                    product_id = item["id"]
-                    existing_product = Product.objects.filter(id=product_id).first()
+                    product_code = item["code"]
+                    product, created = Product.objects.get_or_create(
+                        code=product_code,
+                        defaults={
+                            "id": item["id"],
+                            "un": item["un"],
+                            "description": item["description"],
+                        },
+                    )
 
-                    if not existing_product:
-                        new_product = Product(
-                            id=item["id"],
-                            code=item["code"],
-                            un=item["un"],
-                            description=item["description"],
-                        )
-                        new_product.save()
-
-                time.sleep(1)
+                    if not created:
+                        product.un = item["un"]
+                        product.description = item["description"]
+                        product.save()
 
             return Response({"message": "Data entered successfully"}, status=status.HTTP_200_OK)
 
@@ -101,3 +103,19 @@ class ProductDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     permission_classes = [IsAuthenticated]
+
+
+def remove_duplicates_view(request):
+    duplicate_codes = (
+        Product.objects.values("code").annotate(code_count=Count("id")).filter(code_count__gt=1)
+    )
+
+    for duplicate in duplicate_codes:
+        products_to_delete_ids = Product.objects.filter(code=duplicate["code"]).values_list(
+            "id", flat=True
+        )[1:]
+
+        if products_to_delete_ids:
+            Product.objects.filter(id__in=list(products_to_delete_ids)).delete()
+
+    return HttpResponse({"success": "Produtos duplicados removidos com sucesso."})
