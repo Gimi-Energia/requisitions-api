@@ -1,5 +1,4 @@
 import os
-import time
 
 import requests
 from django_filters.rest_framework import DjangoFilterBackend
@@ -32,14 +31,14 @@ class ContractsDataAPIView(APIView):
                 if item["status"] != "CANCELADO" and item["etapa"] != "CANCELADO":
                     item_info = {
                         "id": str(item["id"]),
-                        "company": {3060: "Gimi", 3061: "GBL", 3062: "GPB"}.get(
+                        "company": {3060: "Gimi", 3061: "GBL", 3062: "GPB", 3464: "GIR"}.get(
                             item["codigo_empresa"], None
                         ),
                         "contract_number": item["identificacao"],
                         "control_number": item["numero_controle"],
                         "client_name": item["cliente"]["nome"],
                         "project_name": item["projeto"]["nome"],
-                        "freight_value": item["valores"]["valor_frete"],
+                        "freight_estimated": item["valores"]["valor_frete"],
                     }
                     items.append(item_info)
             return items
@@ -67,29 +66,21 @@ class ContractsDataAPIView(APIView):
 
                 if not items:
                     break
-                
+
                 for item in items:
-                    contract_id = item["id"]
-                    new_freight_value = item["freight_value"]
+                    Contract.objects.update_or_create(
+                        id=item["id"],
+                        defaults={
+                            "company": item["company"],
+                            "contract_number": item["contract_number"],
+                            "control_number": item["control_number"],
+                            "client_name": item["client_name"],
+                            "project_name": item["project_name"],
+                            "freight_estimated": item["freight_estimated"],
+                        },
+                    )
 
-                    existing_contract = Contract.objects.filter(id=contract_id).first()
-
-                    if existing_contract:
-                        existing_contract.freight_value = new_freight_value
-                        existing_contract.save()
-                    else:
-                        new_contract = Contract(
-                            id=contract_id,
-                            company=item["company"],
-                            contract_number=item["contract_number"],
-                            control_number=item["control_number"],
-                            client_name=item["client_name"],
-                            project_name=item["project_name"],
-                            freight_value=new_freight_value,
-                        )
-                        new_contract.save()
-
-                time.sleep(1)
+                    print(item["contract_number"])
 
             return Response({"message": "Data entered successfully"}, status=status.HTTP_200_OK)
 
@@ -104,7 +95,7 @@ class ContractList(generics.ListCreateAPIView):
     queryset = Contract.objects.all()
     serializer_class = ContractSerializer
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
-    search_fields = []
+    search_fields = ["contract_number"]
     ordering_fields = []
     filterset_fields = ["company", "contract_number"]
 
