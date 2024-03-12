@@ -61,6 +61,7 @@ class Freight(models.Model):
         blank=True,
         null=True,
     )
+    motive_denied = models.TextField(_("Motive Denied"), blank=True, null=True)
 
     def __str__(self):
         return str(self.id)
