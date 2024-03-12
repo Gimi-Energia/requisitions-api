@@ -92,6 +92,11 @@ class FreightDetailView(generics.RetrieveUpdateDestroyAPIView):
                             <li>Obsevações: {new_instance.obs}</li>
                             <li>Cotação: <br>{table_html}</li>
                         </ul>
+                        <p>
+                            <strong>IMPORTANTE: Acessar a ferramenta para inserir o número do CTE 
+                            assim que receber da transportadora, o pagamento da NF estará vinculada 
+                            a este número de controle.</strong>
+                        </p>
                     </div>
                 </body>
             </html>
