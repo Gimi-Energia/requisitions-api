@@ -79,6 +79,9 @@ pip install -r requirements.txt
 python manage.py migrate
 ```
 6. Crie um super usuário para ter acesso a `/admin/`
+```bash
+python manage.py createsuperuser
+```
 7. Inicie o servidor de desenvolvimento
 ```bash
 python manage.py runserver
