@@ -30,7 +30,12 @@ def custom_exception_handler(exc, context):
         if "detail" not in response.data:
             formatted_errors = []
             for field, messages in response.data.items():
-                formatted_errors.append(f"{field}: {' '.join(messages)}")
+                string_messages = [
+                    str(msg) if not isinstance(msg, str) else msg
+                    for sublist in messages
+                    for msg in (sublist if isinstance(sublist, list) else [sublist])
+                ]
+                formatted_errors.append(f"{field}: {' '.join(string_messages)}")
             data = {"error": formatted_errors}
         else:
             data = {
