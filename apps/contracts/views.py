@@ -95,7 +95,7 @@ class ContractList(generics.ListCreateAPIView):
     queryset = Contract.objects.all()
     serializer_class = ContractSerializer
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
-    search_fields = ["contract_number"]
+    search_fields = ["contract_number", "company"]
     ordering_fields = []
     filterset_fields = ["company", "contract_number"]
 
