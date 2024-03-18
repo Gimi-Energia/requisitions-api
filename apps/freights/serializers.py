@@ -47,7 +47,7 @@ class FreightSerializer(serializers.ModelSerializer):
             transporter = quotation_data["transporter"]
             price = quotation_data["price"]
             status = quotation_data["status"]
-            name_other = quotation_data["name_other"]
+            name_other = quotation_data.get("name_other")
             FreightQuotation.objects.create(
                 freight=freight,
                 transporter=transporter,
