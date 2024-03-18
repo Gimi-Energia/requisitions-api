@@ -39,6 +39,8 @@ class FreightDetailView(generics.RetrieveUpdateDestroyAPIView):
             for freight_quotation in freight_quotations:
                 if freight_quotation.status == "Approved":
                     transporter = freight_quotation.transporter.name
+                    if transporter == "Outro":
+                        transporter = freight_quotation.name_other
                     quotation_price = freight_quotation.price
                     table_row = f"<tr><td>{transporter}</td><td>R$ {quotation_price}</td></tr>"
                     table_rows.append(table_row)
