@@ -17,6 +17,7 @@ class Contracts(admin.ModelAdmin):
     search_fields = (
         "contract_number",
         "control_number",
+        "company"
     )
     list_per_page = 25
     ordering = ("contract_number", "control_number")
