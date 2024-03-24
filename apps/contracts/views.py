@@ -54,14 +54,16 @@ class ContractsDataAPIView(APIView):
 
         if not company:
             return Response(
-                {"message": "Token and secret are required in headers."},
+                {"message": "Company are required in headers."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
+
+        init = {"GIMI": 138, "GBL": 46, "GPB": 54, "GIR": 3}
 
         MAX_PAGES = 1000
 
         try:
-            for page_number in range(1, MAX_PAGES + 1):
+            for page_number in range(init[company], MAX_PAGES + 1):
                 items = self.fetch_data_list(page_number, token, secret)
 
                 if not items:
@@ -96,7 +98,7 @@ class ContractList(generics.ListCreateAPIView):
     serializer_class = ContractSerializer
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
     search_fields = ["contract_number", "company"]
-    ordering_fields = []
+    ordering_fields = ["contract_number"]
     filterset_fields = ["company", "contract_number"]
 
     def get_permissions(self):
