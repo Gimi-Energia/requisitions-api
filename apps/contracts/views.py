@@ -14,8 +14,8 @@ from utils.permissions import IsAdminPost, IsAuthenticatedGet
 
 class ContractsDataAPIView(APIView):
     def fetch_data_list(self, page, token, secret):
-        ENDPOINT = "https://ia1.iapp03.iniciativaaplicativos.com.br/api/comercial/contratos/lista"
-        offset = 50
+        ENDPOINT = "https://iapp.iniciativaaplicativos.com.br/api/comercial/contratos/lista"
+        offset = 30
 
         headers = {"TOKEN": token, "SECRET": secret}
 

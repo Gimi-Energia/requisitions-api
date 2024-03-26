@@ -18,7 +18,7 @@ from utils.permissions import IsAdminPost, IsAuthenticatedGet
 
 class ProductsDataAPIView(APIView):
     def fetch_data_list(self, page, token, secret):
-        ENDPOINT = "https://ia1.iapp03.iniciativaaplicativos.com.br/api/engenharia/produtos/lista"
+        ENDPOINT = "https://iapp.iniciativaaplicativos.com.br/api/engenharia/produtos/lista"
         offset = 150
 
         headers = {"TOKEN": token, "SECRET": secret}
