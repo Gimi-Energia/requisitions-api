@@ -31,7 +31,7 @@ class ContractsDataAPIView(APIView):
                 if item["status"] != "CANCELADO" and item["etapa"] != "CANCELADO":
                     item_info = {
                         "id": str(item["id"]),
-                        "company": {3060: "Gimi", 3061: "GBL", 3062: "GPB", 3464: "GIR"}.get(
+                        "company": {687: "Gimi", 688: "GBL", 689: "GPB", 690: "GIR"}.get(
                             item["codigo_empresa"], None
                         ),
                         "contract_number": item["identificacao"],
@@ -49,16 +49,16 @@ class ContractsDataAPIView(APIView):
     def get(self, request):
         company = str(request.headers.get("Company", None)).upper()
 
-        token = str(os.getenv(f"TOKEN_{company}"))
-        secret = str(os.getenv(f"SECRET_{company}"))
-
         if not company:
             return Response(
                 {"message": "Company are required in headers."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        init = {"GIMI": 138, "GBL": 46, "GPB": 54, "GIR": 3}
+        token = str(os.getenv(f"TOKEN_{company}"))
+        secret = str(os.getenv(f"SECRET_{company}"))
+
+        init = {"GIMI": 233, "GBL": 79, "GPB": 91, "GIR": 3}
 
         MAX_PAGES = 1000
 
@@ -101,12 +101,12 @@ class ContractList(generics.ListCreateAPIView):
     ordering_fields = ["contract_number"]
     filterset_fields = ["company", "contract_number"]
 
-    def get_permissions(self):
-        if self.request.method == "GET":
-            return [IsAuthenticatedGet()]
-        elif self.request.method == "POST":
-            return [IsAdminPost()]
-        return super().get_permissions()
+    # def get_permissions(self):
+    #     if self.request.method == "GET":
+    #         return [IsAuthenticatedGet()]
+    #     elif self.request.method == "POST":
+    #         return [IsAdminPost()]
+    #     return super().get_permissions()
 
 
 class ContractDetail(generics.RetrieveUpdateDestroyAPIView):
