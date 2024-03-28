@@ -26,7 +26,7 @@ class Purchase(models.Model):
     )
     motive = models.CharField(_("Motive"), max_length=50)
     obs = models.TextField(_("Observation"))
-    status = models.CharField(_("Status"), choices=STATUS, default="Pending", max_length=8)
+    status = models.CharField(_("Status"), choices=STATUS, default="Opened", max_length=8)
     products = models.ManyToManyField(
         Product, through="PurchaseProduct", verbose_name=_("Products")
     )
@@ -49,7 +49,7 @@ class PurchaseProduct(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.DecimalField(_("Quantity"), max_digits=10, decimal_places=2)
     price = models.DecimalField(_("Price"), max_digits=10, decimal_places=2)
-    status = models.CharField(_("Status"), choices=STATUS, default="Pending", max_length=8)
+    status = models.CharField(_("Status"), choices=STATUS, default="Opened", max_length=8)
 
     def __str__(self):
         return f"{self.product} - {self.quantity}x{self.price}"

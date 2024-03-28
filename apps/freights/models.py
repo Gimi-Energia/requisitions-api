@@ -40,7 +40,7 @@ class Freight(models.Model):
     )
     motive = models.CharField(_("Motive"), max_length=50)
     obs = models.TextField(_("Observation"))
-    status = models.CharField(_("Status"), choices=STATUS_FREIGHTS, default="Pending", max_length=8)
+    status = models.CharField(_("Status"), choices=STATUS_FREIGHTS, default="Opened", max_length=8)
     quotations = models.ManyToManyField(
         Transporter, through="FreightQuotation", verbose_name=_("Quotations")
     )
@@ -73,7 +73,7 @@ class FreightQuotation(models.Model):
     name_other = models.CharField(_("Name Other"), max_length=50, blank=True, null=True)
     price = models.DecimalField(_("Price"), max_digits=10, decimal_places=2)
     status = models.CharField(
-        _("Status"), choices=STATUS_QUOTATIONS, default="Pending", max_length=8
+        _("Status"), choices=STATUS_QUOTATIONS, default="Opened", max_length=8
     )
 
     def __str__(self):

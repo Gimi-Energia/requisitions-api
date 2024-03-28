@@ -41,7 +41,7 @@ class Service(models.Model):
     provider = models.CharField(_("Provider"), max_length=120)
     service = models.ForeignKey(ServiceType, verbose_name=_("Service"), on_delete=models.CASCADE)
     value = models.DecimalField(_("Value"), max_digits=7, decimal_places=2)
-    status = models.CharField(_("Status"), choices=STATUS, default="Pending", max_length=8)
+    status = models.CharField(_("Status"), choices=STATUS, default="Opened", max_length=8)
     approver = models.ForeignKey(
         User,
         verbose_name=_("Approver"),
