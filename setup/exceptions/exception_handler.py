@@ -36,7 +36,7 @@ def custom_exception_handler(exc, context):
                     for msg in (sublist if isinstance(sublist, list) else [sublist])
                 ]
                 formatted_errors.append(f"{field}: {''.join(string_messages)}")
-            data = {"errors": formatted_errors}
+            data = {"error": formatted_errors}
         else:
             data = {
                 "error": str(
