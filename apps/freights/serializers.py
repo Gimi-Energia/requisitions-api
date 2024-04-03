@@ -41,11 +41,6 @@ class FreightSerializer(serializers.ModelSerializer):
                 {"quotations": "Não é permitido transportadoras repetidas."}
             )
 
-        if len(quotations_data) != 3:
-            raise serializers.ValidationError(
-                {"quotations": "A requisição de frete deve ter 3 transportadoras"}
-            )
-
         freight = Freight.objects.create(**validated_data)
 
         for quotation_data in quotations_data:
