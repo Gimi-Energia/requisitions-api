@@ -13,6 +13,7 @@ from apps.users.models import User
 COMPANIES = [("Gimi", "Gimi"), ("GBL", "GBL"), ("GPB", "GPB"), ("GS", "GS"), ("GIR", "GIR")]
 STATUS_FREIGHTS = [
     ("Opened", "Opened"),
+    ("Canceled", "Canceled"),
     ("Pending", "Pending"),
     ("Denied", "Denied"),
     ("Approved", "Approved"),
@@ -48,8 +49,6 @@ class Freight(models.Model):
         User,
         verbose_name=_("Approver"),
         on_delete=models.CASCADE,
-        blank=True,
-        null=True,
         related_name="freight_approver",
     )
     approval_date = models.DateTimeField(_("Approval Date"), blank=True, null=True)
