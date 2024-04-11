@@ -19,7 +19,7 @@ from utils.permissions import IsAdminPost, IsAuthenticatedGet
 class ProductsDataAPIView(APIView):
     def fetch_data_list(self, page, token, secret):
         ENDPOINT = "https://iapp.iniciativaaplicativos.com.br/api/engenharia/produtos/lista"
-        offset = 150
+        offset = 50000
 
         headers = {"TOKEN": token, "SECRET": secret}
 
@@ -49,30 +49,30 @@ class ProductsDataAPIView(APIView):
         token = str(os.getenv("TOKEN_GIMI"))
         secret = str(os.getenv("SECRET_GIMI"))
 
-        MAX_PAGES = 1000
-
         try:
-            for page_number in range(1, MAX_PAGES + 1):
-                items = self.fetch_data_list(page_number, token, secret)
+            items = self.fetch_data_list(token, secret)
 
-                if not items:
-                    break
+            if not items:
+                return Response(
+                    {"message": "Error finding products"},
+                    status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                )
 
-                for item in items:
-                    product_code = item["code"]
-                    product, created = Product.objects.get_or_create(
-                        code=product_code,
-                        defaults={
-                            "id": item["id"],
-                            "un": item["un"],
-                            "description": item["description"],
-                        },
-                    )
+            for item in items:
+                product_code = item["code"]
+                product, created = Product.objects.get_or_create(
+                    code=product_code,
+                    defaults={
+                        "id": item["id"],
+                        "un": item["un"],
+                        "description": item["description"],
+                    },
+                )
 
-                    if not created:
-                        product.un = item["un"]
-                        product.description = item["description"]
-                        product.save()
+                if not created:
+                    product.un = item["un"]
+                    product.description = item["description"]
+                    product.save()
 
             return Response({"message": "Data entered successfully"}, status=status.HTTP_200_OK)
 

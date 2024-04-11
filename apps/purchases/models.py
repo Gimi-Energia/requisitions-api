@@ -52,7 +52,7 @@ class PurchaseProduct(models.Model):
     status = models.CharField(_("Status"), choices=STATUS, default="Opened", max_length=8)
 
     def __str__(self):
-        return f"{self.product} - {self.quantity}x{self.price}"
+        return f"{self.product} - {self.quantity} x R$ {self.price}"
 
     class Meta:
         unique_together = ("purchase", "product")
