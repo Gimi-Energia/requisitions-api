@@ -47,7 +47,7 @@ class UserManager(BaseUserManager):
 
 
 COMPANIES = [("Gimi", "Gimi"), ("GBL", "GBL"), ("GPB", "GPB"), ("Group", "Group")]
-TYPES = [("Requester", "Requester"), ("Manager", "Manager"), ("Approver", "Approver")]
+TYPES = [("Requester", "Requester"), ("Approver", "Approver"), ("Director", "Director")]
 
 
 class User(AbstractBaseUser, PermissionsMixin):

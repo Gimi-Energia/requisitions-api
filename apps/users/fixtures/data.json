@@ -1,0 +1,285 @@
+[
+  {
+    "model": "users.user",
+    "fields": {
+      "email": "administrativo@gimi.com.br",
+      "name": "Administrativo",
+      "company": "Gimi",
+      "type": "Approver",
+      "password": "AdministrativoA1#3530"
+    }
+  },
+  {
+    "model": "users.user",
+    "fields": {
+      "email": "administrativo@gimipogliano.com.br",
+      "name": "Administrativo",
+      "company": "GPB",
+      "type": "Approver",
+      "password": "AdministrativoA1#3530"
+    }
+  },
+  {
+    "model": "users.user",
+    "fields": {
+      "email": "comercial1@gimibonomi.com.br",
+      "name": "Comercial1",
+      "company": "GBL",
+      "type": "Approver",
+      "password": "Comercial1A1#3530"
+    }
+  },
+  {
+    "model": "users.user",
+    "fields": {
+      "email": "comercial3@gimibonomi.com.br",
+      "name": "Comercial3",
+      "company": "GBL",
+      "type": "Approver",
+      "password": "Comercial3A1#3530"
+    }
+  },
+  {
+    "model": "users.user",
+    "fields": {
+      "email": "comercial3@gimipogliano.com.br",
+      "name": "Comercial3",
+      "company": "GPB",
+      "type": "Approver",
+      "password": "Comercial3A1#3530"
+    }
+  },
+  {
+    "model": "users.user",
+    "fields": {
+      "email": "compras4@gimi.com.br",
+      "name": "Compras4",
+      "company": "Gimi",
+      "type": "Approver",
+      "password": "Compras4A1#3530"
+    }
+  },
+  {
+    "model": "users.user",
+    "fields": {
+      "email": "contratos1@gimibonomi.com.br",
+      "name": "Contratos1",
+      "company": "GBL",
+      "type": "Approver",
+      "password": "Contratos1A1#3530"
+    }
+  },
+  {
+    "model": "users.user",
+    "fields": {
+      "email": "cristina@gimi.com.br",
+      "name": "Cristina",
+      "company": "Gimi",
+      "type": "Director",
+      "password": "Cristina@3530"
+    }
+  },
+  {
+    "model": "users.user",
+    "fields": {
+      "email": "engenharia5@gimipogliano.com.br",
+      "name": "Engenharia5",
+      "company": "GPB",
+      "type": "Approver",
+      "password": "Engenharia5A1#3530"
+    }
+  },
+  {
+    "model": "users.user",
+    "fields": {
+      "email": "estruturacao1@gimi.com.br",
+      "name": "Estruturacao1",
+      "company": "Gimi",
+      "type": "Approver",
+      "password": "Estruturacao1A1#3530"
+    }
+  },
+  {
+    "model": "users.user",
+    "fields": {
+      "email": "industrial1@gimi.com.br",
+      "name": "Industrial1",
+      "company": "Gimi",
+      "type": "Approver",
+      "password": "Industrial1A1#3530"
+    }
+  },
+  {
+    "model": "users.user",
+    "fields": {
+      "email": "industrial1@gimibonomi.com.br",
+      "name": "Industrial1",
+      "company": "GBL",
+      "type": "Approver",
+      "password": "Industrial1A1#3530"
+    }
+  },
+  {
+    "model": "users.user",
+    "fields": {
+      "email": "orcamento9@gimi.com.br",
+      "name": "Orcamento9",
+      "company": "Gimi",
+      "type": "Approver",
+      "password": "Orcamento9A1#3530"
+    }
+  },
+  {
+    "model": "users.user",
+    "fields": {
+      "email": "pcp2@gimipogliano.com.br",
+      "name": "Pcp2",
+      "company": "GPB",
+      "type": "Approver",
+      "password": "Pcp2A1#3530"
+    }
+  },
+  {
+    "model": "users.user",
+    "fields": {
+      "email": "ped1@gimi.com.br",
+      "name": "Ped1",
+      "company": "Gimi",
+      "type": "Approver",
+      "password": "Ped1A1#3530"
+    }
+  },
+  {
+    "model": "users.user",
+    "fields": {
+      "email": "posvenda@gimi.com.br",
+      "name": "Posvenda",
+      "company": "Gimi",
+      "type": "Approver",
+      "password": "PosvendaA1#3530"
+    }
+  },
+  {
+    "model": "users.user",
+    "fields": {
+      "email": "projetoeletrico1@gimi.com.br",
+      "name": "Projetoeletrico1",
+      "company": "Gimi",
+      "type": "Approver",
+      "password": "Projetoeletrico1A1#3530"
+    }
+  },
+  {
+    "model": "users.user",
+    "fields": {
+      "email": "projetomecanico1@gimibonomi.com.br",
+      "name": "Projetomecanico1",
+      "company": "GBL",
+      "type": "Approver",
+      "password": "Projetomecanico1A1#3530"
+    }
+  },
+  {
+    "model": "users.user",
+    "fields": {
+      "email": "qualidade1@gimi.com.br",
+      "name": "Qualidade1",
+      "company": "Gimi",
+      "type": "Approver",
+      "password": "Qualidade1A1#3530"
+    }
+  },
+  {
+    "model": "users.user",
+    "fields": {
+      "email": "ti1@gimi.com.br",
+      "name": "Ti1",
+      "company": "Gimi",
+      "type": "Approver",
+      "password": "Ti1A1#3530"
+    }
+  },
+  {
+    "model": "users.user",
+    "fields": {
+      "email": "vanderlei@gimi.com.br",
+      "name": "Vanderlei",
+      "company": "Gimi",
+      "type": "Director",
+      "password": "Vanderlei@3530"
+    }
+  },
+  {
+    "model": "users.user",
+    "fields": {
+      "email": "ronisbb@s2b.tec.br",
+      "name": "Ronisbb",
+      "company": "Group",
+      "type": "Director",
+      "password": "Ronisbb@3530"
+    }
+  },
+  {
+    "model": "users.user",
+    "fields": {
+      "email": "nunziante@gimi.com.br",
+      "name": "Nunziante",
+      "company": "Gimi",
+      "type": "Director",
+      "password": "Nunziante@3530"
+    }
+  },
+  {
+    "model": "users.user",
+    "fields": {
+      "email": "nunziante@gimipogliano.com.br",
+      "name": "Nunziante",
+      "company": "GPB",
+      "type": "Director",
+      "password": "Nunziante@3530"
+    }
+  },
+  {
+    "model": "users.user",
+    "fields": {
+      "email": "nunziante@gimibonomi.com.br",
+      "name": "Nunziante",
+      "company": "GBL",
+      "type": "Director",
+      "password": "Nunziante@3530"
+    }
+  },
+  {
+    "model": "users.user",
+    "fields": {
+      "email": "dev1@engenhadev.com",
+      "name": "Dev1",
+      "company": "Group",
+      "type": "Director",
+      "password": "Dev1@3530",
+      "is_superuser": true
+    }
+  },
+  {
+    "model": "users.user",
+    "fields": {
+      "email": "dev2@engenhadev.com",
+      "name": "Dev2",
+      "company": "Group",
+      "type": "Director",
+      "password": "Dev2@3530",
+      "is_superuser": true
+    }
+  },
+  {
+    "model": "users.user",
+    "fields": {
+      "email": "bruno@engenhadev.com",
+      "name": "Bruno",
+      "company": "Group",
+      "type": "Director",
+      "password": "Bruno@3530",
+      "is_superuser": true
+    }
+  }
+]
