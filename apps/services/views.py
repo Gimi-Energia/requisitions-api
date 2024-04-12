@@ -1,4 +1,3 @@
-from django.core.mail import send_mail
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, generics, status
 from rest_framework.permissions import IsAuthenticated
@@ -6,6 +5,8 @@ from rest_framework.response import Response
 
 from apps.services.models import Service, ServiceType
 from apps.services.serializers import ServiceSerializer, ServiceTypeSerializer
+
+from .services.email_service import check_status_and_send_email, send_service_quotation_email
 
 
 class ServiceList(generics.ListCreateAPIView):
@@ -16,6 +17,14 @@ class ServiceList(generics.ListCreateAPIView):
     ordering_fields = []
     filterset_fields = []
     permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+        serializer.save()
+        new_instance = serializer.instance
+        if new_instance.status == "Quotation":
+            send_service_quotation_email(new_instance)
+
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 class ServiceDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -28,52 +37,8 @@ class ServiceDetail(generics.RetrieveUpdateDestroyAPIView):
         old_status = instance.status
         super().perform_update(serializer)
         new_instance = self.get_object()
-        new_status = new_instance.status
 
-        if old_status != "Approved" and new_status == "Approved":
-            subject = "Aprovação de Solicitação de Serviço"
-            html_message = f"""
-            <html>
-                <head>
-                    <style>
-                        * {'{ font-size: 1rem; }'}
-                    </style>
-                </head>
-                <body>
-                    <div>
-                        <p>
-                            Olá, {new_instance.requester.name}!
-                            <br>
-                            Sua solicitação foi aprovada por {new_instance.approver} 
-                            em {new_instance.approval_date.strftime("%d/%m/%Y")}
-                            <br>
-                        </p>
-                        <ul>
-                            <p>Dados da solicitação:</p>
-                            <li>Empresa: {new_instance.company}</li>
-                            <li>Departamento: {new_instance.department}</li>
-                            <li>Data solicitada: 
-                                {new_instance.request_date.strftime("%d/%m/%Y")}
-                            </li>
-                            <li>Motivo: {new_instance.motive}</li>
-                            <li>Obsevações: {new_instance.obs}</li>
-                            <li>Prestador: {new_instance.provider}</li>
-                            <li>Serviço: {new_instance.service.description}</li>
-                            <li>Valor: R$ {new_instance.value}</li>
-                        </ul>
-                    </div>
-                </body>
-            </html>
-            """
-
-            send_mail(
-                subject,
-                "This is a plain text for email clients that don't support HTML",
-                "dev2@engenhadev.com",
-                [new_instance.requester.email],
-                fail_silently=False,
-                html_message=html_message,
-            )
+        check_status_and_send_email(old_status, new_instance)
 
         return Response(status=status.HTTP_200_OK)
 
