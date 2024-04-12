@@ -10,7 +10,13 @@ from apps.providers.models import Provider
 from apps.users.models import User
 
 COMPANIES = [("Gimi", "Gimi"), ("GBL", "GBL"), ("GPB", "GPB"), ("GS", "GS"), ("GIR", "GIR")]
-STATUS = [("Opened", "Opened"), ("Approved", "Approved"), ("Denied", "Denied")]
+STATUS = [
+    ("Opened", "Opened"),
+    ("Approved", "Approved"),
+    ("Denied", "Denied"),
+    ("Canceled", "Canceled"),
+    ("Quotation", "Quotation"),
+]
 
 
 class ServiceType(models.Model):
@@ -40,17 +46,20 @@ class Service(models.Model):
     # provider = models.ForeignKey(Provider, verbose_name=_("Provider"), on_delete=models.CASCADE)
     provider = models.CharField(_("Provider"), max_length=120)
     service = models.ForeignKey(ServiceType, verbose_name=_("Service"), on_delete=models.CASCADE)
-    value = models.DecimalField(_("Value"), max_digits=7, decimal_places=2)
-    status = models.CharField(_("Status"), choices=STATUS, default="Opened", max_length=8)
+    value = models.DecimalField(_("Value"), max_digits=7, decimal_places=2, blank=True, null=True)
+    status = models.CharField(_("Status"), choices=STATUS, default="Opened", max_length=9)
     approver = models.ForeignKey(
         User,
         verbose_name=_("Approver"),
         on_delete=models.CASCADE,
-        blank=True,
-        null=True,
         related_name="service_approver",
     )
     approval_date = models.DateTimeField(_("Approval Date"), blank=True, null=True)
+    has_quotation = models.BooleanField(_("Has Quotation?"), default=True)
+    quotation_emails = models.TextField(_("Service Quotation Emails"), blank=True, null=True)
+    quotation_date = models.DateTimeField(
+        _("Quotation Date"), auto_now=False, auto_now_add=False, blank=True, null=True
+    )
 
     def __str__(self):
         return str(self.id)
