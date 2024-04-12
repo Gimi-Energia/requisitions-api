@@ -44,7 +44,7 @@ class Service(models.Model):
     motive = models.CharField(_("Motive"), max_length=50)
     obs = models.TextField(_("Observation"))
     # provider = models.ForeignKey(Provider, verbose_name=_("Provider"), on_delete=models.CASCADE)
-    provider = models.CharField(_("Provider"), max_length=120)
+    provider = models.CharField(_("Provider"), max_length=120, blank=True, null=True)
     service = models.ForeignKey(ServiceType, verbose_name=_("Service"), on_delete=models.CASCADE)
     value = models.DecimalField(_("Value"), max_digits=7, decimal_places=2, blank=True, null=True)
     status = models.CharField(_("Status"), choices=STATUS, default="Opened", max_length=9)
