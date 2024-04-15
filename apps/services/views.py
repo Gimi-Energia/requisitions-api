@@ -6,7 +6,11 @@ from rest_framework.response import Response
 from apps.services.models import Service, ServiceType
 from apps.services.serializers import ServiceSerializer, ServiceTypeSerializer
 
-from .services.email_service import check_status_and_send_email, send_service_quotation_email
+from .services.email_service import (
+    send_status_change_email,
+    send_service_quotation_email,
+    send_quotation_email_with_pdf,
+)
 
 
 class ServiceList(generics.ListCreateAPIView):
@@ -35,10 +39,16 @@ class ServiceDetail(generics.RetrieveUpdateDestroyAPIView):
     def perform_update(self, serializer):
         instance = serializer.instance
         old_status = instance.status
+        old_quotation_emails = instance.quotation_emails
+
         super().perform_update(serializer)
         new_instance = self.get_object()
 
-        check_status_and_send_email(old_status, new_instance)
+        if old_status != new_instance.status:
+            send_status_change_email(old_status, new_instance)
+
+        if old_quotation_emails is None and new_instance.quotation_emails != "":
+            send_quotation_email_with_pdf(new_instance)
 
         return Response(status=status.HTTP_200_OK)
 
