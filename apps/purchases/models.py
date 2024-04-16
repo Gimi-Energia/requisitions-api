@@ -10,7 +10,13 @@ from apps.products.models import Product
 from apps.users.models import User
 
 COMPANIES = [("Gimi", "Gimi"), ("GBL", "GBL"), ("GPB", "GPB"), ("GS", "GS"), ("GIR", "GIR")]
-STATUS = [("Opened", "Opened"), ("Approved", "Approved"), ("Denied", "Denied")]
+STATUS = [
+    ("Opened", "Opened"),
+    ("Approved", "Approved"),
+    ("Denied", "Denied"),
+    ("Canceled", "Canceled"),
+    ("Quotation", "Quotation"),
+]
 
 
 class Purchase(models.Model):
@@ -26,7 +32,7 @@ class Purchase(models.Model):
     )
     motive = models.CharField(_("Motive"), max_length=50)
     obs = models.TextField(_("Observation"))
-    status = models.CharField(_("Status"), choices=STATUS, default="Opened", max_length=8)
+    status = models.CharField(_("Status"), choices=STATUS, default="Opened", max_length=9)
     products = models.ManyToManyField(
         Product, through="PurchaseProduct", verbose_name=_("Products")
     )
@@ -34,22 +40,35 @@ class Purchase(models.Model):
         User,
         verbose_name=_("Approver"),
         on_delete=models.CASCADE,
-        blank=True,
-        null=True,
         related_name="Approver",
     )
     approval_date = models.DateTimeField(_("Approval Date"), blank=True, null=True)
+    has_quotation = models.BooleanField(_("Has Quotation?"), default=True)
+    quotation_emails = models.TextField(_("Purchase Quotation Emails"), blank=True, null=True)
+    quotation_date = models.DateTimeField(
+        _("Quotation Date"), auto_now=False, auto_now_add=False, blank=True, null=True
+    )
+    control_number = models.IntegerField(_("Control Number"), default=0)
 
     def __str__(self):
         return str(self.id)
+
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            last = Purchase.objects.all().order_by("control_number").last()
+            if last:
+                self.control_number = last.control_number + 1
+            else:
+                self.control_number = 1
+        super(Purchase, self).save(*args, **kwargs)
 
 
 class PurchaseProduct(models.Model):
     purchase = models.ForeignKey(Purchase, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.DecimalField(_("Quantity"), max_digits=10, decimal_places=2)
-    price = models.DecimalField(_("Price"), max_digits=10, decimal_places=2)
-    status = models.CharField(_("Status"), choices=STATUS, default="Opened", max_length=8)
+    price = models.DecimalField(_("Price"), max_digits=10, decimal_places=2, blank=True, null=True)
+    status = models.CharField(_("Status"), choices=STATUS, default="Opened", max_length=9)
 
     def __str__(self):
         return f"{self.product} - {self.quantity} x R$ {self.price}"
