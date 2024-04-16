@@ -60,6 +60,16 @@ class Service(models.Model):
     quotation_date = models.DateTimeField(
         _("Quotation Date"), auto_now=False, auto_now_add=False, blank=True, null=True
     )
+    control_number = models.IntegerField(_("Control Number"), default=0)
 
     def __str__(self):
         return str(self.id)
+
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            last = Service.objects.all().order_by("control_number").last()
+            if last:
+                self.control_number = last.control_number + 1
+            else:
+                self.control_number = 1
+        super(Service, self).save(*args, **kwargs)
