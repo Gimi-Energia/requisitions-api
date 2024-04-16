@@ -29,41 +29,38 @@ def build_quotation_table(freight_pk, include_approved_only=False):
     """
 
 
-def send_status_change_email(old_status, new_instance, freight_pk):
-    if old_status == new_instance.status:
-        return
-
+def send_status_change_email(instance, freight_pk):
     email_subject = ""
     email_body_intro = ""
     table_html = ""
     important_note = ""
 
-    if new_instance.status == "Pending":
+    if instance.status == "Pending":
         email_subject = "Solicitação de Frete Aprovada"
         email_body_intro = f"""
-            Olá, {new_instance.requester.name}!<br>
-            Sua solicitação foi aprovada por {new_instance.approver} 
-            em {new_instance.approval_date.strftime("%d/%m/%Y")}.
+            Olá, {instance.requester.name}!<br>
+            Sua solicitação foi aprovada por {instance.approver} 
+            em {instance.approval_date.strftime("%d/%m/%Y")}.
         """
         table_html = build_quotation_table(freight_pk, include_approved_only=True)
         important_note = "IMPORTANTE: Acessar a ferramenta para inserir o número do CTE assim que receber da transportadora, o pagamento da NF estará vinculado a este número de controle."
-    elif new_instance.status == "Denied":
+    elif instance.status == "Denied":
         email_subject = "Solicitação de Frete Rejeitada"
         email_body_intro = f"""
-            Olá, {new_instance.requester.name}!<br>
-            Sua solicitação foi rejeitada por {new_instance.approver} 
-            em {new_instance.approval_date.strftime("%d/%m/%Y")}.
+            Olá, {instance.requester.name}!<br>
+            Sua solicitação foi rejeitada por {instance.approver} 
+            em {instance.approval_date.strftime("%d/%m/%Y")}.
         """
         table_html = build_quotation_table(freight_pk, include_approved_only=False)
         important_note = "Por favor, verifique as informações e, se necessário, ajuste sua solicitação e submeta novamente."
 
     common_body = f"""
         Dados da solicitação:<br>
-        Empresa: {new_instance.company}<br>
-        Departamento: {new_instance.department}<br>
-        Data solicitada: {new_instance.request_date.strftime("%d/%m/%Y")}<br>
-        Motivo: {new_instance.motive}<br>
-        Obsevações: {new_instance.obs}<br>
+        Empresa: {instance.company}<br>
+        Departamento: {instance.department}<br>
+        Data solicitada: {instance.request_date.strftime("%d/%m/%Y")}<br>
+        Motivo: {instance.motive}<br>
+        Obsevações: {instance.obs}<br>
         Cotação:<br>{table_html}
     """
 
@@ -90,7 +87,7 @@ def send_status_change_email(old_status, new_instance, freight_pk):
         email_subject,
         "This is a plain text for email clients that don't support HTML",
         settings.EMAIL_HOST_USER,
-        [new_instance.requester.email],
+        [instance.requester.email],
         fail_silently=False,
         html_message=html_message,
     )

@@ -27,11 +27,13 @@ class FreightDetailView(generics.RetrieveUpdateDestroyAPIView):
     def perform_update(self, serializer):
         instance = serializer.instance
         old_status = instance.status
+        
         super().perform_update(serializer)
         new_instance = self.get_object()
         freight_pk = self.kwargs.get("pk")
 
-        send_status_change_email(old_status, new_instance, freight_pk)
+        if old_status != new_instance.status:
+            send_status_change_email(new_instance, freight_pk)
 
         return Response(status=status.HTTP_200_OK)
 

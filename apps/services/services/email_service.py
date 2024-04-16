@@ -82,7 +82,7 @@ def send_status_change_email(instance):
     )
 
 
-def send_service_quotation_email(new_instance):
+def send_service_quotation_email(instance):
     email_subject = "Cotação de Serviço Criada"
     email_body_intro = """
         Olá!<br>
@@ -92,12 +92,12 @@ def send_service_quotation_email(new_instance):
 
     common_body = f"""
         Dados da solicitação:<br>
-        Empresa: {new_instance.company}<br>
-        Departamento: {new_instance.department}<br>
-        Data solicitada: {new_instance.request_date.strftime("%d/%m/%Y")}<br>
-        Serviço: {new_instance.service.description}<br>
-        Motivo: {new_instance.motive}<br>
-        Observações: {new_instance.obs}<br>
+        Empresa: {instance.company}<br>
+        Departamento: {instance.department}<br>
+        Data solicitada: {instance.request_date.strftime("%d/%m/%Y")}<br>
+        Serviço: {instance.service.description}<br>
+        Motivo: {instance.motive}<br>
+        Observações: {instance.obs}<br>
     """
 
     html_message = f"""
@@ -135,7 +135,7 @@ def send_service_quotation_email(new_instance):
         email_subject,
         "This is a plain text for email clients that don't support HTML",
         settings.EMAIL_HOST_USER,
-        [new_instance.requester.email],
+        [instance.requester.email],
         fail_silently=False,
         html_message=html_message,
     )
