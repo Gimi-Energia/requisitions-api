@@ -10,6 +10,9 @@ A Requisitions API foi desenhada para facilitar a gestão de requisições de co
 - Simple JWT
 - Swagger/Redoc
 - Vercel
+- ReportLab Toolkit
+- Omie API
+- iApp API
 
 ## 📁 Acesso ao deploy
 
@@ -24,9 +27,10 @@ A Requisitions API foi desenhada para facilitar a gestão de requisições de co
 - **Gestão de Fornecedores**: Mantenha o cadastro de fornecedores atualizado.
 - **Gestão de Compras**: Gerencie compras e os produtos relacionados a estas.
 - **Gestão de Serviços**: Inclui a gestão de serviços e seus tipos.
-- **Autenticação**: Sistema de tokens para acesso seguro à API.
 - **Gestão de Transportadoras**: Cadastro e gestão de transportadoras.
 - **Gestão de Usuários**: Administração de usuários que podem acessar a API.
+- **Autenticação**: Sistema de tokens para acesso seguro à API.
+- **Notificações**: Notificações por e-mail com arquivos PDF.
 
 ## 📌 Uso
 
@@ -48,10 +52,10 @@ A Requisitions API segue os princípios REST para comunicação. Os seguintes en
 - Listar, criar fornecedores, ler detalhes, atualizar, e deletar fornecedores.
 
 ### /purchases/
-- Listar compras, criar, ler detalhes, atualizar, deletar, e gerenciar produtos associados às compras.
+- Listar compras, criar, ler detalhes, atualizar, deletar, gerenciar produtos associados às compras e gerenciar cotações de compra.
 
 ### /services/
-- Gerenciar serviços, tipos de serviços, e realizar operações CRUD.
+- Gerenciar serviços, tipos de serviços, realizar operações CRUD e gerenciar cotações de serviço.
 
 ### /transporters/
 - Listar, criar transportadoras, ler detalhes, atualizar, e deletar transportadoras.
