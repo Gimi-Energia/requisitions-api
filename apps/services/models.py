@@ -1,7 +1,7 @@
 from datetime import date
 from uuid import uuid4
 
-from django.db import models
+from django.db import models, transaction
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
@@ -66,10 +66,11 @@ class Service(models.Model):
         return str(self.id)
 
     def save(self, *args, **kwargs):
-        if not self.pk:
-            last = Service.objects.all().order_by("control_number").last()
+        with transaction.atomic():
+            last = Service.objects.select_for_update().order_by("-control_number").first()
             if last:
                 self.control_number = last.control_number + 1
             else:
                 self.control_number = 1
+
         super(Service, self).save(*args, **kwargs)
