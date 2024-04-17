@@ -1,7 +1,10 @@
 from django.conf import settings
 from django.core.mail import EmailMessage, send_mail
-from apps.purchases.models import PurchaseProduct
+
 from apps.products.models import Product
+from apps.purchases.models import PurchaseProduct
+
+from .pdf_service import generate_pdf
 
 
 def build_quotation_table(purchase_pk, include_approved_only=True, include_price=True):
@@ -11,7 +14,7 @@ def build_quotation_table(purchase_pk, include_approved_only=True, include_price
         purchase_products = PurchaseProduct.objects.filter(purchase=purchase_pk)
 
     table_rows = []
-
+    
     for purchase_product in purchase_products:
         product_code = purchase_product.product.code
         product = Product.objects.filter(code=product_code).first()
@@ -124,22 +127,24 @@ def send_status_change_email(instance, purchase_pk):
     )
 
 
-def send_purchase_quotation_email(instance, purchase_pk):
+def send_purchase_quotation_email(instance):
     email_subject = "Cotação de Compra Criada"
     email_body_intro = """
         Olá!<br>
         Uma solicitação está agora em cotação e precisa de mais informações antes de ser processada.<br>
     """
     button_html = '<a href="https://gimi-requisitions.vercel.app" target="_blank" class="btn">Acessar Webapp</a><br>'
-    table_html = build_quotation_table(purchase_pk, include_price=False)
+    table_html = build_quotation_table(
+        instance.id, include_approved_only=False, include_price=False
+    )
 
     common_body = f"""
         Dados da solicitação:<br>
-        Empresa: {instance.company}
-        Departamento: {instance.department}
-        Data solicitada: {instance.request_date.strftime("%d/%m/%Y")}
-        Motivo: {instance.motive}
-        Obsevações: {instance.obs}
+        Empresa: {instance.company}<br>
+        Departamento: {instance.department}<br>
+        Data solicitada: {instance.request_date.strftime("%d/%m/%Y")}<br>
+        Motivo: {instance.motive}<br>
+        Obsevações: {instance.obs}<br>
         Produtos: <br>{table_html}
     """
 
@@ -182,3 +187,40 @@ def send_purchase_quotation_email(instance, purchase_pk):
         fail_silently=False,
         html_message=html_message,
     )
+
+
+def send_quotation_email_with_pdf(instance, purchase_pk):
+    subject = f"Cotação de Compra Nº {instance.control_number} - Grupo Gimi"
+    recipient_list = instance.quotation_emails.split(", ")
+    email_from = settings.EMAIL_HOST_USER
+
+    pdf_file = generate_pdf(instance, purchase_pk)
+    with open(pdf_file, "rb") as pdf_file_content:
+        pdf_data = pdf_file_content.read()
+
+    body_message = f"""
+        Prezado fornecedor,
+
+        Anexo o arquivo PDF com a carta de cotação Nº {instance.control_number}
+
+        Por favor, responder este e-mail com os valores e condições de pagamento de acordo 
+        com a carta anexa.
+
+        Atenciosamente,
+
+        Grupo Gimi
+    """
+
+    for recipient in recipient_list:
+        email = EmailMessage(
+            subject=subject,
+            body=body_message,
+            from_email=email_from,
+            to=[recipient, instance.requester],
+        )
+        email.attach(
+            f"carta_cotacao_compra_{instance.control_number}.pdf",
+            pdf_data,
+            "application/pdf",
+        )
+        email.send()

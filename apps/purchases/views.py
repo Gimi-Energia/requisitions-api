@@ -8,6 +8,7 @@ from apps.purchases.serializers import PurchaseProductSerializer, PurchaseSerial
 
 from .services.email_service import (
     send_purchase_quotation_email,
+    send_quotation_email_with_pdf,
     send_status_change_email,
 )
 
@@ -38,6 +39,7 @@ class PurchaseDetailView(generics.RetrieveUpdateDestroyAPIView):
     def perform_update(self, serializer):
         instance = serializer.instance
         old_status = instance.status
+        old_quotation_emails = instance.quotation_emails
 
         super().perform_update(serializer)
         new_instance = self.get_object()
@@ -45,6 +47,9 @@ class PurchaseDetailView(generics.RetrieveUpdateDestroyAPIView):
 
         if old_status != new_instance.status:
             send_status_change_email(new_instance, purchase_pk)
+
+        if old_quotation_emails is None and new_instance.quotation_emails != "":
+            send_quotation_email_with_pdf(new_instance, purchase_pk)
 
         return Response(status=status.HTTP_200_OK)
 
