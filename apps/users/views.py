@@ -4,7 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 
 from apps.users.models import User
 from apps.users.serializers import UserSerializer
-from utils.permissions import AllowAnyPost, IsAdminGet
+from utils.permissions import AllowAnyPost, IsAuthenticatedGet
 
 
 class UsersList(generics.ListCreateAPIView):
@@ -17,7 +17,7 @@ class UsersList(generics.ListCreateAPIView):
 
     def get_permissions(self):
         if self.request.method == "GET":
-            return [IsAdminGet()]
+            return [IsAuthenticatedGet()]
         elif self.request.method == "POST":
             return [AllowAnyPost()]
         return super().get_permissions()
