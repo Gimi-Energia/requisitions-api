@@ -13,7 +13,7 @@ from apps.products.models import Product
 from apps.purchases.models import PurchaseProduct
 
 
-def generate_pdf(instance, purchase_pk):
+def generate_pdf(instance):
     with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmpfile:
         filename = tmpfile.name
 
@@ -100,7 +100,7 @@ def generate_pdf(instance, purchase_pk):
     elements.append(Spacer(1, 0.2 * inch))
 
     data = [["Item", "Código", "Descrição", "Quantidade"]]
-    purchase_products = PurchaseProduct.objects.filter(purchase=purchase_pk)
+    purchase_products = PurchaseProduct.objects.filter(purchase=instance.id)
     item_number = 1
 
     for purchase_product in purchase_products:

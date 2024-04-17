@@ -14,7 +14,7 @@ def build_quotation_table(purchase_pk, include_approved_only=True, include_price
         purchase_products = PurchaseProduct.objects.filter(purchase=purchase_pk)
 
     table_rows = []
-    
+
     for purchase_product in purchase_products:
         product_code = purchase_product.product.code
         product = Product.objects.filter(code=product_code).first()
@@ -47,7 +47,7 @@ def build_quotation_table(purchase_pk, include_approved_only=True, include_price
     """
 
 
-def send_status_change_email(instance, purchase_pk):
+def send_status_change_email(instance):
     email_subject = ""
     email_body_intro = ""
     table_html = ""
@@ -59,7 +59,7 @@ def send_status_change_email(instance, purchase_pk):
             Sua solicitação foi aprovada por {instance.approver} 
             em {instance.approval_date.strftime("%d/%m/%Y")}<br>
         """
-        table_html = build_quotation_table(purchase_pk)
+        table_html = build_quotation_table(instance.id)
     elif instance.status == "Denied":
         email_subject = "Solicitação de Compra Rejeitada"
         email_body_intro = f"""
@@ -67,23 +67,23 @@ def send_status_change_email(instance, purchase_pk):
             Sua solicitação foi rejeitada por {instance.approver} 
             em {instance.approval_date.strftime("%d/%m/%Y")}<br>
         """
-        table_html = build_quotation_table(purchase_pk, include_approved_only=False)
+        table_html = build_quotation_table(instance.id, include_approved_only=False)
     elif instance.status == "Opened":
         email_subject = "Solicitação de Compra Cotada"
         email_body_intro = f"""
             Olá, {instance.requester.name}!<br>
             Sua solicitação foi cotada e já pode ser aprovada<br>
         """
-        table_html = build_quotation_table(purchase_pk)
+        table_html = build_quotation_table(instance.id)
     else:
         return
 
     common_body = f"""
-        Empresa: {instance.company}
-        Departamento: {instance.department}
-        Data solicitada: {instance.request_date.strftime("%d/%m/%Y")}
-        Motivo: {instance.motive}
-        Obsevações: {instance.obs}
+        Empresa: {instance.company}<br>
+        Departamento: {instance.department}<br>
+        Data solicitada: {instance.request_date.strftime("%d/%m/%Y")}<br>
+        Motivo: {instance.motive}<br>
+        Obsevações: {instance.obs}<br>
         Produtos: <br>{table_html}
     """
 
@@ -189,12 +189,12 @@ def send_purchase_quotation_email(instance):
     )
 
 
-def send_quotation_email_with_pdf(instance, purchase_pk):
+def send_quotation_email_with_pdf(instance):
     subject = f"Cotação de Compra Nº {instance.control_number} - Grupo Gimi"
     recipient_list = instance.quotation_emails.split(", ")
     email_from = settings.EMAIL_HOST_USER
 
-    pdf_file = generate_pdf(instance, purchase_pk)
+    pdf_file = generate_pdf(instance)
     with open(pdf_file, "rb") as pdf_file_content:
         pdf_data = pdf_file_content.read()
 

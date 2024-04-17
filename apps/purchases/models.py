@@ -54,12 +54,13 @@ class Purchase(models.Model):
         return str(self.id)
 
     def save(self, *args, **kwargs):
-        with transaction.atomic():
-            last = Purchase.objects.select_for_update().order_by("-control_number").first()
-            if last:
-                self.control_number = last.control_number + 1
-            else:
-                self.control_number = 1
+        if not Purchase.objects.get(id=self.pk):
+            with transaction.atomic():
+                last = Purchase.objects.select_for_update().order_by("-control_number").first()
+                if last:
+                    self.control_number = last.control_number + 1
+                else:
+                    self.control_number = 1
 
         super(Purchase, self).save(*args, **kwargs)
 
