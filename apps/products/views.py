@@ -1,8 +1,5 @@
 import os
-import time
-from uuid import uuid4
 
-import requests
 from django.db.models import Count
 from django.http import HttpResponse
 from django_filters.rest_framework import DjangoFilterBackend
@@ -15,42 +12,16 @@ from apps.products.models import Product
 from apps.products.serializers import ProductSerializer
 from utils.permissions import IsAdminPost, IsAuthenticatedGet
 
+from .services.iapp_service import get_iapp_products
+
 
 class ProductsDataAPIView(APIView):
-    def fetch_data_list(self, page, token, secret):
-        ENDPOINT = "https://iapp.iniciativaaplicativos.com.br/api/engenharia/produtos/lista"
-        offset = 50000
-
-        headers = {"TOKEN": token, "SECRET": secret}
-
-        params = {"offset": offset, "page": page}
-
-        response = requests.get(ENDPOINT, params=params, headers=headers)
-
-        if response.status_code == 200:
-            complete_data = response.json()
-            data = complete_data["response"]
-            items = []
-            for item in data:
-                if item["status"] == "ativo":
-                    item_info = {
-                        "id": str(uuid4()),
-                        "code": item["identificacao"],
-                        "un": item["unidade_medida"],
-                        "description": item["descricao"],
-                    }
-                    items.append(item_info)
-            return items
-        else:
-            print("Error:", response.status_code)
-            return None
-
     def get(self, request):
         token = str(os.getenv("TOKEN_GIMI"))
         secret = str(os.getenv("SECRET_GIMI"))
 
         try:
-            items = self.fetch_data_list(token, secret)
+            items = get_iapp_products(token, secret)
 
             if not items:
                 return Response(
