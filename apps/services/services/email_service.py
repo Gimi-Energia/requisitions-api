@@ -142,7 +142,7 @@ def send_service_quotation_email(instance):
 
 
 def send_quotation_email_with_pdf(instance):
-    subject = "Cotação de Serviço"
+    subject = f"Cotação de Serviço Nº {instance.control_number} - Grupo Gimi"
     recipient_list = instance.quotation_emails.split(", ")
     email_from = settings.EMAIL_HOST_USER
 
@@ -150,15 +150,28 @@ def send_quotation_email_with_pdf(instance):
     with open(pdf_file, "rb") as pdf_file_content:
         pdf_data = pdf_file_content.read()
 
+    body_message = f"""
+        Prezado prestador,
+
+        Anexo o arquivo PDF com a carta de cotação Nº {instance.control_number}
+
+        Por favor, responder este e-mail com os valores e condições de pagamento de acordo 
+        com a carta anexa.
+
+        Atenciosamente,
+
+        Grupo Gimi
+    """
+
     for recipient in recipient_list:
         email = EmailMessage(
             subject=subject,
-            body="Cotação de serviço - Grupo Gimi.",
+            body=body_message,
             from_email=email_from,
             to=[recipient, instance.requester],
         )
         email.attach(
-            "Cotacao_Servico.pdf",
+            f"carta_cotacao_servico_{instance.control_number}.pdf",
             pdf_data,
             "application/pdf",
         )

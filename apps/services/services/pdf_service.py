@@ -1,75 +1,114 @@
+import os
 import tempfile
 
-from django.utils.html import escape
+import pytz
 from reportlab.lib.pagesizes import letter
+from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.lib.units import inch
-from reportlab.pdfgen import canvas
-
-
-def draw_header(c, image_path, width, height, margin):
-    image_width = 1.6 * inch
-    image_height = inch
-    image_x = width - margin - image_width
-    image_y = height - margin - image_height + 50
-    c.drawImage(image_path, image_x, image_y, width=image_width, height=image_height)
-
-
-def draw_footer(c, page_number, width):
-    c.setFont("Helvetica", 8)
-    footer_text = f"Página {page_number}"
-    text_width = c.stringWidth(footer_text, "Helvetica", 8)
-    c.drawString((width - text_width) / 2, 0.5 * inch, footer_text)
-
-
-def add_page(c, width, height, page_number, margin, company):
-    c.showPage()
-    page_number += 1
-    draw_header(c, f"setup/images/logo_{company}.png", width, height, margin)
-    draw_footer(c, page_number, width)
-    return page_number, height - margin - 1.3 * inch
+from reportlab.platypus import Image, Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle
 
 
 def generate_pdf(instance):
     with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmpfile:
         filename = tmpfile.name
 
-    c = canvas.Canvas(filename, pagesize=letter)
-    width, height = letter
+    document = SimpleDocTemplate(filename, pagesize=letter)
+    styles = getSampleStyleSheet()
 
-    margin = inch
-    line_height = 14
-    page_number = 1
+    small_style = ParagraphStyle("SmallStyle", parent=styles["Normal"], fontSize=8, leading=10)
 
-    company = instance.company.lower()
-    draw_header(c, f"setup/images/logo_{company}.png", width, height, margin)
-    draw_footer(c, page_number, width)
+    company_info_dict = {
+        "GIMI": [
+            "IND MONTAGEM E INSTALACOES GIMI",
+            "https://www.gimi.com.br/",
+            "43.030.931/0001-45",
+            "Estrada Portão Honda, 3530 - Jardim Revista",
+            "08694-080",
+            "(11) 4752-9900",
+        ],
+        "GBL": [
+            "GIMI BONOMI LATIN AMERICA",
+            "https://www.gimibonomi.com.br/",
+            "41.517.310/0001-65",
+            "Estrada Portão do Ronda, 3.500 (galpão unidades 1a e 1b) - Jardim Revista",
+            "08694-080",
+            "(11) 2500-4550",
+        ],
+        "GPB": [
+            "GIMI POGLIANO BLINDOSBARRA",
+            "https://www.gimipogliano.com.br/",
+            "21.046.295/0001-07",
+            "Estrada Portão do Ronda, 3.500 (galpão 2) - Jardim Revista",
+            "08694-080",
+            "(11) 4752-9900",
+        ],
+        "GIR": [
+            "GIR-GIMI ITAIPU RENOVAVEIS",
+            "https://www.grupogimi.com.br/",
+            "50.791.922/0001-32",
+            "Rua Maria de Lourdes Vessoni Porto Francischetti, 750 - Distrito Industrial II",
+            "14900-000",
+            "(16) 3263-9400",
+        ],
+    }
 
-    current_height = height - margin - inch
+    company_details = company_info_dict.get(instance.company.upper())
+    city = "Itápolis" if instance.company == "GIR" else "Suzano"
 
-    c.setFont("Helvetica", 14)
-    title = "Cotação de Serviço - Grupo Gimi"
-    text_width = c.stringWidth(title, "Helvetica", 14)
-    c.drawString((width - text_width) / 2, current_height, title)
-    current_height -= line_height * 2
+    company_details_content = "<br/>".join(
+        [
+            f"<b>{company_details[0]}</b>",
+            f"<link href='{company_details[1]}'>{company_details[1]}</link>",
+            f"CNPJ: {company_details[2]}",
+            f"{company_details[3]}",
+            f"{city} - SP - CEP: {company_details[4]}",
+            f"Telefone: {company_details[5]}",
+        ]
+    )
+    company_details_paragraph = Paragraph(company_details_content, small_style)
 
-    c.line(margin, current_height, width - margin, current_height)
-    current_height -= line_height * 2
+    logo_path = f"setup/images/logo_{instance.company.lower()}.png"
+    logo = (
+        Image(logo_path, width=2 * inch, height=1 * inch)
+        if os.path.exists(logo_path)
+        else Spacer(1, 2 * inch)
+    )
 
-    c.setFont("Helvetica", 10)
+    header_data = [[logo, company_details_paragraph]]
+    header_table = Table(header_data, colWidths=[2 * inch, 5 * inch])
+    header_table.setStyle(
+        TableStyle(
+            [
+                ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+                ("LEFTPADDING", (1, 0), (1, 0), 14),
+            ]
+        )
+    )
 
-    formattedDate = instance.request_date.strftime("%d/%m/%Y")
+    elements = [header_table, Spacer(1, 0.25 * inch)]
+
+    elements.append(Spacer(1, 0.25 * inch))
+
+    title = f"Cotação de Serviço Nº {instance.control_number}"
+    title_para = Paragraph(title, styles["Title"])
+    elements.append(title_para)
+    elements.append(Spacer(1, 0.2 * inch))
+
+    local_timezone = pytz.timezone("America/Sao_Paulo")
+    local_quotation_date = instance.quotation_date.astimezone(local_timezone)
+    formatted_quotation_date = local_quotation_date.strftime("%d/%m/%Y às %H:%M:%S")
+
+    formatted_request_date = instance.request_date.strftime("%d/%m/%Y")
 
     details = [
-        f"Serviço: {escape(instance.service.description)}",
-        f"Observações: {escape(instance.obs)}",
-        f"Data da necessidade: {escape(formattedDate)}",
+        Paragraph(f"Serviço: {instance.service.description}", styles["Normal"]),
+        Paragraph(f"Observações: {instance.obs}", styles["Normal"]),
+        Paragraph(f"Sugestão de entrega: {formatted_request_date}", styles["Normal"]),
+        Paragraph(f"Carta de cotação - incluído em: {formatted_quotation_date}", styles["Normal"]),
     ]
-
     for detail in details:
-        if current_height <= margin + (2 * line_height):
-            page_number, current_height = add_page(c, width, height, page_number, margin, company)
-        c.drawString(margin, current_height, detail)
-        current_height -= line_height
+        elements.append(detail)
+        elements.append(Spacer(1, 0.1 * inch))
 
-    c.save()
+    document.build(elements)
     return filename
