@@ -11,6 +11,7 @@ from .services.email_service import (
     send_quotation_email_with_pdf,
     send_status_change_email,
 )
+from .services.omie_service import include_purchase_requisition
 
 
 class PurchaseListCreateView(generics.ListCreateAPIView):
@@ -43,13 +44,15 @@ class PurchaseDetailView(generics.RetrieveUpdateDestroyAPIView):
 
         super().perform_update(serializer)
         new_instance = self.get_object()
-        purchase_pk = self.kwargs.get("pk")
 
         if old_status != new_instance.status:
-            send_status_change_email(new_instance, purchase_pk)
+            send_status_change_email(new_instance)
+
+            if new_instance.status == "Approved":
+                include_purchase_requisition(new_instance)
 
         if old_quotation_emails is None and isinstance(new_instance.quotation_emails, str):
-            send_quotation_email_with_pdf(new_instance, purchase_pk)
+            send_quotation_email_with_pdf(new_instance)
 
         return Response(status=status.HTTP_200_OK)
 

@@ -75,8 +75,6 @@ def send_status_change_email(instance):
             Sua solicitação foi cotada e já pode ser aprovada<br>
         """
         table_html = build_quotation_table(instance.id)
-    else:
-        return
 
     common_body = f"""
         Empresa: {instance.company}<br>
