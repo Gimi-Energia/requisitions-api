@@ -48,7 +48,7 @@ class PurchaseDetailView(generics.RetrieveUpdateDestroyAPIView):
         if old_status != new_instance.status:
             send_status_change_email(new_instance, purchase_pk)
 
-        if old_quotation_emails is None and new_instance.quotation_emails != "":
+        if old_quotation_emails is None and isinstance(new_instance.quotation_emails, str):
             send_quotation_email_with_pdf(new_instance, purchase_pk)
 
         return Response(status=status.HTTP_200_OK)
