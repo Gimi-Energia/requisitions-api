@@ -66,7 +66,9 @@ class Service(models.Model):
         return str(self.id)
 
     def save(self, *args, **kwargs):
-        if not Service.objects.get(id=self.pk):
+        try:
+            Service.objects.get(id=self.pk)
+        except Exception:
             with transaction.atomic():
                 last = Service.objects.select_for_update().order_by("-control_number").first()
                 if last:
