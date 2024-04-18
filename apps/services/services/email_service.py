@@ -27,8 +27,6 @@ def send_status_change_email(instance):
             Olá, {instance.requester.name}!<br>
             Sua solicitação foi cotada e já pode ser aprovada<br>
         """
-    else:
-        return
 
     common_body = f"""
         Dados da solicitação:<br>

@@ -103,6 +103,9 @@ def generate_pdf(instance):
     purchase_products = PurchaseProduct.objects.filter(purchase=instance.id)
     item_number = 1
 
+    if not purchase_products:
+        return False
+
     for purchase_product in purchase_products:
         product = Product.objects.filter(code=purchase_product.product.code).first()
         row = [

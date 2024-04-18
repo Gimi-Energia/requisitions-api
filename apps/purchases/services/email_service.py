@@ -36,7 +36,7 @@ def build_quotation_table(
         table_rows.append(table_row)
 
     if not table_rows:
-        return ""
+        return False
 
     price_header = "<th>Preço Un.</th>" if include_price else ""
 
@@ -81,6 +81,9 @@ def send_status_change_email(instance):
             Sua solicitação foi cotada e já pode ser aprovada<br>
         """
         table_html = build_quotation_table(instance.id)
+
+    if not table_html:
+        return
 
     common_body = f"""
         Empresa: {instance.company}<br>
@@ -142,6 +145,9 @@ def send_purchase_quotation_email(instance):
         instance.id, include_approved_only=False, include_price=False
     )
 
+    if not table_html:
+        return
+
     common_body = f"""
         Dados da solicitação:<br>
         Empresa: {instance.company}<br>
@@ -199,6 +205,10 @@ def send_quotation_email_with_pdf(instance):
     email_from = settings.EMAIL_HOST_USER
 
     pdf_file = generate_pdf(instance)
+
+    if not pdf_file:
+        return
+
     with open(pdf_file, "rb") as pdf_file_content:
         pdf_data = pdf_file_content.read()
 
@@ -235,6 +245,10 @@ def send_generic_product_email(instance):
     table_html = build_quotation_table(
         instance.id, include_approved_only=False, include_price=False, include_generic_only=True
     )
+
+    if not table_html:
+        return
+
     email_body = f"""
         Olá, {instance.requester.name}!<br>
         Recebemos uma solicitação de compra sua que contém produtos genéricos.<br>
