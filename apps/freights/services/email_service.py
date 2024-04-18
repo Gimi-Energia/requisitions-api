@@ -29,7 +29,7 @@ def build_quotation_table(freight_pk, include_approved_only=False):
     """
 
 
-def send_status_change_email(instance, freight_pk):
+def send_status_change_email(instance):
     email_subject = ""
     email_body_intro = ""
     table_html = ""
@@ -42,7 +42,7 @@ def send_status_change_email(instance, freight_pk):
             Sua solicitação foi aprovada por {instance.approver} 
             em {instance.approval_date.strftime("%d/%m/%Y")}.
         """
-        table_html = build_quotation_table(freight_pk, include_approved_only=True)
+        table_html = build_quotation_table(instance.id, include_approved_only=True)
         important_note = "IMPORTANTE: Acessar a ferramenta para inserir o número do CTE assim que receber da transportadora, o pagamento da NF estará vinculado a este número de controle."
     elif instance.status == "Denied":
         email_subject = "Solicitação de Frete Rejeitada"
@@ -51,7 +51,7 @@ def send_status_change_email(instance, freight_pk):
             Sua solicitação foi rejeitada por {instance.approver} 
             em {instance.approval_date.strftime("%d/%m/%Y")}.
         """
-        table_html = build_quotation_table(freight_pk, include_approved_only=False)
+        table_html = build_quotation_table(instance.id, include_approved_only=False)
         important_note = "Por favor, verifique as informações e, se necessário, ajuste sua solicitação e submeta novamente."
 
     common_body = f"""
