@@ -33,6 +33,8 @@ def send_status_change_email(instance):
         Empresa: {instance.company}<br>
         Departamento: {instance.department}<br>
         Data solicitada: {instance.request_date.strftime("%d/%m/%Y")}<br>
+        Aprovador: {instance.approver}<br>
+        Número de controle: {instance.control_number}<br>
         Serviço: {instance.service.description}<br>
         Prestador: {instance.provider}<br>
         Valor: R$ {instance.value}
@@ -74,7 +76,7 @@ def send_status_change_email(instance):
         email_subject,
         "This is a plain text for email clients that don't support HTML",
         settings.EMAIL_HOST_USER,
-        [instance.requester.email],
+        [instance.requester, instance.approver],
         fail_silently=False,
         html_message=html_message,
     )
@@ -93,6 +95,8 @@ def send_service_quotation_email(instance):
         Empresa: {instance.company}<br>
         Departamento: {instance.department}<br>
         Data solicitada: {instance.request_date.strftime("%d/%m/%Y")}<br>
+        Aprovador: {instance.approver}<br>
+        Número de controle: {instance.control_number}<br>
         Serviço: {instance.service.description}<br>
         Motivo: {instance.motive}<br>
         Observações: {instance.obs}<br>
@@ -133,7 +137,7 @@ def send_service_quotation_email(instance):
         email_subject,
         "This is a plain text for email clients that don't support HTML",
         settings.EMAIL_HOST_USER,
-        [instance.requester.email],
+        [instance.requester],
         fail_silently=False,
         html_message=html_message,
     )

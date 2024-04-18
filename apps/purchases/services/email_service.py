@@ -3,6 +3,7 @@ from django.core.mail import EmailMessage, send_mail
 
 from apps.products.models import Product
 from apps.purchases.models import PurchaseProduct
+from apps.users.models import User
 
 from .pdf_service import generate_pdf
 
@@ -89,6 +90,8 @@ def send_status_change_email(instance):
         Empresa: {instance.company}<br>
         Departamento: {instance.department}<br>
         Data solicitada: {instance.request_date.strftime("%d/%m/%Y")}<br>
+        Aprovador: {instance.approver}<br>
+        Número de controle: {instance.control_number}<br>
         Motivo: {instance.motive}<br>
         Obsevações: {instance.obs}<br>
         Produtos: <br>{table_html}
@@ -128,7 +131,7 @@ def send_status_change_email(instance):
         email_subject,
         "This is a plain text for email clients that don't support HTML",
         settings.EMAIL_HOST_USER,
-        [instance.requester.email],
+        [instance.requester, instance.approver],
         fail_silently=False,
         html_message=html_message,
     )
@@ -145,6 +148,9 @@ def send_purchase_quotation_email(instance):
         instance.id, include_approved_only=False, include_price=False
     )
 
+    emails = [user.email for user in User.objects.filter(email__icontains="compras")]
+    emails.append(instance.requester)
+
     if not table_html:
         return
 
@@ -153,6 +159,8 @@ def send_purchase_quotation_email(instance):
         Empresa: {instance.company}<br>
         Departamento: {instance.department}<br>
         Data solicitada: {instance.request_date.strftime("%d/%m/%Y")}<br>
+        Aprovador: {instance.approver}<br>
+        Número de controle: {instance.control_number}<br>
         Motivo: {instance.motive}<br>
         Obsevações: {instance.obs}<br>
         Produtos: <br>{table_html}
@@ -193,7 +201,7 @@ def send_purchase_quotation_email(instance):
         email_subject,
         "This is a plain text for email clients that don't support HTML",
         settings.EMAIL_HOST_USER,
-        [instance.requester.email],
+        emails,
         fail_silently=False,
         html_message=html_message,
     )
@@ -258,7 +266,7 @@ def send_generic_product_email(instance):
         Para prosseguirmos com esse processo, será necessário 3 passos:<br> 
             1 - Solicite o cadastro do material<br>
             2 - Crie a requisição diretamente no Omie<br>
-            3 - Avise o compras que se trata da cotação {instance.control_number} do nosso app
+            3 - Avise o compras que se trata da cotação Nº {instance.control_number} do nosso app
     """
 
     html_message = f"""
@@ -282,7 +290,7 @@ def send_generic_product_email(instance):
         email_subject,
         "This is a plain text for email clients that don't support HTML",
         settings.EMAIL_HOST_USER,
-        [instance.requester.email],
+        [instance.requester],
         fail_silently=False,
         html_message=html_message,
     )
