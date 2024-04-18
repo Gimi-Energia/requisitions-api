@@ -1,3 +1,4 @@
+from django.db import transaction
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, generics, status
 from rest_framework.permissions import IsAuthenticated
@@ -25,17 +26,19 @@ class FreightDetailView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticated]
 
     def perform_update(self, serializer):
-        instance = serializer.instance
-        old_status = instance.status
-        
-        super().perform_update(serializer)
-        new_instance = self.get_object()
-        freight_pk = self.kwargs.get("pk")
+        old_status = serializer.instance.status
 
-        if old_status != new_instance.status:
-            send_status_change_email(new_instance, freight_pk)
+        with transaction.atomic():
+            instance = serializer.save()
 
-        return Response(status=status.HTTP_200_OK)
+            if old_status != instance.status:
+                send_status_change_email(instance)
+
+    def update(self, request, *args, **kwargs):
+        try:
+            return super().update(request, *args, **kwargs)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class FreightQuotationListCreateView(generics.ListCreateAPIView):

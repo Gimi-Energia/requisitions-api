@@ -1,3 +1,4 @@
+from django.db import transaction
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, generics, status
 from rest_framework.permissions import IsAuthenticated
@@ -24,12 +25,18 @@ class PurchaseListCreateView(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
-        serializer.save()
-        new_instance = serializer.instance
-        if new_instance.status == "Quotation":
-            send_purchase_quotation_email(new_instance)
+        with transaction.atomic():
+            serializer.save()
+            instance = serializer.instance
 
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+            if instance.status == "Quotation":
+                send_purchase_quotation_email(instance)
+
+    def create(self, request, *args, **kwargs):
+        try:
+            return super().create(request, *args, **kwargs)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class PurchaseDetailView(generics.RetrieveUpdateDestroyAPIView):
@@ -38,23 +45,26 @@ class PurchaseDetailView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticated]
 
     def perform_update(self, serializer):
-        instance = serializer.instance
-        old_status = instance.status
-        old_quotation_emails = instance.quotation_emails
+        old_status = serializer.instance.status
+        old_quotation_emails = serializer.instance.quotation_emails
 
-        super().perform_update(serializer)
-        new_instance = self.get_object()
+        with transaction.atomic():
+            instance = serializer.save()
 
-        if old_status != new_instance.status:
-            send_status_change_email(new_instance)
+            if old_status != instance.status:
+                send_status_change_email(instance)
 
-            if new_instance.status == "Approved":
-                include_purchase_requisition(new_instance)
+                if instance.status == "Approved":
+                    include_purchase_requisition(instance)
 
-        if old_quotation_emails is None and isinstance(new_instance.quotation_emails, str):
-            send_quotation_email_with_pdf(new_instance)
+            if old_quotation_emails is None and isinstance(instance.quotation_emails, str):
+                send_quotation_email_with_pdf(instance)
 
-        return Response(status=status.HTTP_200_OK)
+    def update(self, request, *args, **kwargs):
+        try:
+            return super().update(request, *args, **kwargs)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class PurchaseProductListCreateView(generics.ListCreateAPIView):
