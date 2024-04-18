@@ -7,8 +7,12 @@ from apps.purchases.models import PurchaseProduct
 
 
 def include_purchase_requisition(instance):
-    omie_app_key = str(os.getenv(f"OMIE_APP_KEY_{instance.company}"))
-    omie_app_secret = str(os.getenv(f"OMIE_APP_SECRET_{instance.company}"))
+    omie_app_key = str(
+        os.getenv(f"OMIE_APP_KEY_{instance.company}", str(os.getenv("OMIE_APP_KEY_GIMI")))
+    )
+    omie_app_secret = str(
+        os.getenv(f"OMIE_APP_SECRET_{instance.company}", str(os.getenv("OMIE_APP_SECRET_GIMI")))
+    )
     url = "https://app.omie.com.br/api/v1/produtos/requisicaocompra/"
 
     purchase_products = PurchaseProduct.objects.filter(purchase=instance.id, status="Approved")
@@ -26,14 +30,14 @@ def include_purchase_requisition(instance):
         data.append(row)
         item_number += 1
 
-    print(data)
+    categories = {"Gimi": "2.01.73", "GBL": "2.10.93", "GPB": "2.04.95"}
 
     payload = json.dumps(
         {
             "call": "IncluirReq",
             "param": [
                 {
-                    "codCateg": "2.01.73",
+                    "codCateg": categories.get(instance.company, "2.01.73"),
                     "codIntReqCompra": f"INT-{instance.control_number}",
                     "dtSugestao": instance.request_date.strftime("%d/%m/%Y"),
                     "obsReqCompra": instance.obs,
