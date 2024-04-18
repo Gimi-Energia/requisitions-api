@@ -7,9 +7,15 @@ from apps.purchases.models import PurchaseProduct
 from .pdf_service import generate_pdf
 
 
-def build_quotation_table(purchase_pk, include_approved_only=True, include_price=True):
+def build_quotation_table(
+    purchase_pk, include_approved_only=True, include_price=True, include_generic_only=False
+):
     if include_approved_only:
         purchase_products = PurchaseProduct.objects.filter(purchase=purchase_pk, status="Approved")
+    elif include_generic_only:
+        purchase_products = PurchaseProduct.objects.filter(
+            purchase=purchase_pk, product__code__icontains="GENERIC"
+        )
     else:
         purchase_products = PurchaseProduct.objects.filter(purchase=purchase_pk)
 
@@ -222,3 +228,47 @@ def send_quotation_email_with_pdf(instance):
             "application/pdf",
         )
         email.send()
+
+
+def send_generic_product_email(instance):
+    email_subject = "Cadastro de Produto Genérico"
+    table_html = build_quotation_table(
+        instance.id, include_approved_only=False, include_price=False, include_generic_only=True
+    )
+    email_body = f"""
+        Olá, {instance.requester.name}!<br>
+        Recebemos uma solicitação de compra sua que contém produtos genéricos.<br>
+
+        {table_html}<br>
+
+        Para prosseguirmos com esse processo, será necessário 3 passos:<br> 
+            1 - Solicite o cadastro do material<br>
+            2 - Crie a requisição diretamente no Omie<br>
+            3 - Avise o compras que se trata da cotação {instance.control_number} do nosso app
+    """
+
+    html_message = f"""
+        <html>
+            <head>
+                <style>
+                    * {{ font-size: 1rem; }}
+                    table {{ border-collapse: collapse; }}
+                    th, td {{ border: 1px solid black; padding: 5px; text-align: left; font-size: 0.9rem; }}
+                </style>
+            </head>
+            <body>
+                <div>
+                    {email_body}<br>
+                </div>
+            </body>
+        </html>
+    """
+
+    send_mail(
+        email_subject,
+        "This is a plain text for email clients that don't support HTML",
+        settings.EMAIL_HOST_USER,
+        [instance.requester.email],
+        fail_silently=False,
+        html_message=html_message,
+    )

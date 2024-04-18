@@ -8,6 +8,7 @@ from apps.purchases.models import Purchase, PurchaseProduct
 from apps.purchases.serializers import PurchaseProductSerializer, PurchaseSerializer
 
 from .services.email_service import (
+    send_generic_product_email,
     send_purchase_quotation_email,
     send_quotation_email_with_pdf,
     send_status_change_email,
@@ -31,6 +32,7 @@ class PurchaseListCreateView(generics.ListCreateAPIView):
 
             if instance.status == "Quotation":
                 send_purchase_quotation_email(instance)
+                send_generic_product_email(instance)
 
     def create(self, request, *args, **kwargs):
         try:
