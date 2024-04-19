@@ -60,7 +60,6 @@ def send_status_change_email(instance):
         Departamento: {instance.department}<br>
         Data solicitada: {instance.request_date.strftime("%d/%m/%Y")}<br>
         Aprovador: {instance.approver}<br>
-        Número de controle: {instance.control_number}<br>
         Motivo: {instance.motive}<br>
         Obsevações: {instance.obs}<br>
         Cotação:<br>{table_html}
