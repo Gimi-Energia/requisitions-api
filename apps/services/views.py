@@ -31,6 +31,9 @@ class ServiceList(generics.ListCreateAPIView):
             if instance.status == "Quotation":
                 send_service_quotation_email(instance)
 
+            if instance.status == "Opened":
+                send_status_change_email(instance)
+
     def create(self, request, *args, **kwargs):
         try:
             return super().create(request, *args, **kwargs)

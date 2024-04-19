@@ -19,6 +19,20 @@ class FreightListCreateView(generics.ListCreateAPIView):
     filterset_fields = []
     permission_classes = [IsAuthenticated]
 
+    def perform_create(self, serializer):
+        with transaction.atomic():
+            serializer.save()
+            instance = serializer.instance
+
+            if instance.status == "Opened":
+                send_status_change_email(instance)
+
+    def create(self, request, *args, **kwargs):
+        try:
+            return super().create(request, *args, **kwargs)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
 
 class FreightDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Freight.objects.all()
