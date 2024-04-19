@@ -53,6 +53,8 @@ def send_status_change_email(instance):
         """
         table_html = build_quotation_table(instance.id, include_approved_only=False)
         important_note = "Por favor, verifique as informações e, se necessário, ajuste sua solicitação e submeta novamente."
+    else:
+        return
 
     common_body = f"""
         Dados da solicitação:<br>
