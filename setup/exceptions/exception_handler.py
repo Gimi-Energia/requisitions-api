@@ -26,7 +26,14 @@ def custom_exception_handler(exc, context):
             data = {"error": msg}
             response = Response(data, status=status.HTTP_404_NOT_FOUND)
         elif isinstance(exc, ValidationError):
-            msg = "Dados inválidos: " + str(exc)
+            errors = set()
+            for field, messages in exc.detail.items():
+                if isinstance(messages, list):
+                    for message in messages:
+                        errors.add(f"{field}: {str(message)}")
+                else:
+                    errors.add(f"{field}: {str(messages)}")
+            msg = "Dados inválidos: " + "; ".join(errors)
             data = {"error": msg}
             response = Response(data, status=status.HTTP_400_BAD_REQUEST)
         elif isinstance(exc, ParseError):
@@ -53,26 +60,36 @@ def custom_exception_handler(exc, context):
             data = {"error": "Ocorreu um erro no servidor."}
             response = Response(data, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     else:
-        if "detail" in response.data:
-            data = {"error": str(response.data["detail"])}
+        if isinstance(response.data, dict) and "detail" in response.data:
+            if isinstance(response.data["detail"], dict):
+                errors = set()
+                for field, content in response.data["detail"].items():
+                    if isinstance(content, list):
+                        for error in content:
+                            errors.add(f"{field}: {str(error)}")
+                    else:
+                        errors.add(f"{field}: {str(content)}")
+                data = {"error": "; ".join(errors)}
+            else:
+                data = {"error": str(response.data["detail"])}
         else:
-            errors = []
+            errors = set()
             for field, content in response.data.items():
                 if isinstance(content, list):
                     for item in content:
                         if isinstance(item, dict) and "non_field_errors" in item:
-                            errors.extend(item["non_field_errors"])
+                            errors.update(item["non_field_errors"])
                         elif isinstance(item, dict):
                             for key, value in item.items():
                                 if isinstance(value, list):
-                                    errors.append(f"{key}: {' '.join(str(v) for v in value)}")
+                                    errors.add(f"{key}: {' '.join(str(v) for v in value)}")
                                 else:
-                                    errors.append(f"{key}: {str(value)}")
+                                    errors.add(f"{key}: {str(value)}")
                         else:
-                            errors.append(str(item))
+                            errors.add(str(item))
                 else:
-                    errors.append(f"{field}: {str(content)}")
-            data = {"error": " ".join(errors)}
+                    errors.add(f"{field}: {str(content)}")
+            data = {"error": "; ".join(errors)}
 
         response = Response(data, status=response.status_code)
 
