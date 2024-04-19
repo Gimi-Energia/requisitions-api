@@ -54,9 +54,8 @@ class Purchase(models.Model):
         return str(self.id)
 
     def save(self, *args, **kwargs):
-        try:
-            Purchase.objects.get(id=self.pk)
-        except Exception:
+        exists = Purchase.objects.filter(id=self.pk).exists()
+        if not exists:
             with transaction.atomic():
                 last = Purchase.objects.select_for_update().order_by("-control_number").first()
                 if last:
