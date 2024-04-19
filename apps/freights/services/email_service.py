@@ -1,3 +1,4 @@
+import pytz
 from django.conf import settings
 from django.core.mail import send_mail
 
@@ -55,10 +56,13 @@ def send_status_change_email(instance):
         table_html = build_quotation_table(instance.id, include_approved_only=False)
         important_note = "Por favor, verifique as informações e, se necessário, ajuste sua solicitação e submeta novamente."
     elif instance.status == "Opened":
+        local_timezone = pytz.timezone("America/Sao_Paulo")
+        local_created_at = instance.created_at.astimezone(local_timezone)
+        formatted_created_at = local_created_at.strftime("%d/%m/%Y às %H:%M:%S")
         email_subject = "Solicitação de Frete Criada"
         email_body_intro = f"""
             Olá!<br>
-            Uma solicitação foi criada em {instance.approval_date.strftime("%d/%m/%Y")} 
+            Uma solicitação foi criada em {formatted_created_at} 
             por {instance.requester} para {instance.approver} aprovar.
         """
         table_html = build_quotation_table(instance.id, include_approved_only=False)
