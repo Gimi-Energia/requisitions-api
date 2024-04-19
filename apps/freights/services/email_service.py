@@ -34,6 +34,7 @@ def send_status_change_email(instance):
     email_body_intro = ""
     table_html = ""
     important_note = ""
+    emails = [instance.requester]
 
     if instance.status == "Pending":
         email_subject = "Solicitação de Frete Aprovada"
@@ -53,6 +54,15 @@ def send_status_change_email(instance):
         """
         table_html = build_quotation_table(instance.id, include_approved_only=False)
         important_note = "Por favor, verifique as informações e, se necessário, ajuste sua solicitação e submeta novamente."
+    elif instance.status == "Opened":
+        email_subject = "Solicitação de Frete Criada"
+        email_body_intro = f"""
+            Olá!<br>
+            Uma solicitação foi criada em {instance.approval_date.strftime("%d/%m/%Y")} 
+            por {instance.requester} para {instance.approver} aprovar.
+        """
+        table_html = build_quotation_table(instance.id, include_approved_only=False)
+        emails.append(instance.approver)
     else:
         return
 
@@ -90,7 +100,7 @@ def send_status_change_email(instance):
         email_subject,
         "This is a plain text for email clients that don't support HTML",
         settings.EMAIL_HOST_USER,
-        [instance.requester, instance.approver],
+        emails,
         fail_silently=False,
         html_message=html_message,
     )

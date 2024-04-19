@@ -7,6 +7,7 @@ from .pdf_service import generate_pdf
 def send_status_change_email(instance):
     email_subject = ""
     email_body_intro = ""
+    emails = [instance.requester]
 
     if instance.status == "Approved":
         email_subject = "Solicitação de Serviço Aprovada"
@@ -25,8 +26,9 @@ def send_status_change_email(instance):
         email_subject = "Solicitação de Serviço Cotada"
         email_body_intro = f"""
             Olá, {instance.requester.name}!<br>
-            Sua solicitação foi cotada e já pode ser aprovada<br>
+            Sua solicitação foi cotada e já pode ser aprovada por {instance.approver}<br>
         """
+        emails.append(instance.approver)
     else:
         return
 
@@ -78,7 +80,7 @@ def send_status_change_email(instance):
         email_subject,
         "This is a plain text for email clients that don't support HTML",
         settings.EMAIL_HOST_USER,
-        [instance.requester, instance.approver],
+        emails,
         fail_silently=False,
         html_message=html_message,
     )
@@ -91,6 +93,10 @@ def send_service_quotation_email(instance):
         Uma solicitação está agora em cotação e precisa de mais informações antes de ser processada.<br>
     """
     button_html = '<a href="https://gimi-requisitions.vercel.app" target="_blank" class="btn">Acessar Webapp</a><br>'
+
+    # emails = [user.email for user in User.objects.filter(email__icontains="compras")]
+    emails = []
+    emails.append(instance.requester)
 
     common_body = f"""
         Dados da solicitação:<br>
@@ -139,7 +145,7 @@ def send_service_quotation_email(instance):
         email_subject,
         "This is a plain text for email clients that don't support HTML",
         settings.EMAIL_HOST_USER,
-        [instance.requester],
+        emails,
         fail_silently=False,
         html_message=html_message,
     )

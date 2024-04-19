@@ -58,6 +58,7 @@ def send_status_change_email(instance):
     email_subject = ""
     email_body_intro = ""
     table_html = ""
+    emails = [instance.requester]
 
     if instance.status == "Approved":
         email_subject = "Solicitação de Compra Aprovada"
@@ -79,9 +80,10 @@ def send_status_change_email(instance):
         email_subject = "Solicitação de Compra Cotada"
         email_body_intro = f"""
             Olá, {instance.requester.name}!<br>
-            Sua solicitação foi cotada e já pode ser aprovada<br>
+            Sua solicitação foi cotada e já pode ser aprovada por {instance.approver}<br>
         """
         table_html = build_quotation_table(instance.id)
+        emails.append(instance.approver)
     else:
         return
 
@@ -133,7 +135,7 @@ def send_status_change_email(instance):
         email_subject,
         "This is a plain text for email clients that don't support HTML",
         settings.EMAIL_HOST_USER,
-        [instance.requester, instance.approver],
+        emails,
         fail_silently=False,
         html_message=html_message,
     )
