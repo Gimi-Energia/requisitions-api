@@ -148,7 +148,8 @@ def send_purchase_quotation_email(instance):
         instance.id, include_approved_only=False, include_price=False
     )
 
-    emails = [user.email for user in User.objects.filter(email__icontains="compras")]
+    # emails = [user.email for user in User.objects.filter(email__icontains="compras")]
+    emails = []
     emails.append(instance.requester)
 
     if not table_html:
