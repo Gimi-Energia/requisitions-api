@@ -32,7 +32,6 @@ class PurchaseListCreateView(generics.ListCreateAPIView):
 
             if instance.status == "Quotation":
                 send_purchase_quotation_email(instance)
-                send_generic_product_email(instance)
 
     def create(self, request, *args, **kwargs):
         try:
@@ -58,6 +57,7 @@ class PurchaseDetailView(generics.RetrieveUpdateDestroyAPIView):
 
                 if instance.status == "Approved":
                     include_purchase_requisition(instance)
+                    send_generic_product_email(instance)
 
             if old_quotation_emails is None and isinstance(instance.quotation_emails, str):
                 send_quotation_email_with_pdf(instance)

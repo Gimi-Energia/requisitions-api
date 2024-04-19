@@ -260,7 +260,8 @@ def send_generic_product_email(instance):
 
     email_body = f"""
         Olá, {instance.requester.name}!<br>
-        Recebemos uma solicitação de compra sua que contém produtos genéricos.<br>
+        Sua requisição de compra Nº {instance.control_number} foi aprovada, 
+        porém contém produtos genéricos.<br>
 
         {table_html}<br>
 
