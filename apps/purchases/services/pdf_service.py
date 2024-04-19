@@ -99,6 +99,14 @@ def generate_pdf(instance):
     elements.append(title_para)
     elements.append(Spacer(1, 0.2 * inch))
 
+    description_style = ParagraphStyle(
+        "DescriptionStyle",
+        parent=styles["Normal"],
+        fontSize=8,
+        leading=10,
+        wordWrap="CJK",
+    )
+
     data = [["Item", "Código", "Descrição", "Quantidade"]]
     purchase_products = PurchaseProduct.objects.filter(purchase=instance.id)
     item_number = 1
@@ -108,10 +116,11 @@ def generate_pdf(instance):
 
     for purchase_product in purchase_products:
         product = Product.objects.filter(code=purchase_product.product.code).first()
+        description_paragraph = Paragraph(product.description, description_style)
         row = [
             str(item_number),
             purchase_product.product.code,
-            product.description,
+            description_paragraph,
             f"{purchase_product.quantity} {product.un}",
         ]
         data.append(row)
@@ -122,7 +131,7 @@ def generate_pdf(instance):
     text_color_header = colors.whitesmoke
     line_color = colors.black
 
-    table = Table(data)
+    table = Table(data, colWidths=[0.5 * inch, 1.75 * inch, 4 * inch, 1.25 * inch])
     table.setStyle(
         TableStyle(
             [
