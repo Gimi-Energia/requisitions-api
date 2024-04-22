@@ -58,7 +58,9 @@ def send_status_change_email(instance):
     email_subject = ""
     email_body_intro = ""
     table_html = ""
-    emails = [instance.requester]
+
+    emails = [user.email for user in User.objects.filter(email__icontains="dev")]
+    emails.append(instance.requester)
 
     if instance.status == "Approved":
         email_subject = "Solicitação de Compra Aprovada"
@@ -77,12 +79,14 @@ def send_status_change_email(instance):
         """
         table_html = build_quotation_table(instance.id, include_approved_only=False)
     elif instance.status == "Opened":
-        email_subject = "Solicitação de Compra Cotada"
+        email_subject = "Solicitação de Compra Cotada/Criada"
+        print(email_subject)
         email_body_intro = f"""
             Olá, {instance.requester.name}!<br>
-            Sua solicitação foi cotada e já pode ser aprovada por {instance.approver}<br>
+            A requisição Nº {instance.control_number} 
+            já pode ser aprovada por {instance.approver}<br>
         """
-        table_html = build_quotation_table(instance.id)
+        table_html = build_quotation_table(instance.id, include_approved_only=False)
         emails.append(instance.approver)
     else:
         return
@@ -239,11 +243,13 @@ def send_quotation_email_with_pdf(instance):
     """
 
     for recipient in recipient_list:
+        all_recipients = [recipient, instance.requester] + emails_gimi
+
         email = EmailMessage(
             subject=subject,
             body=body_message,
             from_email=email_from,
-            to=[recipient, instance.requester].extend(emails_gimi),
+            to=all_recipients,
         )
         email.attach(
             f"carta_cotacao_compra_{instance.control_number}.pdf",

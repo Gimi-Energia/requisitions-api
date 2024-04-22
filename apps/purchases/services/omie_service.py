@@ -58,8 +58,10 @@ def include_purchase_requisition(instance):
 
 
 def get_omie_product_code(code, company):
-    omie_app_key = str(os.getenv(f"OMIE_APP_KEY_{company}"))
-    omie_app_secret = str(os.getenv(f"OMIE_APP_SECRET_{company}"))
+    omie_app_key = str(os.getenv(f"OMIE_APP_KEY_{company}", str(os.getenv("OMIE_APP_KEY_GIMI"))))
+    omie_app_secret = str(
+        os.getenv(f"OMIE_APP_SECRET_{company}", str(os.getenv("OMIE_APP_SECRET_GIMI")))
+    )
     url = "https://app.omie.com.br/api/v1/geral/produtos/"
 
     payload = json.dumps(

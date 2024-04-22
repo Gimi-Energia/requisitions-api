@@ -9,7 +9,9 @@ from .pdf_service import generate_pdf
 def send_status_change_email(instance):
     email_subject = ""
     email_body_intro = ""
-    emails = [instance.requester]
+    
+    emails = [user.email for user in User.objects.filter(email__icontains="dev")]
+    emails.append(instance.requester)
 
     if instance.status == "Approved":
         email_subject = "Solicitação de Serviço Aprovada"
@@ -176,11 +178,13 @@ def send_quotation_email_with_pdf(instance):
     """
 
     for recipient in recipient_list:
+        all_recipients = [recipient, instance.requester] + emails_gimi
+
         email = EmailMessage(
             subject=subject,
             body=body_message,
             from_email=email_from,
-            to=[recipient, instance.requester].extend(emails_gimi),
+            to=all_recipients,
         )
         email.attach(
             f"carta_cotacao_servico_{instance.control_number}.pdf",
