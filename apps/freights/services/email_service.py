@@ -42,7 +42,7 @@ def send_status_change_email(instance):
         email_body_intro = f"""
             Olá, {instance.requester.name}!<br>
             Sua solicitação foi aprovada por {instance.approver} 
-            em {instance.approval_date.strftime("%d/%m/%Y")}.
+            em {instance.approval_date.strftime("%d/%m/%Y")}.<br>
         """
         table_html = build_quotation_table(instance.id, include_approved_only=True)
         important_note = "IMPORTANTE: Acessar a ferramenta para inserir o número do CTE assim que receber da transportadora, o pagamento da NF estará vinculado a este número de controle."
@@ -51,7 +51,8 @@ def send_status_change_email(instance):
         email_body_intro = f"""
             Olá, {instance.requester.name}!<br>
             Sua solicitação foi rejeitada por {instance.approver} 
-            em {instance.approval_date.strftime("%d/%m/%Y")}.
+            em {instance.approval_date.strftime("%d/%m/%Y")}.<br>
+            Motivo da recusa: {instance.motive_denied}<br>
         """
         table_html = build_quotation_table(instance.id, include_approved_only=False)
         important_note = "Por favor, verifique as informações e, se necessário, ajuste sua solicitação e submeta novamente."
@@ -62,8 +63,8 @@ def send_status_change_email(instance):
         email_subject = "Solicitação de Frete Criada"
         email_body_intro = f"""
             Olá!<br>
-            Uma solicitação foi criada em {formatted_created_at} 
-            por {instance.requester} para {instance.approver} aprovar.
+            Uma solicitação foi criada em {formatted_created_at}<br>
+            De {instance.requester} para {instance.approver} aprovar.<br>
         """
         table_html = build_quotation_table(instance.id, include_approved_only=False)
         emails.append(instance.approver)
