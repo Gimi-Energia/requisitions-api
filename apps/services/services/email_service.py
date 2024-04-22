@@ -1,6 +1,8 @@
 from django.conf import settings
 from django.core.mail import EmailMessage, send_mail
 
+from apps.users.models import User
+
 from .pdf_service import generate_pdf
 
 
@@ -41,7 +43,7 @@ def send_status_change_email(instance):
         Número de controle: {instance.control_number}<br>
         Serviço: {instance.service.description}<br>
         Prestador: {instance.provider}<br>
-        Valor: R$ {instance.value}
+        Valor: R$ {instance.value}<br>
         Motivo: {instance.motive}<br>
         Obsevações: {instance.obs}<br>
     """
@@ -94,8 +96,7 @@ def send_service_quotation_email(instance):
     """
     button_html = '<a href="https://gimi-requisitions.vercel.app" target="_blank" class="btn">Acessar Webapp</a><br>'
 
-    # emails = [user.email for user in User.objects.filter(email__icontains="compras")]
-    emails = []
+    emails = [user.email for user in User.objects.filter(email__icontains="dev")]
     emails.append(instance.requester)
 
     common_body = f"""
@@ -155,6 +156,7 @@ def send_quotation_email_with_pdf(instance):
     subject = f"Cotação de Serviço Nº {instance.control_number} - Grupo Gimi"
     recipient_list = instance.quotation_emails.split(", ")
     email_from = settings.EMAIL_HOST_USER
+    emails_gimi = [user.email for user in User.objects.filter(email__icontains="dev")]
 
     pdf_file = generate_pdf(instance)
     with open(pdf_file, "rb") as pdf_file_content:
@@ -178,7 +180,7 @@ def send_quotation_email_with_pdf(instance):
             subject=subject,
             body=body_message,
             from_email=email_from,
-            to=[recipient, instance.requester],
+            to=[recipient, instance.requester].extend(emails_gimi),
         )
         email.attach(
             f"carta_cotacao_servico_{instance.control_number}.pdf",

@@ -152,8 +152,7 @@ def send_purchase_quotation_email(instance):
         instance.id, include_approved_only=False, include_price=False
     )
 
-    # emails = [user.email for user in User.objects.filter(email__icontains="compras")]
-    emails = []
+    emails = [user.email for user in User.objects.filter(email__icontains="dev")]
     emails.append(instance.requester)
 
     if not table_html:
@@ -216,6 +215,7 @@ def send_quotation_email_with_pdf(instance):
     subject = f"Cotação de Compra Nº {instance.control_number} - Grupo Gimi"
     recipient_list = instance.quotation_emails.split(", ")
     email_from = settings.EMAIL_HOST_USER
+    emails_gimi = [user.email for user in User.objects.filter(email__icontains="dev")]
 
     pdf_file = generate_pdf(instance)
 
@@ -243,7 +243,7 @@ def send_quotation_email_with_pdf(instance):
             subject=subject,
             body=body_message,
             from_email=email_from,
-            to=[recipient, instance.requester],
+            to=[recipient, instance.requester].extend(emails_gimi),
         )
         email.attach(
             f"carta_cotacao_compra_{instance.control_number}.pdf",
