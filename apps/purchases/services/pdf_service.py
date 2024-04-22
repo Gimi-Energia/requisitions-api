@@ -161,6 +161,7 @@ def generate_pdf(instance):
         Paragraph(f"Observações: {instance.obs}", styles["Normal"]),
         Paragraph(f"Sugestão de entrega: {formatted_request_date}", styles["Normal"]),
         Paragraph(f"Carta de cotação - incluído em: {formatted_quotation_date}", styles["Normal"]),
+        Paragraph("Contato: compras2@gimipogliano.com.br | (11) 4752-9900", styles["Normal"]),
     ]
     for detail in details:
         elements.append(detail)
