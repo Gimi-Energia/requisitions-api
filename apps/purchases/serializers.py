@@ -25,7 +25,7 @@ class PurchaseSerializer(serializers.ModelSerializer):
     def validate(self, data):
         if data.get("request_date") and not retroactive_date(data["request_date"]):
             raise serializers.ValidationError(
-                {"request_date": "A data da requisição não pode ser retroativa."}
+                {"request_date": "Não é permitido data retroativa."}
             )
 
         return data

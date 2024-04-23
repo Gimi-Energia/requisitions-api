@@ -1,11 +1,11 @@
 from django.db import transaction
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import filters, generics, status
+from rest_framework import filters, generics, serializers
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
 
 from apps.purchases.models import Purchase, PurchaseProduct
 from apps.purchases.serializers import PurchaseProductSerializer, PurchaseSerializer
+from setup.validators.custom_view_validator import CustomErrorHandlerMixin
 
 from .services.email_service import (
     send_generic_product_email,
@@ -16,7 +16,7 @@ from .services.email_service import (
 from .services.omie_service import include_purchase_requisition
 
 
-class PurchaseListCreateView(generics.ListCreateAPIView):
+class PurchaseListCreateView(CustomErrorHandlerMixin, generics.ListCreateAPIView):
     queryset = Purchase.objects.all()
     serializer_class = PurchaseSerializer
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
@@ -39,11 +39,13 @@ class PurchaseListCreateView(generics.ListCreateAPIView):
     def create(self, request, *args, **kwargs):
         try:
             return super().create(request, *args, **kwargs)
+        except serializers.ValidationError as ve:
+            return self.handle_validation_error(ve)
         except Exception as e:
-            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+            return self.handle_generic_exception(e, request)
 
 
-class PurchaseDetailView(generics.RetrieveUpdateDestroyAPIView):
+class PurchaseDetailView(CustomErrorHandlerMixin, generics.RetrieveUpdateDestroyAPIView):
     queryset = Purchase.objects.all()
     serializer_class = PurchaseSerializer
     permission_classes = [IsAuthenticated]
@@ -68,8 +70,10 @@ class PurchaseDetailView(generics.RetrieveUpdateDestroyAPIView):
     def update(self, request, *args, **kwargs):
         try:
             return super().update(request, *args, **kwargs)
+        except serializers.ValidationError as ve:
+            return self.handle_validation_error(ve)
         except Exception as e:
-            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+            return self.handle_generic_exception(e, request)
 
 
 class PurchaseProductListCreateView(generics.ListCreateAPIView):

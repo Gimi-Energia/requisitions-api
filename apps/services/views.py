@@ -1,11 +1,11 @@
 from django.db import transaction
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import filters, generics, status
+from rest_framework import filters, generics, serializers
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
 
 from apps.services.models import Service, ServiceType
 from apps.services.serializers import ServiceSerializer, ServiceTypeSerializer
+from setup.validators.custom_view_validator import CustomErrorHandlerMixin
 
 from .services.email_service import (
     send_quotation_email_with_pdf,
@@ -14,7 +14,7 @@ from .services.email_service import (
 )
 
 
-class ServiceList(generics.ListCreateAPIView):
+class ServiceList(CustomErrorHandlerMixin, generics.ListCreateAPIView):
     queryset = Service.objects.all()
     serializer_class = ServiceSerializer
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
@@ -37,11 +37,13 @@ class ServiceList(generics.ListCreateAPIView):
     def create(self, request, *args, **kwargs):
         try:
             return super().create(request, *args, **kwargs)
+        except serializers.ValidationError as ve:
+            return self.handle_validation_error(ve)
         except Exception as e:
-            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+            return self.handle_generic_exception(e, request)
 
 
-class ServiceDetail(generics.RetrieveUpdateDestroyAPIView):
+class ServiceDetail(CustomErrorHandlerMixin, generics.RetrieveUpdateDestroyAPIView):
     queryset = Service.objects.all()
     serializer_class = ServiceSerializer
     permission_classes = [IsAuthenticated]
@@ -62,8 +64,10 @@ class ServiceDetail(generics.RetrieveUpdateDestroyAPIView):
     def update(self, request, *args, **kwargs):
         try:
             return super().update(request, *args, **kwargs)
+        except serializers.ValidationError as ve:
+            return self.handle_validation_error(ve)
         except Exception as e:
-            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+            return self.handle_generic_exception(e, request)
 
 
 class ServiceTypeList(generics.ListCreateAPIView):

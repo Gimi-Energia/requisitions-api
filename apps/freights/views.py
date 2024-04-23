@@ -1,16 +1,16 @@
 from django.db import transaction
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import filters, generics, status
+from rest_framework import filters, generics, serializers
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
 
 from apps.freights.models import Freight, FreightQuotation
 from apps.freights.serializers import FreightQuotationSerializer, FreightSerializer
+from setup.validators.custom_view_validator import CustomErrorHandlerMixin
 
 from .services.email_service import send_status_change_email
 
 
-class FreightListCreateView(generics.ListCreateAPIView):
+class FreightListCreateView(CustomErrorHandlerMixin, generics.ListCreateAPIView):
     queryset = Freight.objects.all()
     serializer_class = FreightSerializer
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
@@ -30,11 +30,13 @@ class FreightListCreateView(generics.ListCreateAPIView):
     def create(self, request, *args, **kwargs):
         try:
             return super().create(request, *args, **kwargs)
+        except serializers.ValidationError as ve:
+            return self.handle_validation_error(ve)
         except Exception as e:
-            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+            return self.handle_generic_exception(e, request)
 
 
-class FreightDetailView(generics.RetrieveUpdateDestroyAPIView):
+class FreightDetailView(CustomErrorHandlerMixin, generics.RetrieveUpdateDestroyAPIView):
     queryset = Freight.objects.all()
     serializer_class = FreightSerializer
     permission_classes = [IsAuthenticated]
@@ -51,8 +53,10 @@ class FreightDetailView(generics.RetrieveUpdateDestroyAPIView):
     def update(self, request, *args, **kwargs):
         try:
             return super().update(request, *args, **kwargs)
+        except serializers.ValidationError as ve:
+            return self.handle_validation_error(ve)
         except Exception as e:
-            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+            return self.handle_generic_exception(e, request)
 
 
 class FreightQuotationListCreateView(generics.ListCreateAPIView):
