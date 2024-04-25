@@ -217,7 +217,7 @@ def send_purchase_quotation_email(instance):
 
 def send_quotation_email_with_pdf(instance):
     subject = f"Cotação de Compra Nº {instance.control_number} - Grupo Gimi"
-    recipient_list = instance.quotation_emails.split(", ")
+    recipient_list = [email.strip() for email in instance.quotation_emails.split(",")]
     email_from = settings.EMAIL_HOST_USER
     emails_gimi = [user.email for user in User.objects.filter(email__icontains="dev")]
 
@@ -243,20 +243,21 @@ def send_quotation_email_with_pdf(instance):
     """
 
     for recipient in recipient_list:
-        all_recipients = [recipient, instance.requester] + emails_gimi
+        if recipient != "":
+            all_recipients = [recipient, instance.requester] + emails_gimi
 
-        email = EmailMessage(
-            subject=subject,
-            body=body_message,
-            from_email=email_from,
-            to=all_recipients,
-        )
-        email.attach(
-            f"carta_cotacao_compra_{instance.control_number}.pdf",
-            pdf_data,
-            "application/pdf",
-        )
-        email.send()
+            email = EmailMessage(
+                subject=subject,
+                body=body_message,
+                from_email=email_from,
+                to=all_recipients,
+            )
+            email.attach(
+                f"carta_cotacao_compra_{instance.control_number}.pdf",
+                pdf_data,
+                "application/pdf",
+            )
+            email.send()
 
 
 def send_generic_product_email(instance):
