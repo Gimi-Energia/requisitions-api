@@ -272,14 +272,15 @@ def send_generic_product_email(instance):
     email_body = f"""
         Olá, {instance.requester.name}!<br>
         Sua requisição de compra Nº {instance.control_number} foi aprovada, 
-        porém contém produtos genéricos.<br>
+        porém contém produtos genéricos.<br><br>
 
+        Observações da requisição: {instance.obs}
         {table_html}<br>
 
         Para prosseguirmos com esse processo, será necessário 3 passos:<br> 
             1 - Solicite o cadastro do material<br>
-            2 - Crie a requisição diretamente no Omie<br>
-            3 - Avise o compras que se trata da cotação Nº {instance.control_number} do nosso app
+            2 - Crie a requisição diretamente no Omie (incluindo todos os itens da requisição e não somente o item genérico)<br>
+            3 - Inclua na observação interna da requisição dentro do OMIE que se trata da cotação Nº {instance.control_number} do App de Requisições.
     """
 
     html_message = f"""

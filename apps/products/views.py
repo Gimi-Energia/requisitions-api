@@ -60,7 +60,7 @@ class ProductList(generics.ListCreateAPIView):
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
     search_fields = ["code", "description"]
     ordering_fields = ["code", "un", "price"]
-    filterset_fields = ["code", "description"]
+    filterset_fields = ["code", "description", "un"]
 
     def get_permissions(self):
         if self.request.method == "GET":
