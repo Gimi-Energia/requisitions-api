@@ -20,6 +20,9 @@ def include_purchase_requisition(instance):
     data = []
 
     for purchase_product in purchase_products:
+        if "GENERIC" in purchase_product.product.code:
+            return
+
         row = {
             "codItem": str(item_number),
             "codProd": get_omie_product_code(purchase_product.product.code, instance.company),
@@ -41,7 +44,11 @@ def include_purchase_requisition(instance):
                     "codIntReqCompra": f"INT-{instance.control_number}",
                     "dtSugestao": instance.request_date.strftime("%d/%m/%Y"),
                     "obsReqCompra": instance.obs,
-                    "obsIntReqCompra": f"NC Interno: {instance.control_number}",
+                    "obsIntReqCompra": f"""
+                    NC Interno: {instance.control_number} 
+                    Requisitante: {instance.requester}
+                    Departamento: {instance.department.name}
+                    """,
                     "ItensReqCompra": data,
                 }
             ],
