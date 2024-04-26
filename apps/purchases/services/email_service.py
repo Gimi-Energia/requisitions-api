@@ -59,8 +59,7 @@ def send_status_change_email(instance):
     email_body_intro = ""
     table_html = ""
 
-    emails = [user.email for user in User.objects.filter(email__icontains="dev")]
-    emails.append(instance.requester)
+    emails = []
 
     if instance.status == "Approved":
         email_subject = "Solicitação de Compra Aprovada"
@@ -70,6 +69,7 @@ def send_status_change_email(instance):
             em {instance.approval_date.strftime("%d/%m/%Y")}<br>
         """
         table_html = build_quotation_table(instance.id)
+        emails = [user.email for user in User.objects.filter(email__icontains="dev")]
     elif instance.status == "Denied":
         email_subject = "Solicitação de Compra Rejeitada"
         email_body_intro = f"""
@@ -90,6 +90,8 @@ def send_status_change_email(instance):
         emails.append(instance.approver)
     else:
         return
+
+    emails.append(instance.requester)
 
     if not table_html:
         return

@@ -10,8 +10,7 @@ def send_status_change_email(instance):
     email_subject = ""
     email_body_intro = ""
 
-    emails = [user.email for user in User.objects.filter(email__icontains="dev")]
-    emails.append(instance.requester)
+    emails = []
 
     if instance.status == "Approved":
         email_subject = "Solicitação de Serviço Aprovada"
@@ -20,6 +19,7 @@ def send_status_change_email(instance):
             Sua solicitação foi aprovada por {instance.approver} 
             em {instance.approval_date.strftime("%d/%m/%Y")}<br>
         """
+        emails = [user.email for user in User.objects.filter(email__icontains="dev")]
     elif instance.status == "Denied":
         email_subject = "Solicitação de Serviço Rejeitada"
         email_body_intro = f"""
@@ -35,6 +35,8 @@ def send_status_change_email(instance):
         emails.append(instance.approver)
     else:
         return
+
+    emails.append(instance.requester)
 
     common_body = f"""
         Dados da solicitação:<br>
