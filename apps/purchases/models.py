@@ -69,7 +69,7 @@ class Purchase(models.Model):
 class PurchaseProduct(models.Model):
     purchase = models.ForeignKey(Purchase, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    quantity = models.DecimalField(_("Quantity"), max_digits=10, decimal_places=2)
+    quantity = models.DecimalField(_("Quantity"), max_digits=12, decimal_places=5)
     price = models.DecimalField(_("Price"), max_digits=12, decimal_places=5, blank=True, null=True)
     status = models.CharField(_("Status"), choices=STATUS, default="Opened", max_length=9)
 

@@ -10,12 +10,16 @@ class CustomErrorHandlerMixin:
         for field, messages in ve.detail.items():
             if isinstance(messages, list):
                 for message in messages:
+                    if isinstance(message, dict):
+                        message = "; ".join(f"{k}: {v}" for k, v in message.items())
                     errors.append(
                         f"o campo '{field}' é obrigatório"
                         if "obrigatório" in message.lower()
                         else f"No campo '{field}' {message.lower()}"
                     )
             else:
+                if isinstance(messages, dict):
+                    messages = "; ".join(f"{k}: {v}" for k, v in messages.items())
                 errors.append(
                     f"o campo '{field}' é obrigatório"
                     if "obrigatório" in messages.lower()
