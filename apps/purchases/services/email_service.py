@@ -15,7 +15,7 @@ def build_quotation_table(
         purchase_products = PurchaseProduct.objects.filter(purchase=purchase_pk, status="Approved")
     elif include_generic_only:
         purchase_products = PurchaseProduct.objects.filter(
-            purchase=purchase_pk, product__code__icontains="GENERIC"
+            purchase=purchase_pk, status="Approved", product__code__icontains="GENERIC"
         )
     else:
         purchase_products = PurchaseProduct.objects.filter(purchase=purchase_pk)
@@ -264,9 +264,7 @@ def send_quotation_email_with_pdf(instance):
 
 def send_generic_product_email(instance):
     email_subject = "Cadastro de Produto Genérico"
-    table_html = build_quotation_table(
-        instance.id, include_approved_only=False, include_price=False, include_generic_only=True
-    )
+    table_html = build_quotation_table(instance.id, include_price=False, include_generic_only=True)
 
     if not table_html:
         return
