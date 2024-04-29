@@ -64,7 +64,7 @@ class PurchaseDetailView(CustomErrorHandlerMixin, generics.RetrieveUpdateDestroy
                     include_purchase_requisition(instance)
                     send_generic_product_email(instance)
 
-            if old_quotation_emails is None and isinstance(instance.quotation_emails, str):
+            if instance.quotation_emails and old_quotation_emails != instance.quotation_emails:
                 send_quotation_email_with_pdf(instance)
 
     def update(self, request, *args, **kwargs):
