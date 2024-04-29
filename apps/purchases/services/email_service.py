@@ -79,7 +79,8 @@ def send_status_change_email(instance):
         """
         table_html = build_quotation_table(instance.id, include_approved_only=False)
     elif instance.status == "Opened":
-        email_subject = "Solicitação de Compra Cotada/Criada"
+        title = "Cotada" if instance.has_quotation else "Criada"
+        email_subject = f"Solicitação de Compra {title}"
         print(email_subject)
         email_body_intro = f"""
             Olá, {instance.requester.name}!<br>
@@ -264,7 +265,9 @@ def send_quotation_email_with_pdf(instance):
 
 def send_generic_product_email(instance):
     email_subject = "Cadastro de Produto Genérico"
-    table_html = build_quotation_table(instance.id, include_price=False, include_generic_only=True)
+    table_html = build_quotation_table(
+        instance.id, include_approved_only=False, include_price=False, include_generic_only=True
+    )
 
     if not table_html:
         return
