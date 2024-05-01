@@ -9,7 +9,7 @@ class Users(admin.ModelAdmin):
         "name",
         "email",
     )
-    list_filter = ("is_admin",)
+    list_filter = ("is_admin", "type")
     list_per_page = 25
     ordering = ("name", "email")
 
