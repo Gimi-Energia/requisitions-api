@@ -4,7 +4,7 @@ import requests
 
 
 def get_iapp_products(token, secret):
-    ENDPOINT = "https://iapp.iniciativaaplicativos.com.br/api/engenharia/produtos/lista"
+    ENDPOINT = "https://api.iniciativaaplicativos.com.br/api/engenharia/produtos/lista"
     offset = 50000
 
     headers = {"TOKEN": token, "SECRET": secret}
