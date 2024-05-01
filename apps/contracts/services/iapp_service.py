@@ -1,7 +1,7 @@
 import requests
 
 def get_iapp_contracts(page, token, secret):
-    ENDPOINT = "https://iapp.iniciativaaplicativos.com.br/api/comercial/contratos/lista"
+    ENDPOINT = "https://api.iniciativaaplicativos.com.br/api/comercial/contratos/lista"
     offset = 30
 
     headers = {"TOKEN": token, "SECRET": secret}
