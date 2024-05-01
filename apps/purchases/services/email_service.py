@@ -69,7 +69,7 @@ def send_status_change_email(instance):
             em {instance.approval_date.strftime("%d/%m/%Y")}<br>
         """
         table_html = build_quotation_table(instance.id)
-        emails = [user.email for user in User.objects.filter(email__icontains="dev")]
+        emails = [user.email for user in User.objects.filter(email__icontains="compras")]
     elif instance.status == "Denied":
         email_subject = "Solicitação de Compra Rejeitada"
         email_body_intro = f"""
@@ -159,7 +159,7 @@ def send_purchase_quotation_email(instance):
         instance.id, include_approved_only=False, include_price=False
     )
 
-    emails = [user.email for user in User.objects.filter(email__icontains="dev")]
+    emails = [user.email for user in User.objects.filter(email__icontains="compras")]
     emails.append(instance.requester)
 
     if not table_html:
@@ -222,7 +222,7 @@ def send_quotation_email_with_pdf(instance):
     subject = f"Cotação de Compra Nº {instance.control_number} - Grupo Gimi"
     recipient_list = [email.strip() for email in instance.quotation_emails.split(",")]
     email_from = settings.EMAIL_HOST_USER
-    emails_gimi = [user.email for user in User.objects.filter(email__icontains="dev")]
+    emails_gimi = [user.email for user in User.objects.filter(email__icontains="compras")]
 
     pdf_file = generate_pdf(instance)
 

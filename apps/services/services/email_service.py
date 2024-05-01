@@ -19,7 +19,7 @@ def send_status_change_email(instance):
             Sua solicitação foi aprovada por {instance.approver} 
             em {instance.approval_date.strftime("%d/%m/%Y")}<br>
         """
-        emails = [user.email for user in User.objects.filter(email__icontains="dev")]
+        emails = [user.email for user in User.objects.filter(email__icontains="compras")]
     elif instance.status == "Denied":
         email_subject = "Solicitação de Serviço Rejeitada"
         email_body_intro = f"""
@@ -100,7 +100,7 @@ def send_service_quotation_email(instance):
     """
     button_html = '<a href="https://gimi-requisitions.vercel.app" target="_blank" class="btn">Acessar Webapp</a><br>'
 
-    emails = [user.email for user in User.objects.filter(email__icontains="dev")]
+    emails = [user.email for user in User.objects.filter(email__icontains="compras")]
     emails.append(instance.requester)
 
     common_body = f"""
@@ -160,7 +160,7 @@ def send_quotation_email_with_pdf(instance):
     subject = f"Cotação de Serviço Nº {instance.control_number} - Grupo Gimi"
     recipient_list = [email.strip() for email in instance.quotation_emails.split(",")]
     email_from = settings.EMAIL_HOST_USER
-    emails_gimi = [user.email for user in User.objects.filter(email__icontains="dev")]
+    emails_gimi = [user.email for user in User.objects.filter(email__icontains="compras")]
 
     pdf_file = generate_pdf(instance)
     with open(pdf_file, "rb") as pdf_file_content:
