@@ -9,14 +9,14 @@ class Command(BaseCommand):
     help = "Send an email with a password and link to the app"  # python manage.py sendpasswords
 
     def handle(self, *args, **kwargs):
-        with open("apps/users/fixtures/teste.json", "r") as f:
+        with open("apps/users/fixtures/admins.json", "r") as f:
             users = json.load(f)
 
         for user in users:
             email = user["fields"]["email"]
             password = user["fields"]["password"]
             message = f"""
-            Olá, sua senha é: {password}, use seu e-email para realizar o login.
+            Olá, sua senha é: {password}, use seu e-mail para realizar o login.
             Acesse o app em https://gimi-requisitions.vercel.app/
             """
             send_mail(

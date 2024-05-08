@@ -9,7 +9,7 @@ def get_iapp_products(token, secret):
 
     headers = {"TOKEN": token, "SECRET": secret}
 
-    params = {"offset": offset, "page": 1}
+    params = {"offset": offset, "page": 1, "filters": "status|0"}
 
     response = requests.get(ENDPOINT, params=params, headers=headers)
 
@@ -18,14 +18,13 @@ def get_iapp_products(token, secret):
         data = complete_data["response"]
         items = []
         for item in data:
-            if item["status"] == "ativo":
-                item_info = {
-                    "id": str(uuid4()),
-                    "code": item["identificacao"],
-                    "un": item["unidade_medida"],
-                    "description": item["descricao"],
-                }
-                items.append(item_info)
+            item_info = {
+                "id": str(uuid4()),
+                "code": item["identificacao"],
+                "un": item["unidade_medida"],
+                "description": item["descricao"],
+            }
+            items.append(item_info)
         return items
     else:
         print("Error:", response.status_code)
