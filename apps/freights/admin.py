@@ -5,7 +5,6 @@ from apps.freights.models import Freight, FreightQuotation
 class Freights(admin.ModelAdmin):
     list_display = (
         "id",
-        "control_number",
         "company",
         "department",
         "request_date",
