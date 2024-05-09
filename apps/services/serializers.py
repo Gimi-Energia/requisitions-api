@@ -10,9 +10,10 @@ class ServiceSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         if data.get("request_date") and not retroactive_date(data["request_date"]):
-            raise serializers.ValidationError(
-                {"request_date": "Não é permitido data retroativa."}
-            )
+            raise serializers.ValidationError({"request_date": "Não é permitido data retroativa."})
+
+        if data.get("quotation_date") and not data.get("quotation_emails"):
+            raise serializers.ValidationError({"emails": "Deve ter no mínimo um fornecedor."})
 
         return data
 
