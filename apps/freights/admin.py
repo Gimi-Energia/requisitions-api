@@ -5,13 +5,12 @@ from apps.freights.models import Freight, FreightQuotation
 class Freights(admin.ModelAdmin):
     list_display = (
         "id",
+        "control_number",
         "company",
         "department",
         "request_date",
         "requester",
         "status",
-        "approver",
-        "approval_date",
     )
     list_display_links = ("id",)
     search_fields = (
@@ -20,7 +19,7 @@ class Freights(admin.ModelAdmin):
     )
     list_filter = ("status",)
     list_per_page = 25
-    ordering = ("request_date", "approval_date")
+    ordering = ("created_at",)
 
 
 class FreightQuotations(admin.ModelAdmin):
