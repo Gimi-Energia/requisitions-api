@@ -23,9 +23,11 @@ def include_purchase_requisition(instance):
         if "GENERIC" in purchase_product.product.code:
             return
 
+        product_code = get_omie_product_code(purchase_product.product.code, instance.company)
+
         row = {
             "codItem": str(item_number),
-            "codProd": get_omie_product_code(purchase_product.product.code, instance.company),
+            "codProd": product_code,
             "precoUnit": float(purchase_product.price),
             "qtde": float(purchase_product.quantity),
         }
@@ -61,6 +63,9 @@ def include_purchase_requisition(instance):
 
     response = requests.post(url, headers=headers, data=payload)
 
+    if response.status_code != 200:
+        return f"Erro {response.status_code} ao enviar requisição para Omie: {response.text}"
+
     return response.status_code
 
 
@@ -85,7 +90,7 @@ def get_omie_product_code(code, company):
     response = requests.post(url, headers=headers, data=payload)
 
     if response.status_code != 200:
-        print("Erro ao enviar requisição para Omie:", response.status_code, response.text)
+        return f"Erro {response.status_code} ao enviar requisição para Omie: {response.text}"
 
     response_data = response.json()
 

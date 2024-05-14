@@ -58,11 +58,11 @@ class PurchaseDetailView(CustomErrorHandlerMixin, generics.RetrieveUpdateDestroy
             instance = serializer.save()
 
             if old_status != instance.status:
-                send_status_change_email(instance)
-
                 if instance.status == "Approved":
                     include_purchase_requisition(instance)
                     send_generic_product_email(instance)
+
+                send_status_change_email(instance)
 
             if instance.quotation_emails and old_quotation_emails != instance.quotation_emails:
                 send_quotation_email_with_pdf(instance)
