@@ -59,7 +59,13 @@ class PurchaseDetailView(CustomErrorHandlerMixin, generics.RetrieveUpdateDestroy
 
             if old_status != instance.status:
                 if instance.status == "Approved":
-                    include_purchase_requisition(instance)
+                    omie = include_purchase_requisition(instance)
+
+                    if omie.status_code != 200:
+                        raise serializers.ValidationError(
+                            f"Erro na aprovação - Erro {omie.status_code} do Omie"
+                        )
+
                     send_generic_product_email(instance)
 
                 send_status_change_email(instance)

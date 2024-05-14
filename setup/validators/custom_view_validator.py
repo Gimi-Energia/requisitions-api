@@ -7,24 +7,28 @@ from rest_framework.views import exception_handler
 class CustomErrorHandlerMixin:
     def handle_validation_error(self, ve):
         errors = []
-        for field, messages in ve.detail.items():
-            if isinstance(messages, list):
-                for message in messages:
-                    if isinstance(message, dict):
-                        message = "; ".join(f"{k}: {v}" for k, v in message.items())
+        if isinstance(ve.detail, list):
+            errors.append(ve.detail[0])
+        else:
+            for field, messages in ve.detail.items():
+                if isinstance(messages, list):
+                    for message in messages:
+                        if isinstance(message, dict):
+                            message = "; ".join(f"{k}: {v}" for k, v in message.items())
+                        errors.append(
+                            f"o campo '{field}' é obrigatório"
+                            if "obrigatório" in message.lower()
+                            else f"No campo '{field}' {message.lower()}"
+                        )
+                else:
+                    if isinstance(messages, dict):
+                        messages = "; ".join(f"{k}: {v}" for k, v in messages.items())
                     errors.append(
                         f"o campo '{field}' é obrigatório"
-                        if "obrigatório" in message.lower()
-                        else f"No campo '{field}' {message.lower()}"
+                        if "obrigatório" in messages.lower()
+                        else f"No campo '{field}' {messages.lower()}"
                     )
-            else:
-                if isinstance(messages, dict):
-                    messages = "; ".join(f"{k}: {v}" for k, v in messages.items())
-                errors.append(
-                    f"o campo '{field}' é obrigatório"
-                    if "obrigatório" in messages.lower()
-                    else f"No campo '{field}' {messages.lower()}"
-                )
+                    
         error_message = "; ".join(errors)
         return Response({"error": error_message}, status=status.HTTP_400_BAD_REQUEST)
 

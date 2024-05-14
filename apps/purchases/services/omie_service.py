@@ -63,10 +63,7 @@ def include_purchase_requisition(instance):
 
     response = requests.post(url, headers=headers, data=payload)
 
-    if response.status_code != 200:
-        return f"Erro {response.status_code} ao enviar requisição para Omie: {response.text}"
-
-    return response.status_code
+    return response
 
 
 def get_omie_product_code(code, company):
