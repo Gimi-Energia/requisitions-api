@@ -35,7 +35,7 @@ def include_purchase_requisition(instance):
         data.append(row)
         item_number += 1
 
-    categories = {"Gimi": "2.01.73", "GBL": "2.10.93", "GPB": "2.04.95"}
+    categories = {"Gimi": "2.01.73", "GBL": "2.10.93", "GPB": "2.04.95", "GS": "2.10.97"}
 
     payload = json.dumps(
         {
