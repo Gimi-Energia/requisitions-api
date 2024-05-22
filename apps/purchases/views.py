@@ -61,9 +61,17 @@ class PurchaseDetailView(CustomErrorHandlerMixin, generics.RetrieveUpdateDestroy
                 if instance.status == "Approved":
                     omie = include_purchase_requisition(instance)
 
-                    if omie.status_code != 200:
+                    if omie.status_code == 500:
                         raise serializers.ValidationError(
-                            f"Erro na aprovação - Erro {omie.status_code} do Omie"
+                            f"Erro {omie.status_code} do Omie: Produto não cadastrado"
+                        )
+                    elif omie.status_code == 403:
+                        raise serializers.ValidationError(
+                            f"Erro {omie.status_code} do Omie: Token inválido"
+                        )
+                    elif omie.status_code != 200:
+                        raise serializers.ValidationError(
+                            f"Erro {omie.status_code} do Omie: Requisição inválida"
                         )
 
                     send_generic_product_email(instance)
