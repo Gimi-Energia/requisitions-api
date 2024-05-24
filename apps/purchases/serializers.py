@@ -34,6 +34,9 @@ class PurchaseSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         products_data = validated_data.pop("purchaseproduct_set")
 
+        if len(products_data) == 0:
+            raise serializers.ValidationError("Não é permitido requisição sem produtos.")
+
         if len(set((product_data["product"],) for product_data in products_data)) != len(
             products_data
         ):
