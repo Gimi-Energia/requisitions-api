@@ -1,5 +1,6 @@
 import os
 
+from django.db import transaction
 from django.db.models import Count
 from django.http import HttpResponse
 from django_filters.rest_framework import DjangoFilterBackend
@@ -29,21 +30,33 @@ class ProductsDataAPIView(APIView):
                     status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 )
 
+            products_to_create = []
+            existing_product_codes = set(
+                Product.objects.filter(code__in=[item["code"] for item in items]).values_list(
+                    "code", flat=True
+                )
+            )
+            new_product_codes = set()
+
             for item in items:
                 product_code = item["code"]
-                product, created = Product.objects.get_or_create(
-                    code=product_code,
-                    defaults={
-                        "id": item["id"],
-                        "un": item["un"],
-                        "description": item["description"],
-                    },
-                )
+                print(product_code)
+                if (
+                    product_code not in existing_product_codes
+                    and product_code not in new_product_codes
+                ):
+                    product = Product(
+                        code=product_code,
+                        id=item["id"],
+                        un=item["un"],
+                        description=item["description"],
+                    )
+                    products_to_create.append(product)
+                    new_product_codes.add(product_code)
 
-                if not created:
-                    product.un = item["un"]
-                    product.description = item["description"]
-                    product.save()
+            with transaction.atomic():
+                if products_to_create:
+                    Product.objects.bulk_create(products_to_create)
 
             return Response({"message": "Data entered successfully"}, status=status.HTTP_200_OK)
 
