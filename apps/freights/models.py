@@ -62,6 +62,7 @@ class Freight(models.Model):
     )
     motive_denied = models.TextField(_("Motive Denied"), blank=True, null=True)
     due_date = models.DateTimeField(_("Due Date"), blank=True, null=True)
+    is_internal = models.BooleanField(_("Is Internal"), default=False)
 
     def __str__(self):
         return str(self.id)
