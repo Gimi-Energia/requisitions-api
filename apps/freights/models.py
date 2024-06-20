@@ -61,6 +61,7 @@ class Freight(models.Model):
         null=True,
     )
     motive_denied = models.TextField(_("Motive Denied"), blank=True, null=True)
+    due_date = models.DateTimeField(_("Due Date"), blank=True, null=True)
 
     def __str__(self):
         return str(self.id)
