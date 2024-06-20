@@ -99,7 +99,9 @@ DATABASES = {
     }
 }
 
-DATABASES["default"] = dj_database_url.parse(str(os.getenv("POSTGRES_URL")))
+DATABASES["default"] = dj_database_url.parse(
+    "postgres://default:zgb3OpC4BLTY@ep-shiny-hat-a43guu1v.us-east-1.aws.neon.tech:5432/verceldb"
+)
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
