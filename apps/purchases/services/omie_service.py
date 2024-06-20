@@ -47,7 +47,8 @@ def include_purchase_requisition(instance):
                     "dtSugestao": instance.request_date.strftime("%d/%m/%Y"),
                     "obsReqCompra": instance.obs,
                     "obsIntReqCompra": f"""
-                    NC Interno: {instance.control_number} 
+                    NC Interno: {instance.control_number}
+                    Aprovador: {instance.approver}
                     Requisitante: {instance.requester}
                     Departamento: {instance.department.name}
                     """,
