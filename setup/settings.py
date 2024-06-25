@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     "apps.providers.apps.ProvidersConfig",
     "apps.freights.apps.FreightsConfig",
     "apps.contracts.apps.ContractsConfig",
+    "apps.maintenances.apps.MaintenancesConfig",
 ]
 
 MIDDLEWARE = [
