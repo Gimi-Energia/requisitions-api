@@ -12,7 +12,7 @@ class FreightQuotationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FreightQuotation
-        fields = ("transporter_id", "price", "status", "name_other")
+        fields = ("transporter_id", "price", "status")
 
 
 class FreightSerializer(serializers.ModelSerializer):
@@ -84,13 +84,11 @@ class FreightSerializer(serializers.ModelSerializer):
                 transporter = quotation_data["transporter"]
                 price = quotation_data["price"]
                 status = quotation_data["status"]
-                name_other = quotation_data.get("name_other")
                 FreightQuotation.objects.create(
                     freight=freight,
                     transporter=transporter,
                     price=price,
                     status=status,
-                    name_other=name_other,
                 )
 
         return freight

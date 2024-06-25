@@ -22,7 +22,7 @@ class Freights(admin.ModelAdmin):
 
 
 class FreightQuotations(admin.ModelAdmin):
-    list_display = ("freight", "transporter", "name_other", "price", "status")
+    list_display = ("freight", "transporter", "price", "status")
     list_display_links = ("freight", "transporter")
     search_fields = (
         "freight",

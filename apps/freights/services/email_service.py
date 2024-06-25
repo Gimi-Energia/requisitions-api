@@ -13,8 +13,7 @@ def build_quotation_table(freight_pk, include_approved_only=False):
 
     table_rows = []
     for fq in freight_quotations:
-        transporter = fq.name_other if fq.transporter.name == "Outro" else fq.transporter.name
-        table_rows.append(f"<tr><td>{transporter}</td><td>R$ {fq.price}</td></tr>")
+        table_rows.append(f"<tr><td>{fq.transporter.name}</td><td>R$ {fq.price}</td></tr>")
 
     if not table_rows:
         return ""
