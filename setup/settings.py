@@ -163,6 +163,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://localhost:5173",
     "https://gimi-requisitions.vercel.app",
+    "https://requisition-git-upgrade-request-desenvolvimento-gimi.vercel.app",
 ]
 
 SIMPLE_JWT = {
