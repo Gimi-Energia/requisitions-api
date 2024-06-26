@@ -22,6 +22,8 @@ class Command(BaseCommand):
             "Aprovador",
             "Data da aprovação",
             "CTE",
+            "Transportadora",
+            "Valor Frete",
             "E",
             "G",
             "Frete Estimado",
@@ -42,6 +44,8 @@ class Command(BaseCommand):
                     freight.approval_date.date().isoformat() if freight.approval_date else ""
                 )
 
+                approved_quotation = freight.freightquotation_set.filter(status="Approved").first()
+
                 row = {
                     "UID": freight.id,
                     "Empresa": freight.company,
@@ -53,6 +57,12 @@ class Command(BaseCommand):
                     "Aprovador": freight.approver.email if freight.approver else "",
                     "Data da aprovação": approval_date_date,
                     "CTE": freight.cte_number,
+                    "Transportadora": approved_quotation.transporter.name
+                    if approved_quotation
+                    else "",
+                    "Valor Frete": str(approved_quotation.price).replace(".", ",")
+                    if approved_quotation
+                    else "",
                 }
 
                 if freight.contract:
