@@ -43,11 +43,17 @@ class MaintenanceDetail(CustomErrorHandlerMixin, generics.RetrieveUpdateDestroyA
 
     def perform_update(self, serializer):
         old_status = serializer.instance.status
+        forecast_date = serializer.instance.forecast_date
 
         with transaction.atomic():
             instance = serializer.save()
 
             if old_status != instance.status:
+                if instance.status == "Scheduled" and not forecast_date:
+                    raise serializers.ValidationError(
+                        "Para programar a requisição é necessário inserir a data de previsão"
+                    )
+                
                 send_status_change_email(instance)
 
     def update(self, request, *args, **kwargs):
