@@ -28,7 +28,7 @@ def send_status_change_email(instance):
             Uma solicitação foi criada em {formatted_end_date}<br>
             De {instance.requester}.<br>
         """
-        emails = [user.email for user in User.objects.filter(groups__contains=[3])]
+        emails = [user.email for user in User.objects.filter(groups__name="Maintenance")]
     elif instance.status == "Completed":
         local_timezone = pytz.timezone("America/Sao_Paulo")
         local_end_date = instance.end_date.astimezone(local_timezone)
@@ -49,7 +49,7 @@ def send_status_change_email(instance):
         Email do requisitante: {instance.requester}<br>
         Ramal do requisitante: {instance.extension}<br>
         Local da manutenção: {instance.department}<br>
-        Objeto a receber manutenção: {instance.requester}<br>
+        Objeto a receber manutenção: {instance.object}<br>
         Anexo (Link): {instance.url}<br>
         Observação do requisitante: {instance.obs}<br>
         Data solicitada: {instance.request_date.strftime("%d/%m/%Y")}<br>
@@ -57,9 +57,9 @@ def send_status_change_email(instance):
 
     if instance.status in ["Scheduled", "Completed"]:
         common_body += f"""
-            Data de previsão: {instance.forecast_date}<br>
+            Data de previsão: {instance.forecast_date.strftime("%d/%m/%Y")}<br>
             Observação do executor: {instance.approver_obs}<br>
-            Status do executor: {instance.approver_status}<br>
+            Status do executor: {translate_status(instance.approver_status)}<br>
         """
 
     button_html = '<a href="https://gimi-requisitions.vercel.app" target="_blank" class="btn">Acessar Webapp</a><br>'
@@ -71,6 +71,18 @@ def send_status_change_email(instance):
                     * {{ font-size: 1rem; }}
                     table {{ border-collapse: collapse; }}
                     th, td {{ border: 1px solid black; padding: 5px; text-align: left; font-size: 0.9rem; }}
+                    .btn {{
+                        display: inline-block;
+                        background-color: #f0f0f0;
+                        padding: 8px 16px;
+                        text-align: center;
+                        text-decoration: none;
+                        font-size: 16px;
+                        border-radius: 10px;
+                        margin-top: 10px;
+                        border: 2px solid black;
+                        font-weight: bold;
+                    }}
                 </style>
             </head>
             <body>
@@ -91,3 +103,11 @@ def send_status_change_email(instance):
         fail_silently=False,
         html_message=html_message,
     )
+
+
+def translate_status(status: str) -> str:
+    options = {"Checking": "Verificando", "Completed": "Finalizado"}
+
+    translated = options.get(status)
+
+    return translated
