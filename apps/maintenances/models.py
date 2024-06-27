@@ -18,7 +18,6 @@ REQUEST_STATUS = [
 APPROVER_STATUS = [
     ("Checking", "Checking"),
     ("Completed", "Completed"),
-    ("Denied", "Denied"),
 ]
 
 
