@@ -90,6 +90,18 @@ def send_status_change_email(instance):
                     * {{ font-size: 1rem; }}
                     table {{ border-collapse: collapse; }}
                     th, td {{ border: 1px solid black; padding: 5px; text-align: left; font-size: 0.9rem; }}
+                    .btn {{
+                        display: inline-block;
+                        background-color: #f0f0f0;
+                        padding: 8px 16px;
+                        text-align: center;
+                        text-decoration: none;
+                        font-size: 16px;
+                        border-radius: 10px;
+                        margin-top: 10px;
+                        border: 2px solid black;
+                        font-weight: bold;
+                    }}
                 </style>
             </head>
             <body>
