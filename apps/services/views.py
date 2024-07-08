@@ -4,7 +4,11 @@ from rest_framework import filters, generics, serializers
 from rest_framework.permissions import IsAuthenticated
 
 from apps.services.models import Service, ServiceType
-from apps.services.serializers import ServiceSerializer, ServiceTypeSerializer
+from apps.services.serializers import (
+    ServiceReadSerializer,
+    ServiceTypeSerializer,
+    ServiceWriteSerializer,
+)
 from setup.validators.custom_view_validator import CustomErrorHandlerMixin
 
 from .services.email_service import (
@@ -16,12 +20,16 @@ from .services.email_service import (
 
 class ServiceList(CustomErrorHandlerMixin, generics.ListCreateAPIView):
     queryset = Service.objects.all()
-    serializer_class = ServiceSerializer
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
     search_fields = []
     ordering_fields = []
     filterset_fields = []
     permission_classes = [IsAuthenticated]
+
+    def get_serializer_class(self):
+        if self.request.method == "GET":
+            return ServiceReadSerializer
+        return ServiceWriteSerializer
 
     def perform_create(self, serializer):
         with transaction.atomic():
@@ -45,8 +53,12 @@ class ServiceList(CustomErrorHandlerMixin, generics.ListCreateAPIView):
 
 class ServiceDetail(CustomErrorHandlerMixin, generics.RetrieveUpdateDestroyAPIView):
     queryset = Service.objects.all()
-    serializer_class = ServiceSerializer
     permission_classes = [IsAuthenticated]
+
+    def get_serializer_class(self):
+        if self.request.method == "GET":
+            return ServiceReadSerializer
+        return ServiceWriteSerializer
 
     def perform_update(self, serializer):
         old_status = serializer.instance.status

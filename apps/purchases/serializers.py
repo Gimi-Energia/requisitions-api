@@ -1,11 +1,22 @@
 from rest_framework import serializers
 
+from apps.departments.serializers import DepartmentCustomSerializer
 from apps.products.models import Product
+from apps.products.serializers import ProductSerializer
 from apps.purchases.models import Purchase, PurchaseProduct
+from apps.users.serializers import UserCustomSerializer
 from utils.validators.valid_date import retroactive_date
 
 
-class PurchaseProductSerializer(serializers.ModelSerializer):
+class PurchaseProductReadSerializer(serializers.ModelSerializer):
+    product = ProductSerializer()
+
+    class Meta:
+        model = PurchaseProduct
+        fields = ("product", "quantity", "price", "status")
+
+
+class PurchaseProductWriteSerializer(serializers.ModelSerializer):
     product_id = serializers.PrimaryKeyRelatedField(
         queryset=Product.objects.all(), source="product", write_only=False
     )
@@ -15,8 +26,19 @@ class PurchaseProductSerializer(serializers.ModelSerializer):
         fields = ("product_id", "quantity", "price", "status")
 
 
-class PurchaseSerializer(serializers.ModelSerializer):
-    products = PurchaseProductSerializer(many=True, source="purchaseproduct_set")
+class PurchaseReadSerializer(serializers.ModelSerializer):
+    requester = UserCustomSerializer()
+    approver = UserCustomSerializer()
+    department = DepartmentCustomSerializer()
+    products = PurchaseProductReadSerializer(many=True, source="purchaseproduct_set")
+
+    class Meta:
+        model = Purchase
+        fields = "__all__"
+
+
+class PurchaseWriteSerializer(serializers.ModelSerializer):
+    products = PurchaseProductWriteSerializer(many=True, source="purchaseproduct_set")
 
     class Meta:
         model = Purchase

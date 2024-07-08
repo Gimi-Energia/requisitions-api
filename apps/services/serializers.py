@@ -1,9 +1,12 @@
 from rest_framework import serializers
+
+from apps.departments.serializers import DepartmentCustomSerializer
 from apps.services.models import Service, ServiceType
+from apps.users.serializers import UserCustomSerializer
 from utils.validators.valid_date import retroactive_date
 
 
-class ServiceSerializer(serializers.ModelSerializer):
+class ServiceWriteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Service
         fields = "__all__"
@@ -21,4 +24,15 @@ class ServiceSerializer(serializers.ModelSerializer):
 class ServiceTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = ServiceType
+        fields = ["id", "description"]
+
+
+class ServiceReadSerializer(serializers.ModelSerializer):
+    requester = UserCustomSerializer()
+    approver = UserCustomSerializer()
+    department = DepartmentCustomSerializer()
+    service = ServiceTypeSerializer()
+
+    class Meta:
+        model = Service
         fields = "__all__"

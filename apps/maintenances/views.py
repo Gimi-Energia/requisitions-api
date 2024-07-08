@@ -4,7 +4,7 @@ from rest_framework import filters, generics, serializers
 from rest_framework.permissions import IsAuthenticated
 
 from apps.maintenances.models import Maintenance
-from apps.maintenances.serializers import MaintenanceSerializer
+from apps.maintenances.serializers import MaintenanceReadSerializer, MaintenanceWriteSerializer
 from setup.validators.custom_view_validator import CustomErrorHandlerMixin
 
 from .services.email_service import send_status_change_email
@@ -12,12 +12,16 @@ from .services.email_service import send_status_change_email
 
 class MaintenanceList(CustomErrorHandlerMixin, generics.ListCreateAPIView):
     queryset = Maintenance.objects.all()
-    serializer_class = MaintenanceSerializer
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
     search_fields = []
     ordering_fields = []
     filterset_fields = []
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
+
+    def get_serializer_class(self):
+        if self.request.method == "GET":
+            return MaintenanceReadSerializer
+        return MaintenanceWriteSerializer
 
     def perform_create(self, serializer):
         with transaction.atomic():
@@ -38,8 +42,12 @@ class MaintenanceList(CustomErrorHandlerMixin, generics.ListCreateAPIView):
 
 class MaintenanceDetail(CustomErrorHandlerMixin, generics.RetrieveUpdateDestroyAPIView):
     queryset = Maintenance.objects.all()
-    serializer_class = MaintenanceSerializer
     permission_classes = [IsAuthenticated]
+
+    def get_serializer_class(self):
+        if self.request.method == "GET":
+            return MaintenanceReadSerializer
+        return MaintenanceWriteSerializer
 
     def perform_update(self, serializer):
         old_status = serializer.instance.status
@@ -52,7 +60,7 @@ class MaintenanceDetail(CustomErrorHandlerMixin, generics.RetrieveUpdateDestroyA
                     raise serializers.ValidationError(
                         "Para programar a requisição é necessário inserir a data de previsão"
                     )
-                
+
                 send_status_change_email(instance)
 
     def update(self, request, *args, **kwargs):

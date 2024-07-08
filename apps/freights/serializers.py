@@ -1,11 +1,23 @@
 from rest_framework import serializers
 
-from apps.providers.models import Transporter
+from apps.contracts.serializers import ContractSerializer
+from apps.departments.serializers import DepartmentCustomSerializer
 from apps.freights.models import Freight, FreightQuotation
+from apps.providers.models import Transporter
+from apps.providers.serializers import TransporterCustomSerializer
+from apps.users.serializers import UserCustomSerializer
 from utils.validators.valid_date import retroactive_date
 
 
-class FreightQuotationSerializer(serializers.ModelSerializer):
+class FreightQuotationReadSerializer(serializers.ModelSerializer):
+    transporter = TransporterCustomSerializer()
+
+    class Meta:
+        model = FreightQuotation
+        fields = ("transporter", "price", "status")
+
+
+class FreightQuotationWriteSerializer(serializers.ModelSerializer):
     transporter_id = serializers.PrimaryKeyRelatedField(
         queryset=Transporter.objects.all(), source="transporter", write_only=False
     )
@@ -15,8 +27,20 @@ class FreightQuotationSerializer(serializers.ModelSerializer):
         fields = ("transporter_id", "price", "status")
 
 
-class FreightSerializer(serializers.ModelSerializer):
-    quotations = FreightQuotationSerializer(many=True, source="freightquotation_set")
+class FreightReadSerializer(serializers.ModelSerializer):
+    requester = UserCustomSerializer()
+    approver = UserCustomSerializer()
+    department = DepartmentCustomSerializer()
+    contract = ContractSerializer()
+    quotations = FreightQuotationReadSerializer(many=True, source="freightquotation_set")
+
+    class Meta:
+        model = Freight
+        fields = "__all__"
+
+
+class FreightWriteSerializer(serializers.ModelSerializer):
+    quotations = FreightQuotationWriteSerializer(many=True, source="freightquotation_set")
 
     class Meta:
         model = Freight
@@ -65,6 +89,13 @@ class FreightSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError(
                     "Para frete interno, os status devem ser APROVADO."
                 )
+            freight = Freight.objects.create(**validated_data)
+            FreightQuotation.objects.create(
+                freight=freight,
+                transporter=quotation_data["transporter"],
+                price=quotation_data["price"],
+                status=quotation_data["status"],
+            )
         else:
             if internal_transporter_count > 0 and external_transporter_count > 0:
                 raise serializers.ValidationError(

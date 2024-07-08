@@ -1,10 +1,12 @@
 from rest_framework import serializers
 
+from apps.departments.serializers import DepartmentCustomSerializer
 from apps.maintenances.models import Maintenance
+from apps.users.serializers import UserCustomSerializer
 from utils.validators.valid_date import retroactive_date
 
 
-class MaintenanceSerializer(serializers.ModelSerializer):
+class MaintenanceWriteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Maintenance
         fields = "__all__"
@@ -17,3 +19,13 @@ class MaintenanceSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError({"forecast_date": "Não é permitido data retroativa."})
 
         return data
+
+
+class MaintenanceReadSerializer(serializers.ModelSerializer):
+    requester = UserCustomSerializer()
+    approver = UserCustomSerializer()
+    department = DepartmentCustomSerializer()
+
+    class Meta:
+        model = Maintenance
+        fields = "__all__"
