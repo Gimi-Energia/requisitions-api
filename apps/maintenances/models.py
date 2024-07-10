@@ -13,6 +13,7 @@ REQUEST_STATUS = [
     ("Opened", "Opened"),
     ("Scheduled", "Scheduled"),
     ("Completed", "Completed"),
+    ("Denied", "Denied"),
     ("Canceled", "Canceled"),
 ]
 APPROVER_STATUS = [
