@@ -1,6 +1,7 @@
 from datetime import date
 from uuid import uuid4
 
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
@@ -61,3 +62,19 @@ class Maintenance(models.Model):
 
     def __str__(self):
         return str(self.id)
+
+
+class Responsible(models.Model):
+    id = models.UUIDField(primary_key=True, unique=True, default=uuid4, editable=False)
+    name = models.CharField(_("Name"), max_length=50)
+    email = models.EmailField(_("Email"), max_length=254)
+    phone = models.CharField(_("Phone"), max_length=15)
+    extension = models.CharField(_("Extension"), max_length=10)
+
+    def save(self, *args, **kwargs):
+        if not self.pk and Responsible.objects.exists():
+            raise ValidationError("Só pode haver um responsável pela manutenção interna.")
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.name} ({self.email}) - {self.phone} {self.extension}"

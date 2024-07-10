@@ -3,8 +3,12 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, generics, serializers
 from rest_framework.permissions import IsAuthenticated
 
-from apps.maintenances.models import Maintenance
-from apps.maintenances.serializers import MaintenanceReadSerializer, MaintenanceWriteSerializer
+from apps.maintenances.models import Maintenance, Responsible
+from apps.maintenances.serializers import (
+    MaintenanceReadSerializer,
+    MaintenanceWriteSerializer,
+    ResponsibleSerializer,
+)
 from setup.validators.custom_view_validator import CustomErrorHandlerMixin
 
 from .services.email_service import send_status_change_email
@@ -16,7 +20,7 @@ class MaintenanceList(CustomErrorHandlerMixin, generics.ListCreateAPIView):
     search_fields = []
     ordering_fields = []
     filterset_fields = []
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def get_serializer_class(self):
         if self.request.method == "GET":
@@ -70,3 +74,10 @@ class MaintenanceDetail(CustomErrorHandlerMixin, generics.RetrieveUpdateDestroyA
             return self.handle_validation_error(ve)
         except Exception as e:
             return self.handle_generic_exception(e, request)
+
+
+class ResponsibleView(generics.RetrieveUpdateAPIView):
+    serializer_class = ResponsibleSerializer
+
+    def get_object(self):
+        return Responsible.objects.first()

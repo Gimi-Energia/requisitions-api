@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from apps.departments.serializers import DepartmentCustomSerializer
-from apps.maintenances.models import Maintenance
+from apps.maintenances.models import Maintenance, Responsible
 from apps.users.serializers import UserCustomSerializer
 from utils.validators.valid_date import retroactive_date
 
@@ -29,3 +29,9 @@ class MaintenanceReadSerializer(serializers.ModelSerializer):
     class Meta:
         model = Maintenance
         fields = "__all__"
+
+
+class ResponsibleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Responsible
+        fields = ["name", "email", "phone", "extension"]
