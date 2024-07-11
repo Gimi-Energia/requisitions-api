@@ -1,5 +1,7 @@
 import os
+from concurrent.futures import ThreadPoolExecutor
 
+from django.db import transaction
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, generics, status
 from rest_framework.permissions import IsAuthenticated
@@ -30,27 +32,45 @@ class ContractsDataAPIView(APIView):
 
         MAX_PAGES = 1000
 
+        def process_page(page_number):
+            items = get_iapp_contracts(page_number, token, secret)
+            return items
+
         try:
-            for page_number in range(init[company], MAX_PAGES + 1):
-                items = get_iapp_contracts(page_number, token, secret)
+            all_items = []
+            with ThreadPoolExecutor() as executor:
+                futures = [
+                    executor.submit(process_page, page)
+                    for page in range(init[company], MAX_PAGES + 1)
+                ]
+                for future in futures:
+                    items = future.result()
+                    if not items:
+                        break
+                    all_items.extend(items)
 
-                if not items:
-                    break
+            existing_contract_ids = set(
+                Contract.objects.filter(id__in=[item["id"] for item in all_items]).values_list(
+                    "id", flat=True
+                )
+            )
 
-                for item in items:
-                    Contract.objects.update_or_create(
-                        id=item["id"],
-                        defaults={
-                            "company": item["company"],
-                            "contract_number": item["contract_number"],
-                            "control_number": item["control_number"],
-                            "client_name": item["client_name"],
-                            "project_name": item["project_name"],
-                            "freight_estimated": item["freight_estimated"],
-                        },
-                    )
+            new_contracts = [
+                Contract(
+                    id=item["id"],
+                    company=item["company"],
+                    contract_number=item["contract_number"],
+                    control_number=item["control_number"],
+                    client_name=item["client_name"],
+                    project_name=item["project_name"],
+                    freight_estimated=item["freight_estimated"],
+                )
+                for item in all_items
+                if item["id"] not in existing_contract_ids
+            ]
 
-                    print(item["contract_number"])
+            with transaction.atomic():
+                Contract.objects.bulk_create(new_contracts)
 
             return Response({"message": "Data entered successfully"}, status=status.HTTP_200_OK)
 
