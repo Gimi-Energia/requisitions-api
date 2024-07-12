@@ -7,12 +7,8 @@ from apps.purchases.models import PurchaseProduct
 
 
 def include_purchase_requisition(instance):
-    omie_app_key = str(
-        os.getenv(f"OMIE_APP_KEY_{instance.company}", str(os.getenv("OMIE_APP_KEY_GIMI")))
-    )
-    omie_app_secret = str(
-        os.getenv(f"OMIE_APP_SECRET_{instance.company}", str(os.getenv("OMIE_APP_SECRET_GIMI")))
-    )
+    omie_app_key = ""
+    omie_app_secret = ""
     url = "https://app.omie.com.br/api/v1/produtos/requisicaocompra/"
 
     purchase_products = PurchaseProduct.objects.filter(purchase=instance.id, status="Approved")
@@ -68,10 +64,8 @@ def include_purchase_requisition(instance):
 
 
 def get_omie_product_code(code, company):
-    omie_app_key = str(os.getenv(f"OMIE_APP_KEY_{company}", str(os.getenv("OMIE_APP_KEY_GIMI"))))
-    omie_app_secret = str(
-        os.getenv(f"OMIE_APP_SECRET_{company}", str(os.getenv("OMIE_APP_SECRET_GIMI")))
-    )
+    omie_app_key = ""
+    omie_app_secret = ""
     url = "https://app.omie.com.br/api/v1/geral/produtos/"
 
     payload = json.dumps(
