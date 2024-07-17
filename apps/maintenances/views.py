@@ -18,7 +18,7 @@ class MaintenanceList(CustomErrorHandlerMixin, generics.ListCreateAPIView):
     queryset = Maintenance.objects.all()
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
     search_fields = []
-    ordering_fields = []
+    ordering_fields = ["created_at", "request_date", "forecast_date", "end_date"]
     filterset_fields = ["status"]
     permission_classes = [IsAuthenticated]
 
