@@ -1,5 +1,4 @@
 from django.db import transaction
-from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, generics, serializers
 from rest_framework.permissions import IsAuthenticated
 
@@ -23,16 +22,30 @@ from .services.omie_service import include_purchase_requisition
 
 class PurchaseListCreateView(CustomErrorHandlerMixin, generics.ListCreateAPIView):
     queryset = Purchase.objects.all()
-    filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
-    search_fields = []
-    ordering_fields = ["created_at", "request_date", "approval_date", "quotation_date"]
-    filterset_fields = ["status"]
     permission_classes = [IsAuthenticated]
 
     def get_serializer_class(self):
         if self.request.method == "GET":
             return PurchaseReadSerializer
         return PurchaseWriteSerializer
+
+    def filter_purchases(self):
+        parameters = self.request.GET.dict()
+        offset_min = int(parameters.get("offset-min", 0))
+        offset_max = int(parameters.get("offset-max", 50))
+        orderby_field = parameters.get("orderby")
+        status = parameters.get("status")
+
+        if status:
+            self.queryset = self.queryset.filter(status=status)
+        if orderby_field:
+            self.queryset = self.queryset.order_by(orderby_field)
+
+        self.queryset = self.queryset[offset_min:offset_max]
+
+    def get(self, *args, **kwars):
+        self.filter_purchases()
+        return super().get(self.request, *args, **kwars)
 
     def perform_create(self, serializer):
         with transaction.atomic():
