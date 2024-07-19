@@ -12,8 +12,8 @@ from setup import settings
 class JWTAuth(HttpBearer):
     def authenticate(self, request, token):
         try:
-            collaborator = jwt.decode(token, settings.SECRET_KEY)
-            request.collaborator = collaborator
+            user = jwt.decode(token, settings.SECRET_KEY)
+            request.user = user
             return True
         except ExpiredSignatureError as exception:
             raise HttpError(HTTPStatus.UNAUTHORIZED, str(exception)) from exception

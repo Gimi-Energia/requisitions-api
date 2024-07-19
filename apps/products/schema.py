@@ -6,9 +6,9 @@ from apps.products.models import Product
 
 
 class ProductSchemaInput(Schema):
-    code: str | None
-    description: str | None
-    un: str | None
+    code: str | None = None
+    description: str | None = None
+    un: str | None = None
 
 
 # class ProductSchema(ModelSchema):

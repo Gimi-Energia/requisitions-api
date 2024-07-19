@@ -18,11 +18,10 @@ from .services.iapp_service import get_iapp_products
 
 class ProductsDataAPIView(APIView):
     def get(self, request):
-        token = str(os.getenv("TOKEN_GBL"))
-        secret = str(os.getenv("SECRET_GBL"))
+   
 
         try:
-            items = get_iapp_products(token, secret)
+            items = get_iapp_products()
 
             if not items:
                 return Response(

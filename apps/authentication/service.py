@@ -1,14 +1,11 @@
 from http import HTTPStatus
-
-from django.contrib.auth import authenticate, logout
+import uuid
+from django.contrib.auth import authenticate
 from django.http import JsonResponse
-from jose import ExpiredSignatureError, jwt
 from ninja.errors import HttpError
-from ninja.security import HttpBearer
 
 from apps.authentication.schema import LoginSchemaInput
-from setup import settings
-
+from apps.users.models import User
 # from communication.mailing.service import send_email
 from utils.jwt import generate_jwt_token
 
@@ -24,3 +21,9 @@ class AuthenticationService:
             data={"access_token": token},
             status=HTTPStatus.OK,
         )
+
+
+    def get_me(self, user_id: uuid.UUID):
+        if not (user := User.objects.filter(id=user_id).first()):
+            raise HttpError(HTTPStatus.NOT_FOUND, "User not found")
+        return user
