@@ -1,6 +1,5 @@
 from django.db import transaction
-from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import filters, generics, serializers
+from rest_framework import generics, serializers
 from rest_framework.permissions import IsAuthenticated
 
 from apps.maintenances.models import Maintenance, Responsible
@@ -16,16 +15,30 @@ from .services.email_service import send_status_change_email
 
 class MaintenanceList(CustomErrorHandlerMixin, generics.ListCreateAPIView):
     queryset = Maintenance.objects.all()
-    filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
-    search_fields = []
-    ordering_fields = ["created_at", "request_date", "forecast_date", "end_date"]
-    filterset_fields = ["status"]
     permission_classes = [IsAuthenticated]
 
     def get_serializer_class(self):
         if self.request.method == "GET":
             return MaintenanceReadSerializer
         return MaintenanceWriteSerializer
+
+    def filter_maintenances(self):
+        parameters = self.request.GET.dict()
+        offset_min = int(parameters.get("offset-min", 0))
+        offset_max = int(parameters.get("offset-max", 50))
+        orderby_field = parameters.get("orderby")
+        status = parameters.get("status")
+
+        if status:
+            self.queryset = self.queryset.filter(status=status)
+        if orderby_field:
+            self.queryset = self.queryset.order_by(orderby_field)
+
+        self.queryset = self.queryset[offset_min:offset_max]
+
+    def get(self, *args, **kwars):
+        self.filter_maintenances()
+        return super().get(self.request, *args, **kwars)
 
     def perform_create(self, serializer):
         with transaction.atomic():

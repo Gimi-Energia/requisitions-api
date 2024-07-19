@@ -3,8 +3,7 @@ import os
 from django.db import transaction
 from django.db.models import Count
 from django.http import HttpResponse
-from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import filters, generics, status
+from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -70,10 +69,36 @@ class ProductsDataAPIView(APIView):
 class ProductList(generics.ListCreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
-    search_fields = ["code", "description"]
-    ordering_fields = ["code", "un", "price"]
-    filterset_fields = ["code", "description", "un"]
+
+    def sanitize_list_query_params(self, data: str):
+        if data:
+            return data.split(",")
+        return data
+
+    def filter_products(self):
+        parameters = self.request.GET.dict()
+        offset_min = int(parameters.get("offset-min", 0))
+        offset_max = int(parameters.get("offset-max", 50))
+        orderby_field = parameters.get("orderby")
+        code = parameters.get("code", [])
+        un = parameters.get("un")
+        description = parameters.get("description")
+        code = self.sanitize_list_query_params(code)
+
+        if code:
+            self.queryset = self.queryset.filter(code__in=code)
+        if un:
+            self.queryset = self.queryset.filter(un=un)
+        if description:
+            self.queryset = self.queryset.filter(description__icontains=description)
+        if orderby_field:
+            self.queryset = self.queryset.order_by(orderby_field)
+
+        self.queryset = self.queryset[offset_min:offset_max]
+
+    def get(self, *args, **kwars):
+        self.filter_products()
+        return super().get(self.request, *args, **kwars)
 
     def get_permissions(self):
         if self.request.method == "GET":
