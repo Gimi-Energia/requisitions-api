@@ -1,21 +1,11 @@
 import uuid
 
-from ninja import ModelSchema, Schema
-
-from apps.products.models import Product
-
+from ninja import Schema
 
 class ProductSchemaInput(Schema):
     code: str | None = None
     description: str | None = None
     un: str | None = None
-
-
-# class ProductSchema(ModelSchema):
-#     class Meta:
-#         model = Product
-#         fields = "__all__"
-
 
 class ProductSchema(ProductSchemaInput):
     id: uuid.UUID
