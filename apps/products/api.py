@@ -32,6 +32,7 @@ def list_products(
     decode_jwt_token(request.headers.get("Authorization"))
     return service.list(**request.GET.dict())
 
+
 @products_router.get("/sync/", response=str)
 def sync_iapp(request):
     """
@@ -46,17 +47,20 @@ def sync_iapp(request):
     decode_jwt_token(request.headers.get("Authorization"))
     return service.sync_iapp()
 
+
 @products_router.patch("/{product_id}/", response=ProductSchema)
 def update_product(request, product_id: uuid.UUID, payload: ProductSchemaInput):
     """atualiza um produto"""
     decode_jwt_token(request.headers.get("Authorization"))
     return service.update(product_id, payload)
 
+
 @products_router.delete("/{product_id}/", response=str)
 def delete_product(request, product_id: uuid.UUID):
     """deleta um produto"""
     decode_jwt_token(request.headers.get("Authorization"))
     return service.delete(product_id)
+
 
 @products_router.get("/{product_id}/", response=ProductSchema)
 def get_product(request, product_id: uuid.UUID):
@@ -72,4 +76,3 @@ def get_product(request, product_id: uuid.UUID):
     """
     decode_jwt_token(request.headers.get("Authorization"))
     return service.get(product_id=product_id)
-

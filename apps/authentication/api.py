@@ -15,6 +15,7 @@ def auth_login(request, input_schema: LoginSchemaInput):
     """Autenticação de usuário"""
     return service.auth_login(request, input_schema)
 
+
 @authentication_router.get("/me/", response=UserOutputSchema)
 def auth_me(request):
     """Retorna o usuário autenticado"""

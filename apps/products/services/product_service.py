@@ -3,7 +3,7 @@ from http import HTTPStatus
 
 from ninja.errors import HttpError
 from django.db import transaction
-from django.http import JsonResponse   
+from django.http import JsonResponse
 
 from apps.products.models import Product
 from apps.products.schema import ProductSchemaInput
@@ -16,7 +16,7 @@ class ProductService:
 
     def get_product_by_id(self, product_id: uuid.UUID):
         return Product.objects.filter(id=product_id).first()
-    
+
     def list_products_by_list_code(self, list_code: list[str]):
         return Product.objects.filter(code__in=list_code)
 
@@ -95,16 +95,21 @@ class ProductService:
             iapp_products = get_iapp_products()
             if not iapp_products:
                 raise HttpError(HTTPStatus.INTERNAL_SERVER_ERROR, "Error finding products")
-            
-            list_product_exists = self.list_products_by_list_code([iapp_product["code"] for iapp_product in iapp_products])
+
+            list_product_exists = self.list_products_by_list_code(
+                [iapp_product["code"] for iapp_product in iapp_products]
+            )
             list_product_exists = list_product_exists.values_list("code", flat=True)
             list_product_for_create = []
-            
+
             for product in iapp_products:
-                if product['code'] not in list_product_exists and product["code"] not in list_product_for_create:
+                if (
+                    product["code"] not in list_product_exists
+                    and product["code"] not in list_product_for_create
+                ):
                     list_product_for_create.append(Product(**product))
-                
+
             self.bulk_create_product(list_product_for_create)
             return {"message": "Data entered successfully"}
         except Exception as e:
-            raise HttpError(HTTPStatus.INTERNAL_SERVER_ERROR, "Error inserting data: " + str(e) )
+            raise HttpError(HTTPStatus.INTERNAL_SERVER_ERROR, "Error inserting data: " + str(e))

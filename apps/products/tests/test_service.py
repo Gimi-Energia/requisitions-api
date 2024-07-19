@@ -2,7 +2,6 @@ from unittest.mock import patch
 
 import pytest
 
-from apps.products.models import Product
 from apps.products.services.product_service import ProductService
 
 
