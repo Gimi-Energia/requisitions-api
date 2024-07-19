@@ -3,7 +3,8 @@ from rest_framework import filters, generics
 from rest_framework.permissions import IsAuthenticated
 
 from apps.providers.models import Provider, Transporter
-from apps.providers.serializers import ProviderSerializer, TransporterSerializer
+from apps.providers.serializers import (ProviderSerializer,
+                                        TransporterSerializer)
 from utils.permissions import IsAdminPost, IsAuthenticatedGet
 
 

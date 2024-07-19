@@ -4,27 +4,26 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('products', '0002_remove_product_price'),
+        ("products", "0002_remove_product_price"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='product',
-            name='icms',
+            model_name="product",
+            name="icms",
         ),
         migrations.RemoveField(
-            model_name='product',
-            name='ipi',
+            model_name="product",
+            name="ipi",
         ),
         migrations.RemoveField(
-            model_name='product',
-            name='st',
+            model_name="product",
+            name="st",
         ),
         migrations.AlterField(
-            model_name='product',
-            name='un',
-            field=models.CharField(max_length=30, verbose_name='Measurement Unit'),
+            model_name="product",
+            name="un",
+            field=models.CharField(max_length=30, verbose_name="Measurement Unit"),
         ),
     ]

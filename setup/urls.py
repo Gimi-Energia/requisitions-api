@@ -7,6 +7,7 @@ from drf_yasg.views import get_schema_view
 from rest_framework import permissions, routers
 from rest_framework_simplejwt.views import TokenRefreshView
 
+from setup.api import api
 from utils.token import CustomTokenObtainPairView
 
 schema_view = get_schema_view(
@@ -36,6 +37,7 @@ urlpatterns = [
     path("", include("apps.contracts.urls")),
     path("", include("apps.freights.urls")),
     path("", include("apps.maintenances.urls")),
+    path("api/v2/", api.urls),
     path("api/token/", CustomTokenObtainPairView.as_view(), name="token-obtain"),
     path("api/token/refresh/", TokenRefreshView.as_view(), name="token-refresh"),
     path("api/swagger/", schema_view.with_ui("swagger", cache_timeout=0), name="schema-swagger-ui"),

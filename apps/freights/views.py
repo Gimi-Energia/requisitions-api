@@ -4,12 +4,10 @@ from rest_framework import filters, generics, serializers
 from rest_framework.permissions import IsAuthenticated
 
 from apps.freights.models import Freight, FreightQuotation
-from apps.freights.serializers import (
-    FreightQuotationReadSerializer,
-    FreightQuotationWriteSerializer,
-    FreightReadSerializer,
-    FreightWriteSerializer,
-)
+from apps.freights.serializers import (FreightQuotationReadSerializer,
+                                       FreightQuotationWriteSerializer,
+                                       FreightReadSerializer,
+                                       FreightWriteSerializer)
 from setup.validators.custom_view_validator import CustomErrorHandlerMixin
 
 from .services.email_service import send_status_change_email

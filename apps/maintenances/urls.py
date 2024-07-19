@@ -1,6 +1,7 @@
 from django.urls import path
 
-from apps.maintenances.views import MaintenanceDetail, MaintenanceList, ResponsibleView
+from apps.maintenances.views import (MaintenanceDetail, MaintenanceList,
+                                     ResponsibleView)
 
 urlpatterns = [
     path("api/maintenances/", MaintenanceList.as_view(), name="maintenances-list"),

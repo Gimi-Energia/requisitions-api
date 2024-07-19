@@ -1,14 +1,9 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
 from rest_framework import status
-from rest_framework.exceptions import (
-    MethodNotAllowed,
-    NotAuthenticated,
-    ParseError,
-    PermissionDenied,
-    Throttled,
-    ValidationError,
-)
+from rest_framework.exceptions import (MethodNotAllowed, NotAuthenticated,
+                                       ParseError, PermissionDenied, Throttled,
+                                       ValidationError)
 from rest_framework.response import Response
 from rest_framework.views import exception_handler
 

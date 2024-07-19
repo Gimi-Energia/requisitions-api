@@ -5,7 +5,8 @@ import pytz
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.lib.units import inch
-from reportlab.platypus import Image, Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle
+from reportlab.platypus import (Image, Paragraph, SimpleDocTemplate, Spacer,
+                                Table, TableStyle)
 
 
 def generate_pdf(instance):

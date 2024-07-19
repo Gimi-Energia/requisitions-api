@@ -12,8 +12,9 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 import os
 from datetime import timedelta
-import dj_database_url
 from pathlib import Path
+
+import dj_database_url
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -31,7 +32,7 @@ SECRET_KEY = str(os.getenv("SECRET_KEY"))
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = str(os.getenv("DEBUG"))
 
-ALLOWED_HOSTS = str(os.getenv("ALLOWED_HOSTS")).split(" ")
+ALLOWED_HOSTS = str(os.getenv("ALLOWED_HOSTS", "127.0.0.1")).split(" ")
 
 # Application definition
 
@@ -48,6 +49,7 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt",
     "django_filters",
     "apps.users.apps.UsersConfig",
+    "apps.authentication",
     "apps.departments.apps.DepartmentsConfig",
     "apps.products.apps.ProductsConfig",
     "apps.purchases.apps.PurchasesConfig",

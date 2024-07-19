@@ -4,20 +4,16 @@ from rest_framework import filters, generics, serializers
 from rest_framework.permissions import IsAuthenticated
 
 from apps.purchases.models import Purchase, PurchaseProduct
-from apps.purchases.serializers import (
-    PurchaseProductReadSerializer,
-    PurchaseProductWriteSerializer,
-    PurchaseReadSerializer,
-    PurchaseWriteSerializer,
-)
+from apps.purchases.serializers import (PurchaseProductReadSerializer,
+                                        PurchaseProductWriteSerializer,
+                                        PurchaseReadSerializer,
+                                        PurchaseWriteSerializer)
 from setup.validators.custom_view_validator import CustomErrorHandlerMixin
 
-from .services.email_service import (
-    send_generic_product_email,
-    send_purchase_quotation_email,
-    send_quotation_email_with_pdf,
-    send_status_change_email,
-)
+from .services.email_service import (send_generic_product_email,
+                                     send_purchase_quotation_email,
+                                     send_quotation_email_with_pdf,
+                                     send_status_change_email)
 from .services.omie_service import include_purchase_requisition
 
 

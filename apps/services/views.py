@@ -4,18 +4,14 @@ from rest_framework import filters, generics, serializers
 from rest_framework.permissions import IsAuthenticated
 
 from apps.services.models import Service, ServiceType
-from apps.services.serializers import (
-    ServiceReadSerializer,
-    ServiceTypeSerializer,
-    ServiceWriteSerializer,
-)
+from apps.services.serializers import (ServiceReadSerializer,
+                                       ServiceTypeSerializer,
+                                       ServiceWriteSerializer)
 from setup.validators.custom_view_validator import CustomErrorHandlerMixin
 
-from .services.email_service import (
-    send_quotation_email_with_pdf,
-    send_service_quotation_email,
-    send_status_change_email,
-)
+from .services.email_service import (send_quotation_email_with_pdf,
+                                     send_service_quotation_email,
+                                     send_status_change_email)
 
 
 class ServiceList(CustomErrorHandlerMixin, generics.ListCreateAPIView):

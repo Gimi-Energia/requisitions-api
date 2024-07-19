@@ -1,6 +1,7 @@
 import re
-from validate_docbr import CNPJ, CPF
+
 from django.core.exceptions import ValidationError
+from validate_docbr import CNPJ, CPF
 
 
 def valid_name(name):

@@ -4,11 +4,9 @@ from rest_framework import filters, generics, serializers
 from rest_framework.permissions import IsAuthenticated
 
 from apps.maintenances.models import Maintenance, Responsible
-from apps.maintenances.serializers import (
-    MaintenanceReadSerializer,
-    MaintenanceWriteSerializer,
-    ResponsibleSerializer,
-)
+from apps.maintenances.serializers import (MaintenanceReadSerializer,
+                                           MaintenanceWriteSerializer,
+                                           ResponsibleSerializer)
 from setup.validators.custom_view_validator import CustomErrorHandlerMixin
 
 from .services.email_service import send_status_change_email

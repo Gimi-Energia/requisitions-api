@@ -1,9 +1,7 @@
 from django.urls import path
-from apps.freights.views import (
-    FreightListCreateView,
-    FreightDetailView,
-    FreightQuotationListCreateView,
-)
+
+from apps.freights.views import (FreightDetailView, FreightListCreateView,
+                                 FreightQuotationListCreateView)
 
 urlpatterns = [
     path("api/freights/", FreightListCreateView.as_view(), name="freight-list-create"),

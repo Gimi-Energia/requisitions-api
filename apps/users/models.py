@@ -6,8 +6,9 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
-from apps.users.validators.superuser import valid_email, valid_name, valid_phone
 from apps.departments.models import Department
+from apps.users.validators.superuser import (valid_email, valid_name,
+                                             valid_phone)
 
 
 class UserManager(BaseUserManager):

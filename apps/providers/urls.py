@@ -1,6 +1,7 @@
 from django.urls import path
 
-from apps.providers.views import ProviderDetail, ProviderList, TransporterDetail, TransporterList
+from apps.providers.views import (ProviderDetail, ProviderList,
+                                  TransporterDetail, TransporterList)
 
 urlpatterns = [
     path("api/providers/", ProviderList.as_view(), name="providers-list"),

@@ -1,13 +1,9 @@
 from django.contrib.auth.hashers import make_password
 from rest_framework import serializers
+
 from apps.users.models import User
-from apps.users.validators.api import (
-    valid_email,
-    valid_name,
-    valid_password,
-    equal_passwords,
-    valid_phone,
-)
+from apps.users.validators.api import (equal_passwords, valid_email,
+                                       valid_name, valid_password, valid_phone)
 
 
 class UserSerializer(serializers.ModelSerializer):

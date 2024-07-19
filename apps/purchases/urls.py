@@ -1,9 +1,7 @@
 from django.urls import path
-from apps.purchases.views import (
-    PurchaseListCreateView,
-    PurchaseDetailView,
-    PurchaseProductListCreateView,
-)
+
+from apps.purchases.views import (PurchaseDetailView, PurchaseListCreateView,
+                                  PurchaseProductListCreateView)
 
 urlpatterns = [
     path("api/purchases/", PurchaseListCreateView.as_view(), name="purchase-list-create"),

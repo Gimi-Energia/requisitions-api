@@ -1,5 +1,6 @@
 import requests
 
+
 def get_iapp_contracts(page, token, secret):
     ENDPOINT = "https://api.iniciativaaplicativos.com.br/api/comercial/contratos/lista"
     offset = 30
