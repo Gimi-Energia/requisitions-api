@@ -77,8 +77,6 @@ class ProductList(generics.ListCreateAPIView):
 
     def filter_products(self):
         parameters = self.request.GET.dict()
-        offset_min = int(parameters.get("offset-min", 0))
-        offset_max = int(parameters.get("offset-max", 50))
         orderby_field = parameters.get("orderby")
         code = parameters.get("code", [])
         un = parameters.get("un")
@@ -93,8 +91,6 @@ class ProductList(generics.ListCreateAPIView):
             self.queryset = self.queryset.filter(description__icontains=description)
         if orderby_field:
             self.queryset = self.queryset.order_by(orderby_field)
-
-        self.queryset = self.queryset[offset_min:offset_max]
 
     def get(self, *args, **kwars):
         self.filter_products()

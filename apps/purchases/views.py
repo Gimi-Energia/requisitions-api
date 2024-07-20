@@ -31,8 +31,6 @@ class PurchaseListCreateView(CustomErrorHandlerMixin, generics.ListCreateAPIView
 
     def filter_purchases(self):
         parameters = self.request.GET.dict()
-        offset_min = int(parameters.get("offset-min", 0))
-        offset_max = int(parameters.get("offset-max", 50))
         orderby_field = parameters.get("orderby")
         status = parameters.get("status")
 
@@ -40,8 +38,6 @@ class PurchaseListCreateView(CustomErrorHandlerMixin, generics.ListCreateAPIView
             self.queryset = self.queryset.filter(status=status)
         if orderby_field:
             self.queryset = self.queryset.order_by(orderby_field)
-
-        self.queryset = self.queryset[offset_min:offset_max]
 
     def get(self, *args, **kwars):
         self.filter_purchases()
