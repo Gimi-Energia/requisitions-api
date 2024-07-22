@@ -2,9 +2,11 @@ import uuid
 
 from ninja import Router
 
-from apps.purchases.schema import (PurchaseInputCreateSchema,
-                                   PurchaseOuputSchema,
-                                   PurchaseProductInputSchema)
+from apps.purchases.schema import (
+    PurchaseInputCreateSchema,
+    PurchaseOuputSchema,
+    PurchaseProductInputSchema,
+)
 from apps.purchases.services.purchases_service import PurchasesService
 from utils.jwt import JWTAuth, decode_jwt_token
 
@@ -43,7 +45,6 @@ def create_purchase(request, payload: PurchaseInputCreateSchema):
     return service.create(payload)
 
 
-@purchases_router.post("/add/product/{purchase_id}/", response=PurchaseOuputSchema)
 @purchases_router.patch("/{purchase_id}/", response=PurchaseOuputSchema)
 def update_purchase(request, purchase_id: uuid.UUID, payload: PurchaseInputCreateSchema):
     """Atualiza uma compra"""
