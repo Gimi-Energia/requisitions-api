@@ -110,6 +110,6 @@ class ProductService:
                     list_product_for_create.append(Product(**product))
 
             self.bulk_create_product(list_product_for_create)
-            return {"message": "Data entered successfully"}
+            return JsonResponse({"message": "Data entered successfully"})
         except Exception as e:
             raise HttpError(HTTPStatus.INTERNAL_SERVER_ERROR, "Error inserting data: " + str(e))
