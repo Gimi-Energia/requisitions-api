@@ -4,15 +4,19 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('freights', '0003_remove_freight_execution_date_freight_created_at'),
+        ("freights", "0003_remove_freight_execution_date_freight_created_at"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='freightquotation',
-            name='status',
-            field=models.CharField(choices=[('Opened', 'Opened'), ('Denied', 'Denied'), ('Approved', 'Approved')], default='Pending', max_length=8, verbose_name='Status'),
+            model_name="freightquotation",
+            name="status",
+            field=models.CharField(
+                choices=[("Opened", "Opened"), ("Denied", "Denied"), ("Approved", "Approved")],
+                default="Pending",
+                max_length=8,
+                verbose_name="Status",
+            ),
         ),
     ]

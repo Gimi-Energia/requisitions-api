@@ -6,16 +6,22 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('maintenances', '0002_remove_maintenance_approver'),
+        ("maintenances", "0002_remove_maintenance_approver"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='maintenance',
-            name='approver',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='maintenance_approver', to=settings.AUTH_USER_MODEL, verbose_name='Approver'),
+            model_name="maintenance",
+            name="approver",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="maintenance_approver",
+                to=settings.AUTH_USER_MODEL,
+                verbose_name="Approver",
+            ),
         ),
     ]

@@ -2,11 +2,9 @@ import uuid
 
 from ninja import Router
 
-from apps.purchases.schema import (
-    PurchaseOuputSchema,
-    PurchaseInputCreateSchema,
-    PurchaseProductInputSchema,
-)
+from apps.purchases.schema import (PurchaseInputCreateSchema,
+                                   PurchaseOuputSchema,
+                                   PurchaseProductInputSchema)
 from apps.purchases.services.purchases_service import PurchasesService
 from utils.jwt import JWTAuth, decode_jwt_token
 

@@ -4,15 +4,25 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('contracts', '0002_alter_contract_project_name'),
+        ("contracts", "0002_alter_contract_project_name"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='contract',
-            name='company',
-            field=models.CharField(choices=[('Gimi', 'Gimi'), ('GBL', 'GBL'), ('GPB', 'GPB'), ('GS', 'GS'), ('GIR', 'GIR')], default='Gimi', max_length=4, verbose_name='Company'),
+            model_name="contract",
+            name="company",
+            field=models.CharField(
+                choices=[
+                    ("Gimi", "Gimi"),
+                    ("GBL", "GBL"),
+                    ("GPB", "GPB"),
+                    ("GS", "GS"),
+                    ("GIR", "GIR"),
+                ],
+                default="Gimi",
+                max_length=4,
+                verbose_name="Company",
+            ),
         ),
     ]

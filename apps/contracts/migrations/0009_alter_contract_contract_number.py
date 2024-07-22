@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('contracts', '0008_remove_contract_freight_value_and_more'),
+        ("contracts", "0008_remove_contract_freight_value_and_more"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='contract',
-            name='contract_number',
-            field=models.CharField(max_length=10, unique=True, verbose_name='Contract Number'),
+            model_name="contract",
+            name="contract_number",
+            field=models.CharField(max_length=10, unique=True, verbose_name="Contract Number"),
         ),
     ]

@@ -6,15 +6,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('purchases', '0004_alter_purchase_status_alter_purchaseproduct_status'),
+        ("purchases", "0004_alter_purchase_status_alter_purchaseproduct_status"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='purchase',
-            name='execution_date',
-            field=models.DateField(default=datetime.date.today, verbose_name='Execution Date'),
+            model_name="purchase",
+            name="execution_date",
+            field=models.DateField(default=datetime.date.today, verbose_name="Execution Date"),
         ),
     ]

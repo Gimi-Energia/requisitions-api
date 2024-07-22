@@ -1,9 +1,11 @@
 import uuid
-from datetime import datetime, date
-from apps.users.schema import UserOutputPurchaseSchema
+from datetime import date, datetime
+
+from ninja import Schema
+
 from apps.departments.schema import DepartmentsBaseSchema
 from apps.products.schema import ProductSchema
-from ninja import Schema
+from apps.users.schema import UserOutputPurchaseSchema
 
 
 class PurchaseBaseSchema(Schema):

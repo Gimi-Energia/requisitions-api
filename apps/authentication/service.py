@@ -1,12 +1,12 @@
-from http import HTTPStatus
 import uuid
+from http import HTTPStatus
+
 from django.contrib.auth import authenticate
 from django.http import JsonResponse
 from ninja.errors import HttpError
 
 from apps.authentication.schema import LoginSchemaInput
 from apps.users.models import User
-
 # from communication.mailing.service import send_email
 from utils.jwt import generate_jwt_token
 

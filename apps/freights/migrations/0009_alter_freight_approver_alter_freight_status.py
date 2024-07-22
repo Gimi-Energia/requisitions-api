@@ -6,21 +6,36 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('freights', '0008_alter_freight_status_alter_freightquotation_status'),
+        ("freights", "0008_alter_freight_status_alter_freightquotation_status"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='freight',
-            name='approver',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='freight_approver', to=settings.AUTH_USER_MODEL, verbose_name='Approver'),
+            model_name="freight",
+            name="approver",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="freight_approver",
+                to=settings.AUTH_USER_MODEL,
+                verbose_name="Approver",
+            ),
         ),
         migrations.AlterField(
-            model_name='freight',
-            name='status',
-            field=models.CharField(choices=[('Opened', 'Opened'), ('Canceled', 'Canceled'), ('Pending', 'Pending'), ('Denied', 'Denied'), ('Approved', 'Approved')], default='Opened', max_length=8, verbose_name='Status'),
+            model_name="freight",
+            name="status",
+            field=models.CharField(
+                choices=[
+                    ("Opened", "Opened"),
+                    ("Canceled", "Canceled"),
+                    ("Pending", "Pending"),
+                    ("Denied", "Denied"),
+                    ("Approved", "Approved"),
+                ],
+                default="Opened",
+                max_length=8,
+                verbose_name="Status",
+            ),
         ),
     ]

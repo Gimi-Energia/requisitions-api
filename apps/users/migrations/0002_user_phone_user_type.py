@@ -6,20 +6,34 @@ import apps.users.validators.superuser
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('users', '0001_initial'),
+        ("users", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='user',
-            name='phone',
-            field=models.CharField(blank=True, max_length=11, null=True, validators=[apps.users.validators.superuser.valid_phone], verbose_name='Phone'),
+            model_name="user",
+            name="phone",
+            field=models.CharField(
+                blank=True,
+                max_length=11,
+                null=True,
+                validators=[apps.users.validators.superuser.valid_phone],
+                verbose_name="Phone",
+            ),
         ),
         migrations.AddField(
-            model_name='user',
-            name='type',
-            field=models.CharField(choices=[('Requester', 'Requester'), ('Manager', 'Manager'), ('Approver', 'Approver')], default='Requester', max_length=9, verbose_name='Type'),
+            model_name="user",
+            name="type",
+            field=models.CharField(
+                choices=[
+                    ("Requester", "Requester"),
+                    ("Manager", "Manager"),
+                    ("Approver", "Approver"),
+                ],
+                default="Requester",
+                max_length=9,
+                verbose_name="Type",
+            ),
         ),
     ]

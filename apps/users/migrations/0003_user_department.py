@@ -5,17 +5,20 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('departments', '0001_initial'),
-        ('users', '0002_user_phone_user_type'),
+        ("departments", "0001_initial"),
+        ("users", "0002_user_phone_user_type"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='user',
-            name='department',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='departments.department', verbose_name='Department'),
+            model_name="user",
+            name="department",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to="departments.department",
+                verbose_name="Department",
+            ),
             preserve_default=False,
         ),
     ]

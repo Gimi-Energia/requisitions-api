@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('freights', '0006_freight_contract_freightquotation_name_other_and_more'),
+        ("freights", "0006_freight_contract_freightquotation_name_other_and_more"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='freight',
-            name='motive_denied',
-            field=models.TextField(blank=True, null=True, verbose_name='Motive Denied'),
+            model_name="freight",
+            name="motive_denied",
+            field=models.TextField(blank=True, null=True, verbose_name="Motive Denied"),
         ),
     ]

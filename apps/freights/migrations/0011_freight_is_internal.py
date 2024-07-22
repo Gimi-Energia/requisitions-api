@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('freights', '0010_freight_due_date'),
+        ("freights", "0010_freight_due_date"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='freight',
-            name='is_internal',
-            field=models.BooleanField(default=False, verbose_name='Is Internal'),
+            model_name="freight",
+            name="is_internal",
+            field=models.BooleanField(default=False, verbose_name="Is Internal"),
         ),
     ]

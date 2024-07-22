@@ -28,7 +28,7 @@ class CustomErrorHandlerMixin:
                         if "obrigatório" in messages.lower()
                         else f"No campo '{field}' {messages.lower()}"
                     )
-                    
+
         error_message = "; ".join(errors)
         return Response({"error": error_message}, status=status.HTTP_400_BAD_REQUEST)
 

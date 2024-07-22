@@ -9,37 +9,121 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('departments', '0002_remove_department_code_alter_department_id'),
+        ("departments", "0002_remove_department_code_alter_department_id"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='ServiceType',
+            name="ServiceType",
             fields=[
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False, unique=True)),
-                ('description', models.CharField(max_length=120, verbose_name='Description')),
+                (
+                    "id",
+                    models.UUIDField(
+                        default=uuid.uuid4,
+                        editable=False,
+                        primary_key=True,
+                        serialize=False,
+                        unique=True,
+                    ),
+                ),
+                ("description", models.CharField(max_length=120, verbose_name="Description")),
             ],
         ),
         migrations.CreateModel(
-            name='Service',
+            name="Service",
             fields=[
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False, unique=True)),
-                ('company', models.CharField(choices=[('Gimi', 'Gimi'), ('GBL', 'GBL'), ('GPB', 'GPB'), ('GS', 'GS'), ('GIR', 'GIR')], default='Gimi', max_length=4, verbose_name='Company')),
-                ('request_date', models.DateField(default=datetime.date.today, verbose_name='Request Date')),
-                ('motive', models.CharField(max_length=50, verbose_name='Motive')),
-                ('obs', models.TextField(verbose_name='Observation')),
-                ('value', models.DecimalField(decimal_places=2, max_digits=7, verbose_name='Value')),
-                ('status', models.CharField(choices=[('Pending', 'Pending'), ('Approved', 'Approved'), ('Denied', 'Denied')], default='Pending', max_length=8, verbose_name='Status')),
-                ('approval_date', models.DateField(blank=True, null=True, verbose_name='Approval Date')),
-                ('approver', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='service_approver', to=settings.AUTH_USER_MODEL, verbose_name='Approver')),
-                ('department', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='departments.department', verbose_name='Department')),
-                ('requester', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='service_requester', to=settings.AUTH_USER_MODEL, verbose_name='Requester')),
-                ('service', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='services.servicetype', verbose_name='Service')),
+                (
+                    "id",
+                    models.UUIDField(
+                        default=uuid.uuid4,
+                        editable=False,
+                        primary_key=True,
+                        serialize=False,
+                        unique=True,
+                    ),
+                ),
+                (
+                    "company",
+                    models.CharField(
+                        choices=[
+                            ("Gimi", "Gimi"),
+                            ("GBL", "GBL"),
+                            ("GPB", "GPB"),
+                            ("GS", "GS"),
+                            ("GIR", "GIR"),
+                        ],
+                        default="Gimi",
+                        max_length=4,
+                        verbose_name="Company",
+                    ),
+                ),
+                (
+                    "request_date",
+                    models.DateField(default=datetime.date.today, verbose_name="Request Date"),
+                ),
+                ("motive", models.CharField(max_length=50, verbose_name="Motive")),
+                ("obs", models.TextField(verbose_name="Observation")),
+                (
+                    "value",
+                    models.DecimalField(decimal_places=2, max_digits=7, verbose_name="Value"),
+                ),
+                (
+                    "status",
+                    models.CharField(
+                        choices=[
+                            ("Pending", "Pending"),
+                            ("Approved", "Approved"),
+                            ("Denied", "Denied"),
+                        ],
+                        default="Pending",
+                        max_length=8,
+                        verbose_name="Status",
+                    ),
+                ),
+                (
+                    "approval_date",
+                    models.DateField(blank=True, null=True, verbose_name="Approval Date"),
+                ),
+                (
+                    "approver",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="service_approver",
+                        to=settings.AUTH_USER_MODEL,
+                        verbose_name="Approver",
+                    ),
+                ),
+                (
+                    "department",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="departments.department",
+                        verbose_name="Department",
+                    ),
+                ),
+                (
+                    "requester",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="service_requester",
+                        to=settings.AUTH_USER_MODEL,
+                        verbose_name="Requester",
+                    ),
+                ),
+                (
+                    "service",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="services.servicetype",
+                        verbose_name="Service",
+                    ),
+                ),
             ],
         ),
     ]

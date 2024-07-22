@@ -1,5 +1,7 @@
 import uuid
+
 from ninja import Schema
+
 from apps.departments.schema import DepartmentsBaseSchema
 
 

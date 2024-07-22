@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('contracts', '0004_alter_contract_company'),
+        ("contracts", "0004_alter_contract_company"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='contract',
-            name='freight_value',
-            field=models.FloatField(blank=True, null=True, verbose_name='Freight Value'),
+            model_name="contract",
+            name="freight_value",
+            field=models.FloatField(blank=True, null=True, verbose_name="Freight Value"),
         ),
     ]

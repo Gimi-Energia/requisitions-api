@@ -5,19 +5,20 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('services', '0004_service_execution_date'),
+        ("services", "0004_service_execution_date"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='service',
-            name='execution_date',
+            model_name="service",
+            name="execution_date",
         ),
         migrations.AddField(
-            model_name='service',
-            name='created_at',
-            field=models.DateTimeField(default=django.utils.timezone.now, verbose_name='Created At'),
+            model_name="service",
+            name="created_at",
+            field=models.DateTimeField(
+                default=django.utils.timezone.now, verbose_name="Created At"
+            ),
         ),
     ]

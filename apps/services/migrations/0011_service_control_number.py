@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('services', '0010_alter_service_provider'),
+        ("services", "0010_alter_service_provider"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='service',
-            name='control_number',
-            field=models.IntegerField(default=0, verbose_name='Control Number'),
+            model_name="service",
+            name="control_number",
+            field=models.IntegerField(default=0, verbose_name="Control Number"),
         ),
     ]

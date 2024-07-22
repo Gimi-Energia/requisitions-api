@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('purchases', '0006_remove_purchase_execution_date_purchase_created_at'),
+        ("purchases", "0006_remove_purchase_execution_date_purchase_created_at"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='purchase',
-            name='approval_date',
-            field=models.DateTimeField(blank=True, null=True, verbose_name='Approval Date'),
+            model_name="purchase",
+            name="approval_date",
+            field=models.DateTimeField(blank=True, null=True, verbose_name="Approval Date"),
         ),
     ]

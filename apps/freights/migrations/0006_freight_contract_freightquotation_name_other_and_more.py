@@ -5,27 +5,36 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('contracts', '0008_remove_contract_freight_value_and_more'),
-        ('providers', '0002_transporter_alter_provider_phone'),
-        ('freights', '0005_alter_freight_approval_date'),
+        ("contracts", "0008_remove_contract_freight_value_and_more"),
+        ("providers", "0002_transporter_alter_provider_phone"),
+        ("freights", "0005_alter_freight_approval_date"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='freight',
-            name='contract',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='contracts.contract', verbose_name='Contract'),
+            model_name="freight",
+            name="contract",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="contracts.contract",
+                verbose_name="Contract",
+            ),
         ),
         migrations.AddField(
-            model_name='freightquotation',
-            name='name_other',
-            field=models.CharField(blank=True, max_length=50, null=True, verbose_name='Name Other'),
+            model_name="freightquotation",
+            name="name_other",
+            field=models.CharField(blank=True, max_length=50, null=True, verbose_name="Name Other"),
         ),
         migrations.AlterField(
-            model_name='freight',
-            name='quotations',
-            field=models.ManyToManyField(through='freights.FreightQuotation', to='providers.transporter', verbose_name='Quotations'),
+            model_name="freight",
+            name="quotations",
+            field=models.ManyToManyField(
+                through="freights.FreightQuotation",
+                to="providers.transporter",
+                verbose_name="Quotations",
+            ),
         ),
     ]

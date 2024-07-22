@@ -17,7 +17,11 @@ class Migration(migrations.Migration):
                 (
                     "id",
                     models.UUIDField(
-                        default=uuid.uuid4, editable=False, primary_key=True, serialize=False, unique=True
+                        default=uuid.uuid4,
+                        editable=False,
+                        primary_key=True,
+                        serialize=False,
+                        unique=True,
                     ),
                 ),
                 ("code", models.CharField(max_length=30, verbose_name="Code")),
@@ -38,13 +42,28 @@ class Migration(migrations.Migration):
                     ),
                 ),
                 ("description", models.CharField(max_length=120, verbose_name="Description")),
-                ("price", models.DecimalField(decimal_places=2, max_digits=10, verbose_name="Price")),
+                (
+                    "price",
+                    models.DecimalField(decimal_places=2, max_digits=10, verbose_name="Price"),
+                ),
                 (
                     "icms",
-                    models.DecimalField(blank=True, decimal_places=2, max_digits=5, null=True, verbose_name="ICMS"),
+                    models.DecimalField(
+                        blank=True, decimal_places=2, max_digits=5, null=True, verbose_name="ICMS"
+                    ),
                 ),
-                ("ipi", models.DecimalField(blank=True, decimal_places=2, max_digits=5, null=True, verbose_name="IPI")),
-                ("st", models.DecimalField(blank=True, decimal_places=2, max_digits=5, null=True, verbose_name="ST")),
+                (
+                    "ipi",
+                    models.DecimalField(
+                        blank=True, decimal_places=2, max_digits=5, null=True, verbose_name="IPI"
+                    ),
+                ),
+                (
+                    "st",
+                    models.DecimalField(
+                        blank=True, decimal_places=2, max_digits=5, null=True, verbose_name="ST"
+                    ),
+                ),
             ],
         ),
     ]

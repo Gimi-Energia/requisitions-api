@@ -2,7 +2,6 @@ from ninja import Router
 
 from apps.authentication.schema import LoginSchemaInput, UserOutputSchema
 from apps.authentication.service import AuthenticationService
-
 from utils.jwt import JWTAuth, decode_jwt_token
 
 authentication_router = Router(auth=JWTAuth())

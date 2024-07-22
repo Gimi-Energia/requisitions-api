@@ -4,20 +4,34 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('freights', '0007_freight_motive_denied'),
+        ("freights", "0007_freight_motive_denied"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='freight',
-            name='status',
-            field=models.CharField(choices=[('Opened', 'Opened'), ('Pending', 'Pending'), ('Denied', 'Denied'), ('Approved', 'Approved')], default='Opened', max_length=8, verbose_name='Status'),
+            model_name="freight",
+            name="status",
+            field=models.CharField(
+                choices=[
+                    ("Opened", "Opened"),
+                    ("Pending", "Pending"),
+                    ("Denied", "Denied"),
+                    ("Approved", "Approved"),
+                ],
+                default="Opened",
+                max_length=8,
+                verbose_name="Status",
+            ),
         ),
         migrations.AlterField(
-            model_name='freightquotation',
-            name='status',
-            field=models.CharField(choices=[('Opened', 'Opened'), ('Denied', 'Denied'), ('Approved', 'Approved')], default='Opened', max_length=8, verbose_name='Status'),
+            model_name="freightquotation",
+            name="status",
+            field=models.CharField(
+                choices=[("Opened", "Opened"), ("Denied", "Denied"), ("Approved", "Approved")],
+                default="Opened",
+                max_length=8,
+                verbose_name="Status",
+            ),
         ),
     ]

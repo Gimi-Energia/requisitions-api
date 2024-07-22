@@ -4,15 +4,23 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('users', '0006_alter_user_department'),
+        ("users", "0006_alter_user_department"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='user',
-            name='type',
-            field=models.CharField(choices=[('Requester', 'Requester'), ('Approver', 'Approver'), ('Director', 'Director')], default='Requester', max_length=9, verbose_name='Type'),
+            model_name="user",
+            name="type",
+            field=models.CharField(
+                choices=[
+                    ("Requester", "Requester"),
+                    ("Approver", "Approver"),
+                    ("Director", "Director"),
+                ],
+                default="Requester",
+                max_length=9,
+                verbose_name="Type",
+            ),
         ),
     ]

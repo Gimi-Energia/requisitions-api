@@ -6,24 +6,23 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('freights', '0001_initial'),
+        ("freights", "0001_initial"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='freight',
-            name='cet_number',
+            model_name="freight",
+            name="cet_number",
         ),
         migrations.AddField(
-            model_name='freight',
-            name='cte_number',
-            field=models.CharField(blank=True, max_length=20, null=True, verbose_name='CTE Number'),
+            model_name="freight",
+            name="cte_number",
+            field=models.CharField(blank=True, max_length=20, null=True, verbose_name="CTE Number"),
         ),
         migrations.AddField(
-            model_name='freight',
-            name='execution_date',
-            field=models.DateField(default=datetime.date.today, verbose_name='Execution Date'),
+            model_name="freight",
+            name="execution_date",
+            field=models.DateField(default=datetime.date.today, verbose_name="Execution Date"),
         ),
     ]

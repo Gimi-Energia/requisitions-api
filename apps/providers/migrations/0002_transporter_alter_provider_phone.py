@@ -6,28 +6,42 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('providers', '0001_initial'),
+        ("providers", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Transporter',
+            name="Transporter",
             fields=[
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False, unique=True)),
-                ('name', models.CharField(max_length=50, verbose_name='Name')),
-                ('cnpj', models.CharField(max_length=14, verbose_name='CNPJ')),
-                ('email', models.EmailField(blank=True, max_length=254, null=True, verbose_name='Email')),
-                ('phone', models.CharField(blank=True, max_length=11, null=True, verbose_name='Phone')),
+                (
+                    "id",
+                    models.UUIDField(
+                        default=uuid.uuid4,
+                        editable=False,
+                        primary_key=True,
+                        serialize=False,
+                        unique=True,
+                    ),
+                ),
+                ("name", models.CharField(max_length=50, verbose_name="Name")),
+                ("cnpj", models.CharField(max_length=14, verbose_name="CNPJ")),
+                (
+                    "email",
+                    models.EmailField(blank=True, max_length=254, null=True, verbose_name="Email"),
+                ),
+                (
+                    "phone",
+                    models.CharField(blank=True, max_length=11, null=True, verbose_name="Phone"),
+                ),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
         ),
         migrations.AlterField(
-            model_name='provider',
-            name='phone',
-            field=models.CharField(blank=True, max_length=11, null=True, verbose_name='Phone'),
+            model_name="provider",
+            name="phone",
+            field=models.CharField(blank=True, max_length=11, null=True, verbose_name="Phone"),
         ),
     ]

@@ -5,16 +5,21 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('departments', '0002_remove_department_code_alter_department_id'),
-        ('users', '0005_alter_user_company'),
+        ("departments", "0002_remove_department_code_alter_department_id"),
+        ("users", "0005_alter_user_company"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='user',
-            name='department',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='departments.department', verbose_name='Department'),
+            model_name="user",
+            name="department",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="departments.department",
+                verbose_name="Department",
+            ),
         ),
     ]

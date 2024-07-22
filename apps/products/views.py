@@ -18,8 +18,6 @@ from .services.iapp_service import get_iapp_products
 
 class ProductsDataAPIView(APIView):
     def get(self, request):
-   
-
         try:
             items = get_iapp_products()
 
@@ -31,14 +29,19 @@ class ProductsDataAPIView(APIView):
 
             products_to_create = []
             existing_product_codes = set(
-                Product.objects.filter(code__in=[item["code"] for item in items]).values_list("code", flat=True)
+                Product.objects.filter(code__in=[item["code"] for item in items]).values_list(
+                    "code", flat=True
+                )
             )
             new_product_codes = set()
 
             for item in items:
                 product_code = item["code"]
                 print(product_code)
-                if product_code not in existing_product_codes and product_code not in new_product_codes:
+                if (
+                    product_code not in existing_product_codes
+                    and product_code not in new_product_codes
+                ):
                     product = Product(
                         code=product_code,
                         id=item["id"],
@@ -84,10 +87,14 @@ class ProductDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 def remove_duplicates_view(request):
-    duplicate_codes = Product.objects.values("code").annotate(code_count=Count("id")).filter(code_count__gt=1)
+    duplicate_codes = (
+        Product.objects.values("code").annotate(code_count=Count("id")).filter(code_count__gt=1)
+    )
 
     for duplicate in duplicate_codes:
-        products_to_delete_ids = Product.objects.filter(code=duplicate["code"]).values_list("id", flat=True)[1:]
+        products_to_delete_ids = Product.objects.filter(code=duplicate["code"]).values_list(
+            "id", flat=True
+        )[1:]
 
         if products_to_delete_ids:
             Product.objects.filter(id__in=list(products_to_delete_ids)).delete()

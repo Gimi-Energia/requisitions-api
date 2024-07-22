@@ -4,24 +4,23 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('contracts', '0007_alter_contract_project_name'),
+        ("contracts", "0007_alter_contract_project_name"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='contract',
-            name='freight_value',
+            model_name="contract",
+            name="freight_value",
         ),
         migrations.AddField(
-            model_name='contract',
-            name='freight_consumed',
-            field=models.FloatField(default=0, verbose_name='Freight Consumed'),
+            model_name="contract",
+            name="freight_consumed",
+            field=models.FloatField(default=0, verbose_name="Freight Consumed"),
         ),
         migrations.AddField(
-            model_name='contract',
-            name='freight_estimated',
-            field=models.FloatField(blank=True, null=True, verbose_name='Freight Estimated'),
+            model_name="contract",
+            name="freight_estimated",
+            field=models.FloatField(blank=True, null=True, verbose_name="Freight Estimated"),
         ),
     ]

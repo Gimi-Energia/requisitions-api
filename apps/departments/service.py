@@ -1,7 +1,7 @@
 from http import HTTPStatus
 
-from ninja.errors import HttpError
 from django.http import JsonResponse
+from ninja.errors import HttpError
 
 from apps.departments.models import Department
 from apps.departments.schema import DepartmentsBaseSchema

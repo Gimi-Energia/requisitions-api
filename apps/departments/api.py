@@ -1,6 +1,7 @@
 from ninja import Router
 
-from apps.departments.schema import DepartmentsBaseSchema, DepartmentsSchemaList
+from apps.departments.schema import (DepartmentsBaseSchema,
+                                     DepartmentsSchemaList)
 from apps.departments.service import DepartmentService
 from utils.jwt import JWTAuth, decode_jwt_token
 

@@ -1,5 +1,6 @@
-from ninja import Schema
 import uuid
+
+from ninja import Schema
 
 
 class LoginSchemaInput(Schema):

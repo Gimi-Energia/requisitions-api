@@ -1,9 +1,9 @@
 import uuid
 from http import HTTPStatus
 
-from ninja.errors import HttpError
 from django.db import transaction
 from django.http import JsonResponse
+from ninja.errors import HttpError
 
 from apps.products.models import Product
 from apps.products.schema import ProductSchemaInput

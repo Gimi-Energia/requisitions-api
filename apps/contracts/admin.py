@@ -15,11 +15,7 @@ class Contracts(admin.ModelAdmin):
         "freight_consumed",
     )
     list_display_links = ("id",)
-    search_fields = (
-        "contract_number",
-        "control_number",
-        "company"
-    )
+    search_fields = ("contract_number", "control_number", "company")
     list_per_page = 25
     ordering = ("contract_number", "control_number")
 

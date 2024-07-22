@@ -4,15 +4,20 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('maintenances', '0003_maintenance_approver'),
+        ("maintenances", "0003_maintenance_approver"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='maintenance',
-            name='approver_status',
-            field=models.CharField(blank=True, choices=[('Checking', 'Checking'), ('Completed', 'Completed')], max_length=9, null=True, verbose_name='Approver Status'),
+            model_name="maintenance",
+            name="approver_status",
+            field=models.CharField(
+                blank=True,
+                choices=[("Checking", "Checking"), ("Completed", "Completed")],
+                max_length=9,
+                null=True,
+                verbose_name="Approver Status",
+            ),
         ),
     ]

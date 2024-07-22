@@ -4,20 +4,29 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('purchases', '0007_alter_purchase_approval_date'),
+        ("purchases", "0007_alter_purchase_approval_date"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='purchase',
-            name='status',
-            field=models.CharField(choices=[('Opened', 'Opened'), ('Approved', 'Approved'), ('Denied', 'Denied')], default='Opened', max_length=8, verbose_name='Status'),
+            model_name="purchase",
+            name="status",
+            field=models.CharField(
+                choices=[("Opened", "Opened"), ("Approved", "Approved"), ("Denied", "Denied")],
+                default="Opened",
+                max_length=8,
+                verbose_name="Status",
+            ),
         ),
         migrations.AlterField(
-            model_name='purchaseproduct',
-            name='status',
-            field=models.CharField(choices=[('Opened', 'Opened'), ('Approved', 'Approved'), ('Denied', 'Denied')], default='Opened', max_length=8, verbose_name='Status'),
+            model_name="purchaseproduct",
+            name="status",
+            field=models.CharField(
+                choices=[("Opened", "Opened"), ("Approved", "Approved"), ("Denied", "Denied")],
+                default="Opened",
+                max_length=8,
+                verbose_name="Status",
+            ),
         ),
     ]

@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('services', '0006_alter_service_provider'),
+        ("services", "0006_alter_service_provider"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='service',
-            name='approval_date',
-            field=models.DateTimeField(blank=True, null=True, verbose_name='Approval Date'),
+            model_name="service",
+            name="approval_date",
+            field=models.DateTimeField(blank=True, null=True, verbose_name="Approval Date"),
         ),
     ]

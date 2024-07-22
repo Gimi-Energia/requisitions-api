@@ -21,7 +21,6 @@ class JWTAuth(HttpBearer):
             return False
 
 
-
 def generate_jwt_token(user: User, expiration_time_in_minutes: int = 600):
     secret_key = settings.SECRET_KEY
 

@@ -2,7 +2,8 @@ import uuid
 
 from ninja import Router
 
-from apps.products.schema import ProductSchema, ProductSchemaInput, ProductSchemaList
+from apps.products.schema import (ProductSchema, ProductSchemaInput,
+                                  ProductSchemaList)
 from apps.products.services import ProductService
 from utils.jwt import JWTAuth, decode_jwt_token
 

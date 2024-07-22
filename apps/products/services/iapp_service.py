@@ -1,7 +1,8 @@
+import os
 from uuid import uuid4
 
 import requests
-import os
+
 
 def get_iapp_products(offset=50000):
     """
@@ -21,19 +22,19 @@ def get_iapp_products(offset=50000):
     """
     token = str(os.getenv("TOKEN_GBL"))
     secret = str(os.getenv("SECRET_GBL"))
-    
+
     ENDPOINT = "https://api.iniciativaaplicativos.com.br/api/engenharia/produtos/lista"
     headers = {"TOKEN": token, "SECRET": secret}
 
     params = {"offset": offset, "page": 1, "filters": "status|0"}
 
     response = requests.get(ENDPOINT, params=params, headers=headers)
-    print('RESPONSE: ', response.ok)
-    
+    print("RESPONSE: ", response.ok)
+
     if response.ok:
         iapp_response = response.json()
-        if iapp_response['success'] is False:
-            raise Exception(iapp_response['message'])
+        if iapp_response["success"] is False:
+            raise Exception(iapp_response["message"])
         items = [
             {
                 "code": item["identificacao"],

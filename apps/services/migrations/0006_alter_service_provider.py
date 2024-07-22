@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('services', '0005_remove_service_execution_date_service_created_at'),
+        ("services", "0005_remove_service_execution_date_service_created_at"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='service',
-            name='provider',
-            field=models.CharField(max_length=120, verbose_name='Provider'),
+            model_name="service",
+            name="provider",
+            field=models.CharField(max_length=120, verbose_name="Provider"),
         ),
     ]

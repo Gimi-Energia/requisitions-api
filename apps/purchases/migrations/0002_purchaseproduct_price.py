@@ -4,16 +4,17 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('purchases', '0001_initial'),
+        ("purchases", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='purchaseproduct',
-            name='price',
-            field=models.DecimalField(decimal_places=2, default=0, max_digits=10, verbose_name='Price'),
+            model_name="purchaseproduct",
+            name="price",
+            field=models.DecimalField(
+                decimal_places=2, default=0, max_digits=10, verbose_name="Price"
+            ),
             preserve_default=False,
         ),
     ]
