@@ -119,3 +119,28 @@ class PurchasesService:
         for purchases in list_purchases:
             list_data.append(self.build_purchase_data(purchases))
         return list_data
+
+    def delete(self, purchase_id: uuid.UUID):
+        purchase = self.get_purchase_by_id(purchase_id)
+        if not purchase:
+            raise HttpError(HTTPStatus.NOT_FOUND, "Purchase not found")
+        purchase.delete()
+        return JsonResponse({"message": "Purchase deleted successfully"})
+
+    def get(self, purchase_id: uuid.UUID):
+        if not (purchase := self.get_purchase_by_id(purchase_id)):
+            raise HttpError(HTTPStatus.NOT_FOUND, "Purchase not found")
+        return purchase
+
+    def update(self, purchase_id: uuid.UUID, input_data: PurchaseInputCreateSchema):
+        if not (purchase := self.get_purchase_by_id(purchase_id)):
+            raise HttpError(HTTPStatus.NOT_FOUND, "purchase not found")
+
+        for attr, value in input_data.model_dump(exclude_defaults=True, exclude_unset=True).items():
+            print(attr, value)
+            setattr(purchase, attr, value)
+
+        purchase.save()
+        purchase.refresh_from_db()
+
+        return purchase
