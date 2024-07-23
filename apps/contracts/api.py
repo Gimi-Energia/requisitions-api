@@ -43,7 +43,7 @@ def sync_iapp(request, company):
         str: Uma mensagem indicando o sucesso da operação.
     """
     decode_jwt_token(request.headers.get("Authorization"))
-    return service.sync_iapp()
+    return service.sync_iapp(company)
 
 
 @contracts_router.patch("/{contract_id}/", response=ContractSchema)
