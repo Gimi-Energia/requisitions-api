@@ -5,9 +5,11 @@ from django.http import JsonResponse
 from ninja.errors import HttpError
 
 from apps.purchases.models import Purchase, PurchaseProduct
-from apps.purchases.schema import (PurchaseBaseSchema,
-                                   PurchaseInputCreateSchema,
-                                   PurchaseProductInputSchema)
+from apps.purchases.schema import (
+    PurchaseBaseSchema,
+    PurchaseInputCreateSchema,
+    PurchaseProductInputSchema,
+)
 from apps.users.service import UserService
 
 
@@ -112,6 +114,20 @@ class PurchasesService:
 
         return JsonResponse({"message": "Product deleted successfully"})
 
+    def update_product(
+        self, purchase_id: uuid.UUID, product_id: uuid.UUID, input_data: PurchaseProductInputSchema
+    ):
+        if not (purchase := self.get_purchase_by_id(purchase_id)):
+            raise HttpError(HTTPStatus.NOT_FOUND, "Purchase not found")
+        if not (self.get_purchase_products_by_purchase_id_and_product_id(purchase_id, product_id)):
+            raise HttpError(HTTPStatus.NOT_FOUND, "Product not found")
+
+        self.update_purchase_product_by_purchase_id_and_product_id(
+            purchase_id, product_id, input_data
+        )
+
+        return self.build_purchase_data(purchase)
+
     def list(self):
         list_data = []
         list_purchases = Purchase.objects.all()
@@ -129,11 +145,11 @@ class PurchasesService:
     def get(self, purchase_id: uuid.UUID):
         if not (purchase := self.get_purchase_by_id(purchase_id)):
             raise HttpError(HTTPStatus.NOT_FOUND, "Purchase not found")
-        return purchase
+        return self.build_purchase_data(purchase)
 
     def update(self, purchase_id: uuid.UUID, input_data: PurchaseInputCreateSchema):
         if not (purchase := self.get_purchase_by_id(purchase_id)):
-            raise HttpError(HTTPStatus.NOT_FOUND, "purchase not found")
+            raise HttpError(HTTPStatus.NOT_FOUND, "Purchase not found")
 
         for attr, value in input_data.model_dump(exclude_defaults=True, exclude_unset=True).items():
             print(attr, value)

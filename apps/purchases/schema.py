@@ -9,22 +9,22 @@ from apps.users.schema import UserOutputPurchaseSchema
 
 
 class PurchaseBaseSchema(Schema):
-    company: str
-    request_date: date
-    motive: str
-    obs: str
-    status: str
-    has_quotation: bool
-    control_number: int
+    company: str  | None = None
+    request_date: date | None = None
+    motive: str | None = None
+    obs: str | None = None
+    status: str | None = None
+    has_quotation: bool | None = None
+    control_number: int | None = None
     approval_date: datetime | None = None
     quotation_emails: str | None = None
     quotation_date: datetime | None = None
 
 
 class PurchaseProductBaseSchema(Schema):
-    quantity: float
+    quantity: float | None = None
     price: float | None = 0.0
-    status: str
+    status: str | None = None
 
 
 class PurchaseProductOutputSchema(ProductSchema, PurchaseProductBaseSchema):
@@ -35,7 +35,7 @@ class PurchaseProductInputSchema(PurchaseProductBaseSchema):
     product_id: uuid.UUID
 
 
-class PurchaseOuputSchema(PurchaseBaseSchema):
+class PurchaseOutputSchema(PurchaseBaseSchema):
     id: uuid.UUID
     approver: UserOutputPurchaseSchema
     requester: UserOutputPurchaseSchema
@@ -45,7 +45,13 @@ class PurchaseOuputSchema(PurchaseBaseSchema):
 
 
 class PurchaseInputCreateSchema(PurchaseBaseSchema):
-    department_id: str
+    department_id: str | None = None
     requester_id: uuid.UUID
     approver_id: uuid.UUID
     products: list[PurchaseProductInputSchema]
+
+
+class PurchaseInputUpdateSchema(PurchaseBaseSchema):
+    department_id: str | None = None
+    requester_id: uuid.UUID | None = None
+    approver_id: uuid.UUID | None = None
