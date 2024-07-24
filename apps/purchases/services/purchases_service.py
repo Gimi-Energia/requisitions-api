@@ -74,6 +74,7 @@ class PurchasesService:
                 }
             )
         return data
+    
     #TODO Pensar se faz sentido manter aqui ou criar outro arquivo
     def get_purchase_product_with_coditional(self, purchase_id: uuid.UUID, approved_only: bool = True, generic_only: bool = False):
         purchase_product = self.get_purchase_product_by_status(purchase_id, "Approved")
