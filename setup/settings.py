@@ -161,12 +161,7 @@ REST_FRAMEWORK = {
 
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "http://localhost:5173",
-    "https://gimi-requisitions.vercel.app",
-    "https://requisition-git-upgrade-request-desenvolvimento-gimi.vercel.app",
-]
+CORS_ALLOWED_ORIGINS = str(os.getenv("CORS_ALLOWED_ORIGINS")).split(" ")
 
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(days=30),
