@@ -8,7 +8,7 @@ from apps.users.models import User
 from .pdf_service import generate_pdf
 
 
-def build_quotation_table(
+def build_quotation_table( # FEITO
     purchase_pk, include_approved_only=True, include_price=True, include_generic_only=False
 ):
     if include_approved_only:
@@ -54,7 +54,7 @@ def build_quotation_table(
     """
 
 
-def send_status_change_email(instance):
+def send_status_change_email(instance): #FEITO
     email_subject = ""
     email_body_intro = ""
     table_html = ""
@@ -151,7 +151,7 @@ def send_status_change_email(instance):
     )
 
 
-def send_purchase_quotation_email(instance):
+def send_purchase_quotation_email(instance): #FEITO
     email_subject = "Cotação de Compra Criada"
     email_body_intro = """
         Olá!<br>
@@ -221,7 +221,7 @@ def send_purchase_quotation_email(instance):
     )
 
 
-def send_quotation_email_with_pdf(instance):
+def send_quotation_email_with_pdf(instance): #FEITO
     subject = f"Cotação de Compra Nº {instance.control_number} - Grupo Gimi"
     recipient_list = [email.strip() for email in instance.quotation_emails.split(",")]
     email_from = settings.EMAIL_HOST_USER
@@ -266,7 +266,7 @@ def send_quotation_email_with_pdf(instance):
             email.send()
 
 
-def send_generic_product_email(instance):
+def send_generic_product_email(instance): #FEITO
     email_subject = "Cadastro de Produto Genérico"
     table_html = build_quotation_table(
         instance.id, include_approved_only=False, include_price=False, include_generic_only=True
