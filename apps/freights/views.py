@@ -42,7 +42,7 @@ class FreightListCreateView(CustomErrorHandlerMixin, generics.ListCreateAPIView)
             serializer.save()
             instance = serializer.instance
 
-            if instance.status == "Opened":
+            if instance.status == "Opened" or instance.status == "Approved":
                 send_status_change_email(instance)
 
     def create(self, request, *args, **kwargs):
