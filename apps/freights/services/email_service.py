@@ -67,6 +67,14 @@ def send_status_change_email(instance):
         """
         table_html = build_quotation_table(instance.id, include_approved_only=False)
         emails.append(instance.approver)
+    elif instance.status == "Approved":
+        email_subject = "Solicitação de Frete Aprovada"
+        email_body_intro = f"""
+            Olá, {instance.requester.name}!<br>
+            Sua solicitação foi aprovada por {instance.approver} 
+            em {instance.approval_date.strftime("%d/%m/%Y")}.<br>
+        """
+        table_html = build_quotation_table(instance.id, include_approved_only=True)
     else:
         return
 
