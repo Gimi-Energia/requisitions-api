@@ -15,22 +15,25 @@ class Services(admin.ModelAdmin):
         "id",
         "control_number",
         "company",
+        "status",
         "department",
-        "request_date",
         "requester",
         "provider",
         "service",
         "value",
-        "status",
+        "created_at",
     )
     list_display_links = ("id",)
     search_fields = (
         "provider",
         "service",
+        "control_number",
+        "requester__email",
+        "approver__email",
     )
-    list_filter = ("status",)
+    list_filter = ("status", "company")
     list_per_page = 25
-    ordering = ("created_at",)
+    ordering = ("-created_at",)
 
 
 admin.site.register(ServiceType, ServiceTypes)

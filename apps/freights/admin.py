@@ -6,19 +6,19 @@ class Freights(admin.ModelAdmin):
     list_display = (
         "id",
         "company",
-        "department",
-        "request_date",
-        "requester",
         "status",
+        "department",
+        "requester",
+        "created_at",
     )
     list_display_links = ("id",)
     search_fields = (
-        "requester",
-        "approver",
+        "requester__email",
+        "approver__email",
     )
-    list_filter = ("status",)
+    list_filter = ("status", "company")
     list_per_page = 25
-    ordering = ("created_at",)
+    ordering = ("-created_at",)
 
 
 class FreightQuotations(admin.ModelAdmin):
