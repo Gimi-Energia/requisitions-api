@@ -20,7 +20,7 @@ class ContractsDataAPIView(APIView):
 
         if not company:
             return Response(
-                {"message": "Company are required in headers."},
+                {"message": "Company is required in headers."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
@@ -37,17 +37,25 @@ class ContractsDataAPIView(APIView):
                 )
 
             contracts_to_create = []
-            existing_contract_ids = set(
-                Contract.objects.filter(id__in=[item["id"] for item in items]).values_list(
-                    "id", flat=True
-                )
-            )
+            contracts_to_update = []
+            existing_contracts = {
+                contract.id: contract
+                for contract in Contract.objects.filter(id__in=[item["id"] for item in items])
+            }
             new_contract_ids = set()
 
             for item in items:
                 contract_id = item["id"]
-                print(item["contract_number"])
-                if contract_id not in existing_contract_ids and contract_id not in new_contract_ids:
+                if contract_id in existing_contracts:
+                    contract = existing_contracts[contract_id]
+                    contract.company = item["company"]
+                    contract.contract_number = item["contract_number"]
+                    contract.control_number = item["control_number"]
+                    contract.client_name = item["client_name"]
+                    contract.project_name = item["project_name"]
+                    contract.freight_estimated = item["freight_estimated"]
+                    contracts_to_update.append(contract)
+                elif contract_id not in new_contract_ids:
                     contract = Contract(
                         id=contract_id,
                         company=item["company"],
@@ -63,6 +71,18 @@ class ContractsDataAPIView(APIView):
             with transaction.atomic():
                 if contracts_to_create:
                     Contract.objects.bulk_create(contracts_to_create)
+                if contracts_to_update:
+                    Contract.objects.bulk_update(
+                        contracts_to_update,
+                        [
+                            "company",
+                            "contract_number",
+                            "control_number",
+                            "client_name",
+                            "project_name",
+                            "freight_estimated",
+                        ],
+                    )
 
             return Response({"message": "Data entered successfully"}, status=status.HTTP_200_OK)
 
@@ -81,15 +101,15 @@ class ContractList(generics.ListCreateAPIView):
     ordering_fields = ["contract_number", "freight_consumed"]
     filterset_fields = ["company", "contract_number"]
 
-    def get_permissions(self):
-        if self.request.method == "GET":
-            return [IsAuthenticatedGet()]
-        elif self.request.method == "POST":
-            return [IsAdminPost()]
-        return super().get_permissions()
+    # def get_permissions(self):
+    #     if self.request.method == "GET":
+    #         return [IsAuthenticatedGet()]
+    #     elif self.request.method == "POST":
+    #         return [IsAdminPost()]
+    #     return super().get_permissions()
 
 
 class ContractDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Contract.objects.all()
     serializer_class = ContractSerializer
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]

@@ -31,20 +31,23 @@ class ProductsDataAPIView(APIView):
                 )
 
             products_to_create = []
-            existing_product_codes = set(
-                Product.objects.filter(code__in=[item["code"] for item in items]).values_list(
-                    "code", flat=True
-                )
-            )
+            products_to_update = []
+            existing_products = {
+                product.code: product
+                for product in Product.objects.filter(code__in=[item["code"] for item in items])
+            }
+
             new_product_codes = set()
 
             for item in items:
                 product_code = item["code"]
-                print(product_code)
-                if (
-                    product_code not in existing_product_codes
-                    and product_code not in new_product_codes
-                ):
+                if product_code in existing_products:
+                    product = existing_products[product_code]
+                    product.code = item["code"]
+                    product.un = item["un"]
+                    product.description = item["description"]
+                    products_to_update.append(product)
+                elif product_code not in new_product_codes:
                     product = Product(
                         code=product_code,
                         id=item["id"],
@@ -57,6 +60,8 @@ class ProductsDataAPIView(APIView):
             with transaction.atomic():
                 if products_to_create:
                     Product.objects.bulk_create(products_to_create)
+                if products_to_update:
+                    Product.objects.bulk_update(products_to_update, ["code", "un", "description"])
 
             return Response({"message": "Data entered successfully"}, status=status.HTTP_200_OK)
 
