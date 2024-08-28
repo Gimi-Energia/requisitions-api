@@ -61,7 +61,9 @@ class PurchaseDetailView(CustomErrorHandlerMixin, generics.RetrieveUpdateDestroy
                 if instance.status == "Approved":
                     omie = include_purchase_requisition(instance)
 
-                    if omie and omie.status_code == 500:
+                    if not omie:
+                        raise serializers.ValidationError("Erro no Omie: Abra um chamado")
+                    elif omie and omie.status_code == 500:
                         raise serializers.ValidationError(
                             f"Erro {omie.status_code} do Omie: Produto não cadastrado"
                         )
@@ -73,8 +75,10 @@ class PurchaseDetailView(CustomErrorHandlerMixin, generics.RetrieveUpdateDestroy
                         raise serializers.ValidationError(
                             f"Erro {omie.status_code} do Omie: Requisição inválida"
                         )
-                    print("passei")
+                    
                     send_generic_product_email(instance)
+                    send_status_change_email(instance)
+                    return
 
                 send_status_change_email(instance)
 
