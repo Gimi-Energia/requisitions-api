@@ -50,7 +50,6 @@ class ProductsDataAPIView(APIView):
                 elif product_code not in new_product_codes:
                     product = Product(
                         code=product_code,
-                        id=item["id"],
                         un=item["un"],
                         description=item["description"],
                     )
