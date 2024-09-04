@@ -39,7 +39,7 @@ class Freight(models.Model):
         on_delete=models.CASCADE,
         related_name="freight_requester",
     )
-    motive = models.CharField(_("Motive"), max_length=50)
+    motive = models.TextField(_("Motive"))
     obs = models.TextField(_("Observation"))
     status = models.CharField(_("Status"), choices=STATUS_FREIGHTS, default="Opened", max_length=8)
     quotations = models.ManyToManyField(

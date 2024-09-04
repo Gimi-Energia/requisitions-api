@@ -40,7 +40,7 @@ def send_status_change_email(instance):
         email_subject = "Solicitação de Frete Aprovada"
         email_body_intro = f"""
             Olá, {instance.requester.name}!<br>
-            Sua solicitação foi aprovada por {instance.approver} 
+            Sua solicitação foi aprovada no sistema
             em {instance.approval_date.strftime("%d/%m/%Y")}.<br>
         """
         table_html = build_quotation_table(instance.id, include_approved_only=True)
@@ -49,7 +49,7 @@ def send_status_change_email(instance):
         email_subject = "Solicitação de Frete Rejeitada"
         email_body_intro = f"""
             Olá, {instance.requester.name}!<br>
-            Sua solicitação foi rejeitada por {instance.approver} 
+            Sua solicitação foi rejeitada no sistema
             em {instance.approval_date.strftime("%d/%m/%Y")}.<br>
             Motivo da recusa: {instance.motive_denied}<br>
         """
@@ -63,7 +63,7 @@ def send_status_change_email(instance):
         email_body_intro = f"""
             Olá!<br>
             Uma solicitação foi criada em {formatted_created_at}<br>
-            De {instance.requester} para {instance.approver} aprovar.<br>
+            Criador {instance.requester}.<br>
         """
         table_html = build_quotation_table(instance.id, include_approved_only=False)
         emails.append(instance.approver)
@@ -71,7 +71,7 @@ def send_status_change_email(instance):
         email_subject = "Solicitação de Frete Aprovada"
         email_body_intro = f"""
             Olá, {instance.requester.name}!<br>
-            Sua solicitação foi aprovada por {instance.approver} 
+            Sua solicitação foi aprovada no sistema
             em {instance.approval_date.strftime("%d/%m/%Y")}.<br>
         """
         table_html = build_quotation_table(instance.id, include_approved_only=True)
@@ -83,7 +83,6 @@ def send_status_change_email(instance):
         Empresa: {instance.company}<br>
         Departamento: {instance.department}<br>
         Data solicitada: {instance.request_date.strftime("%d/%m/%Y")}<br>
-        Aprovador: {instance.approver}<br>
         Motivo: {instance.motive}<br>
         Obsevações: {instance.obs}<br>
         Cotação:<br>{table_html}
