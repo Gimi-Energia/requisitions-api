@@ -1,5 +1,4 @@
 import os
-from concurrent.futures import ThreadPoolExecutor
 
 from django.db import transaction
 from django_filters.rest_framework import DjangoFilterBackend
@@ -21,56 +20,69 @@ class ContractsDataAPIView(APIView):
 
         if not company:
             return Response(
-                {"message": "Company are required in headers."},
+                {"message": "Company is required in headers."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
         token = str(os.getenv(f"TOKEN_{company}"))
         secret = str(os.getenv(f"SECRET_{company}"))
 
-        init = {"GIMI": 233, "GBL": 79, "GPB": 91, "GIR": 3}
-
-        MAX_PAGES = 1000
-
-        def process_page(page_number):
-            items = get_iapp_contracts(page_number, token, secret)
-            return items
-
         try:
-            all_items = []
-            with ThreadPoolExecutor() as executor:
-                futures = [
-                    executor.submit(process_page, page)
-                    for page in range(init[company], MAX_PAGES + 1)
-                ]
-                for future in futures:
-                    items = future.result()
-                    if not items:
-                        break
-                    all_items.extend(items)
+            items = get_iapp_contracts(token, secret)
 
-            existing_contract_ids = set(
-                Contract.objects.filter(id__in=[item["id"] for item in all_items]).values_list(
-                    "id", flat=True
+            if not items:
+                return Response(
+                    {"message": "Error finding contracts"},
+                    status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 )
-            )
 
-            new_contracts = [
-                Contract(
-                    id=item["id"],
-                    company=item["company"],
-                    contract_number=item["contract_number"],
-                    control_number=item["control_number"],
-                    client_name=item["client_name"],
-                    project_name=item["project_name"],
-                    freight_estimated=item["freight_estimated"],
-                )
-                for item in all_items
-                if item["id"] not in existing_contract_ids
-            ]
+            contracts_to_create = []
+            contracts_to_update = []
+            existing_contracts = {
+                contract.id: contract
+                for contract in Contract.objects.filter(id__in=[item["id"] for item in items])
+            }
+            new_contract_ids = set()
+
+            for item in items:
+                contract_id = item["id"]
+                if contract_id in existing_contracts:
+                    contract = existing_contracts[contract_id]
+                    contract.company = item["company"]
+                    contract.contract_number = item["contract_number"]
+                    contract.control_number = item["control_number"]
+                    contract.client_name = item["client_name"]
+                    contract.project_name = item["project_name"]
+                    contract.freight_estimated = item["freight_estimated"]
+                    contracts_to_update.append(contract)
+                elif contract_id not in new_contract_ids:
+                    contract = Contract(
+                        id=contract_id,
+                        company=item["company"],
+                        contract_number=item["contract_number"],
+                        control_number=item["control_number"],
+                        client_name=item["client_name"],
+                        project_name=item["project_name"],
+                        freight_estimated=item["freight_estimated"],
+                    )
+                    contracts_to_create.append(contract)
+                    new_contract_ids.add(contract_id)
 
             with transaction.atomic():
-                Contract.objects.bulk_create(new_contracts)
+                if contracts_to_create:
+                    Contract.objects.bulk_create(contracts_to_create)
+                if contracts_to_update:
+                    Contract.objects.bulk_update(
+                        contracts_to_update,
+                        [
+                            "company",
+                            "contract_number",
+                            "control_number",
+                            "client_name",
+                            "project_name",
+                            "freight_estimated",
+                        ],
+                    )
 
             return Response({"message": "Data entered successfully"}, status=status.HTTP_200_OK)
 
@@ -89,15 +101,15 @@ class ContractList(generics.ListCreateAPIView):
     ordering_fields = ["contract_number", "freight_consumed"]
     filterset_fields = ["company", "contract_number"]
 
-    def get_permissions(self):
-        if self.request.method == "GET":
-            return [IsAuthenticatedGet()]
-        elif self.request.method == "POST":
-            return [IsAdminPost()]
-        return super().get_permissions()
+    # def get_permissions(self):
+    #     if self.request.method == "GET":
+    #         return [IsAuthenticatedGet()]
+    #     elif self.request.method == "POST":
+    #         return [IsAdminPost()]
+    #     return super().get_permissions()
 
 
 class ContractDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Contract.objects.all()
     serializer_class = ContractSerializer
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]

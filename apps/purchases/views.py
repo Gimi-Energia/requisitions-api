@@ -1,4 +1,5 @@
 from django.db import transaction
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, generics, serializers
 from rest_framework.permissions import IsAuthenticated
 
@@ -22,6 +23,10 @@ from .services.omie_service import include_purchase_requisition
 
 class PurchaseListCreateView(CustomErrorHandlerMixin, generics.ListCreateAPIView):
     queryset = Purchase.objects.all()
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
+    search_fields = []
+    ordering_fields = []
+    filterset_fields = []
     permission_classes = [IsAuthenticated]
 
     def get_serializer_class(self):
@@ -83,20 +88,24 @@ class PurchaseDetailView(CustomErrorHandlerMixin, generics.RetrieveUpdateDestroy
                 if instance.status == "Approved":
                     omie = include_purchase_requisition(instance)
 
-                    if omie.status_code == 500:
+                    if not omie:
+                        raise serializers.ValidationError("Erro no Omie: Abra um chamado")
+                    elif omie and omie.status_code == 500:
                         raise serializers.ValidationError(
                             f"Erro {omie.status_code} do Omie: Produto não cadastrado"
                         )
-                    elif omie.status_code == 403:
+                    elif omie and omie.status_code == 403:
                         raise serializers.ValidationError(
                             f"Erro {omie.status_code} do Omie: Token inválido"
                         )
-                    elif omie.status_code != 200:
+                    elif omie and omie.status_code != 200:
                         raise serializers.ValidationError(
                             f"Erro {omie.status_code} do Omie: Requisição inválida"
                         )
 
                     send_generic_product_email(instance)
+                    send_status_change_email(instance)
+                    return
 
                 send_status_change_email(instance)
 
@@ -118,11 +127,11 @@ class PurchaseProductListCreateView(generics.ListCreateAPIView):
     ordering_fields = []
     permission_classes = [IsAuthenticated]
 
-    def get_queryset(self):
-        purchase_pk = self.kwargs["pk"]
-        return PurchaseProduct.objects.filter(purchase=purchase_pk)
-
     def get_serializer_class(self):
         if self.request.method == "GET":
             return PurchaseProductReadSerializer
         return PurchaseProductWriteSerializer
+
+    def get_queryset(self):
+        purchase_pk = self.kwargs["pk"]
+        return PurchaseProduct.objects.filter(purchase=purchase_pk)

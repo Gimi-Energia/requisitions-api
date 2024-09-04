@@ -17,7 +17,7 @@ def include_purchase_requisition(instance):
 
     for purchase_product in purchase_products:
         if "GENERIC" in purchase_product.product.code:
-            return
+            return False
 
         product_code = get_omie_product_code(purchase_product.product.code, instance.company)
 
