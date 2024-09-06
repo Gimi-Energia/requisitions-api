@@ -61,7 +61,7 @@ class PurchaseDetailView(CustomErrorHandlerMixin, generics.RetrieveUpdateDestroy
                 if instance.status == "Approved":
                     omie = include_purchase_requisition(instance)
 
-                    if not omie:
+                    if omie is False:
                         raise serializers.ValidationError("Erro no Omie: Abra um chamado")
                     elif omie and omie.status_code == 500:
                         raise serializers.ValidationError(
