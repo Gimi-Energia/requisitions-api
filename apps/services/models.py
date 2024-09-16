@@ -41,7 +41,7 @@ class Service(models.Model):
         on_delete=models.CASCADE,
         related_name="service_requester",
     )
-    motive = models.CharField(_("Motive"), max_length=50)
+    motive = models.TextField(_("Motive"))
     obs = models.TextField(_("Observation"))
     # provider = models.ForeignKey(Provider, verbose_name=_("Provider"), on_delete=models.CASCADE)
     provider = models.CharField(_("Provider"), max_length=120, blank=True, null=True)
