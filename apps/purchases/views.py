@@ -60,6 +60,12 @@ class PurchaseDetailView(CustomErrorHandlerMixin, generics.RetrieveUpdateDestroy
             if old_status != instance.status:
                 if instance.status == "Approved":
                     omie = include_purchase_requisition(instance)
+
+                    if omie is None:
+                        send_generic_product_email(instance)
+                        send_status_change_email(instance)
+                        return
+
                     success = omie is not False
 
                     if not success:
@@ -76,8 +82,7 @@ class PurchaseDetailView(CustomErrorHandlerMixin, generics.RetrieveUpdateDestroy
                         raise serializers.ValidationError(
                             f"Erro {omie.status_code} do Omie: Requisição inválida"
                         )
-                    
-                    send_generic_product_email(instance)
+
                     send_status_change_email(instance)
                     return
 
