@@ -25,28 +25,14 @@ class PurchaseListCreateView(CustomErrorHandlerMixin, generics.ListCreateAPIView
     queryset = Purchase.objects.all()
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
     search_fields = []
-    ordering_fields = []
-    filterset_fields = []
+    ordering_fields = ["created_at", "approval_date"]
+    filterset_fields = ["status"]
     permission_classes = [IsAuthenticated]
 
     def get_serializer_class(self):
         if self.request.method == "GET":
             return PurchaseReadSerializer
         return PurchaseWriteSerializer
-
-    def filter_purchases(self):
-        parameters = self.request.GET.dict()
-        orderby_field = parameters.get("orderby")
-        status = parameters.get("status")
-
-        if status:
-            self.queryset = self.queryset.filter(status=status)
-        if orderby_field:
-            self.queryset = self.queryset.order_by(orderby_field)
-
-    def get(self, *args, **kwars):
-        self.filter_purchases()
-        return super().get(self.request, *args, **kwars)
 
     def perform_create(self, serializer):
         with transaction.atomic():

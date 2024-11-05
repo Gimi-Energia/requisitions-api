@@ -20,26 +20,16 @@ from .services.email_service import (
 
 class ServiceList(CustomErrorHandlerMixin, generics.ListCreateAPIView):
     queryset = Service.objects.all()
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
+    search_fields = []
+    ordering_fields = ["created_at", "approval_date"]
+    filterset_fields = ["status"]
     permission_classes = [IsAuthenticated]
 
     def get_serializer_class(self):
         if self.request.method == "GET":
             return ServiceReadSerializer
         return ServiceWriteSerializer
-
-    def filter_services(self):
-        parameters = self.request.GET.dict()
-        orderby_field = parameters.get("orderby")
-        status = parameters.get("status")
-
-        if status:
-            self.queryset = self.queryset.filter(status=status)
-        if orderby_field:
-            self.queryset = self.queryset.order_by(orderby_field)
-
-    def get(self, *args, **kwars):
-        self.filter_services()
-        return super().get(self.request, *args, **kwars)
 
     def perform_create(self, serializer):
         with transaction.atomic():
