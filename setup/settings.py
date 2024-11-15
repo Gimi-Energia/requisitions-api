@@ -156,7 +156,7 @@ REST_FRAMEWORK = {
     ],
     "EXCEPTION_HANDLER": "setup.exceptions.exception_handler.custom_exception_handler",
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
-    "PAGE_SIZE": 500,
+    "PAGE_SIZE": 1000,
 }
 
 CORS_ORIGIN_ALLOW_ALL = False
