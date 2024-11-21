@@ -13,6 +13,6 @@ class PositionList(generics.ListAPIView):
     serializer_class = PositionsSerializer
 
     def get_queryset(self):
-        department_id = self.kwargs['department_id']
-        department = Department.objects.filter(id=department_id)[0]
-        return Position.objects.filter(department = department)
+        cost_center_id = self.kwargs['cost_center_id']
+        cost_center = Department.objects.filter(id=cost_center_id)[0]
+        return Position.objects.filter(cost_center = cost_center)

@@ -10,8 +10,8 @@ COMPANIES = [("Gimi", "Gimi"), ("GBL", "GBL"), ("GPB", "GPB"), ("GS", "GS"), ("G
 class Position(models.Model):
     id = models.UUIDField(primary_key=True, unique=True, default=uuid4, editable=False)
     position = models.CharField(_("Position"), max_length=50)
-    department = models.ForeignKey(Department, on_delete=models.CASCADE, null=True)
+    cost_center = models.ForeignKey(Department, on_delete=models.CASCADE, null=True)
     company = models.CharField(_("Company"), choices=COMPANIES, default="Gimi", max_length=5)
 
     def __str__(self):
-        return f"{self.department.name} - {self.position}"
+        return f"{self.cost_center.name} - {self.position}"
