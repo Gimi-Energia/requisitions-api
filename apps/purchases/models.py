@@ -9,7 +9,14 @@ from apps.departments.models import Department
 from apps.products.models import Product
 from apps.users.models import User
 
-COMPANIES = [("Gimi", "Gimi"), ("GBL", "GBL"), ("GPB", "GPB"), ("GS", "GS"), ("GIR", "GIR")]
+COMPANIES = [
+    ("Gimi", "Gimi"),
+    ("GBL", "GBL"),
+    ("GPB", "GPB"),
+    ("GS", "GS"),
+    ("GIR", "GIR"),
+    ("Filial", "Filial"),
+]
 STATUS = [
     ("Opened", "Opened"),
     ("Approved", "Approved"),
@@ -21,7 +28,7 @@ STATUS = [
 
 class Purchase(models.Model):
     id = models.UUIDField(primary_key=True, unique=True, default=uuid4, editable=False)
-    company = models.CharField(_("Company"), choices=COMPANIES, default="Gimi", max_length=4)
+    company = models.CharField(_("Company"), choices=COMPANIES, default="Gimi", max_length=6)
     department = models.ForeignKey(
         Department, verbose_name=_("Department"), on_delete=models.CASCADE
     )

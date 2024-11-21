@@ -8,11 +8,12 @@ from apps.purchases.models import PurchaseProduct
 
 def include_purchase_requisition(instance):
     try:
+        company = str(instance.company).upper()
         omie_app_key = str(
-            os.getenv(f"OMIE_APP_KEY_{instance.company}", str(os.getenv("OMIE_APP_KEY_GIMI")))
+            os.getenv(f"OMIE_APP_KEY_{company}", str(os.getenv("OMIE_APP_KEY_GIMI")))
         )
         omie_app_secret = str(
-            os.getenv(f"OMIE_APP_SECRET_{instance.company}", str(os.getenv("OMIE_APP_SECRET_GIMI")))
+            os.getenv(f"OMIE_APP_SECRET_{company}", str(os.getenv("OMIE_APP_SECRET_GIMI")))
         )
         url = "https://app.omie.com.br/api/v1/produtos/requisicaocompra/"
 
@@ -24,7 +25,7 @@ def include_purchase_requisition(instance):
             if "GENERIC" in purchase_product.product.code:
                 return
 
-            product_code = get_omie_product_code(purchase_product.product.code, instance.company)
+            product_code = get_omie_product_code(purchase_product.product.code, company)
 
             row = {
                 "codItem": str(item_number),
@@ -36,14 +37,20 @@ def include_purchase_requisition(instance):
             data.append(row)
             item_number += 1
 
-        categories = {"Gimi": "2.01.73", "GBL": "2.10.93", "GPB": "2.04.95", "GS": "2.10.97"}
+        categories = {
+            "GIMI": "2.01.73",
+            "GBL": "2.10.93",
+            "GPB": "2.04.95",
+            "GS": "2.10.97",
+            "FILIAL": "2.01.77",
+        }
 
         payload = json.dumps(
             {
                 "call": "IncluirReq",
                 "param": [
                     {
-                        "codCateg": categories.get(instance.company, "2.01.73"),
+                        "codCateg": categories.get(company, "2.01.73"),
                         "codIntReqCompra": f"INT-{instance.control_number}",
                         "dtSugestao": instance.request_date.strftime("%d/%m/%Y"),
                         "obsReqCompra": instance.obs,
