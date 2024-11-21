@@ -31,7 +31,8 @@ SECRET_KEY = str(os.getenv("SECRET_KEY"))
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = str(os.getenv("DEBUG"))
 
-ALLOWED_HOSTS = str(os.getenv("ALLOWED_HOSTS", "127.0.0.1")).split(" ")
+# ALLOWED_HOSTS = str(os.getenv("ALLOWED_HOSTS", "127.0.0.1")).split(" ")
+ALLOWED_HOSTS = ['127.0.0.1']
 
 # Application definition
 
@@ -56,6 +57,7 @@ INSTALLED_APPS = [
     "apps.freights.apps.FreightsConfig",
     "apps.contracts.apps.ContractsConfig",
     "apps.maintenances.apps.MaintenancesConfig",
+    "apps.employees.apps.EmployeesConfig",
 ]
 
 MIDDLEWARE = [
@@ -161,7 +163,8 @@ REST_FRAMEWORK = {
 
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOWED_ORIGINS = str(os.getenv("CORS_ALLOWED_ORIGINS")).split(" ")
+# CORS_ALLOWED_ORIGINS = str(os.getenv("CORS_ALLOWED_ORIGINS")).split(" ")
+CORS_ALLOWED_ORIGINS = ['http://127.0.0.1']
 
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(days=30),
