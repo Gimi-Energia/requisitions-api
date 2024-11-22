@@ -15,6 +15,15 @@ STATUS = [
     ("Denied", "Denied"),
     ("Approved", "Approved"),
 ]
+SOFTWARES = [
+    ("ZwCad", "ZwCad"),
+    ("Eplan P8", "Eplan P8"),
+    ("Cogineer", "Cogineer"),
+    ("SolidWorks", "Cogineer"),
+    ("Metalix", "Metalix"),
+    ("Inventor", "Inventor")
+]
+
 
 # Create your models here.
 class Position(models.Model):
@@ -25,7 +34,8 @@ class Position(models.Model):
 
     def __str__(self):
         return f"{self.cost_center.name} - {self.position}"
-    
+
+
 class Employee(models.Model):
     id = models.UUIDField(primary_key=True, unique=True, default=uuid4, editable=False)
     company = models.CharField(_("Company"), choices=COMPANIES, default="Gimi", max_length=5)
@@ -41,14 +51,16 @@ class Employee(models.Model):
     has_workstation = models.BooleanField(_("Has Workstation"))
     motive = models.TextField(_("Motive"))
     created_at = models.DateTimeField(_("Created At"), default=timezone.now)
-    requester = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name="requester")
+    requester = models.ForeignKey(
+        User, on_delete=models.CASCADE, null=True, related_name="requester"
+    )
     status = models.CharField(_("Status"), choices=STATUS, default="Opened", max_length=9)
     obs = models.TextField(_("Obs"), blank=True, null=True)
     replaced_email = models.CharField(_("Replacement Email"), max_length=60, blank=True, null=True)
     complete_name = models.CharField(_("Complete Name"), max_length=60, blank=True, null=True)
     start_date = models.DateField(_("Start Date"), blank=True, null=True)
     approver = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name="approver")
-    approval_date =models.DateTimeField(_("Approval Date"), null=True, blank=True)
+    approval_date = models.DateTimeField(_("Approval Date"), null=True, blank=True)
     control_number = models.IntegerField(_("Control Number"), default=0)
 
     def __str__(self):
