@@ -1,5 +1,7 @@
 from rest_framework import generics
 
+from django_filters.rest_framework import DjangoFilterBackend
+
 from apps.departments.models import Department
 
 from .models import Position, Employee
@@ -11,12 +13,11 @@ class EmployeeList(generics.ListAPIView):
     serializer_class = EmployeeSerializer
 
 class PositionList(generics.ListAPIView):
+    queryset = Position.objects.all()
     serializer_class = PositionsSerializer
-
-    def get_queryset(self):
-        cost_center_id = self.kwargs['cost_center_id']
-        cost_center = Department.objects.filter(id=cost_center_id)[0]
-        return Position.objects.filter(cost_center = cost_center)
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ["company", "cost_center__id"]
+    # permission_classes = [IsAuthenticated]
     
 class EmployeeCreate(generics.CreateAPIView):
     model = Employee
