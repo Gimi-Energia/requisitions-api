@@ -50,3 +50,18 @@ class Employee(models.Model):
     approver = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name="approver")
     approval_date =models.DateTimeField(_("Approval Date"), null=True, blank=True)
     control_number = models.IntegerField(_("Control Number"), default=0)
+
+    def __str__(self):
+        return f"{self.complete_name} - {self.position}"
+
+    def save(self, *args, **kwargs):
+        exists = Employee.objects.filter(id=self.pk).exists()
+        if not exists:
+            with transaction.atomic():
+                last = Employee.objects.select_for_update().order_by("-control_number").first()
+                if last:
+                    self.control_number = last.control_number + 1
+                else:
+                    self.control_number = 1
+
+        super(Employee, self).save(*args, **kwargs)
