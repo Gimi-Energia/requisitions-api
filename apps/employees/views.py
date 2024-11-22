@@ -18,7 +18,7 @@ class PositionList(generics.ListAPIView):
         cost_center = Department.objects.filter(id=cost_center_id)[0]
         return Position.objects.filter(cost_center = cost_center)
     
-class CreateEmployee(generics.CreateAPIView):
+class EmployeeCreate(generics.CreateAPIView):
     model = Employee
     serializer_class = EmployeeSerializer
 
