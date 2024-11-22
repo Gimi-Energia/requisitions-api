@@ -2,13 +2,19 @@ from rest_framework import generics
 
 from django_filters.rest_framework import DjangoFilterBackend
 
+from setup.validators.custom_view_validator import CustomErrorHandlerMixin
+
 from .models import Position, Employee
-from .serializers import PositionsSerializer, EmployeeSerializer
+from .serializers import PositionsSerializer, EmployeeReadSerializer, EmployeeWriteSerializer
 
 # Create your views here.
-class EmployeeList(generics.ListCreateAPIView):
+class EmployeeList(CustomErrorHandlerMixin, generics.ListCreateAPIView):
     queryset = Employee.objects.all()
-    serializer_class = EmployeeSerializer
+
+    def get_serializer_class(self):
+        if self.request.method == "GET":
+            return EmployeeReadSerializer
+        return EmployeeWriteSerializer
 
 class PositionList(generics.ListAPIView):
     queryset = Position.objects.all()
@@ -19,5 +25,5 @@ class PositionList(generics.ListAPIView):
     
 class EmployeeDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Employee.objects.all()
-    serializer_class = EmployeeSerializer
+    serializer_class = EmployeeWriteSerializer
     # permission_classes = [IsAuthenticated]
