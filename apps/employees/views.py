@@ -19,5 +19,10 @@ class PositionList(generics.ListAPIView):
         return Position.objects.filter(cost_center = cost_center)
     
 class CreateEmployee(generics.CreateAPIView):
-    model = Employee #model we want to create and store to the db
+    model = Employee
     serializer_class = EmployeeSerializer
+
+class EmployeeDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Employee.objects.all()
+    serializer_class = EmployeeSerializer
+    # permission_classes = [IsAuthenticated]
