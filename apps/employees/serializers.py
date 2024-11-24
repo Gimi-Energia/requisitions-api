@@ -6,10 +6,15 @@ from apps.departments.serializers import DepartmentSerializer
 from apps.users.serializers import UserCustomSerializer
 
 
-class PositionsSerializer(serializers.ModelSerializer):
+class PositionsWriteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Position
         fields = "__all__"
+
+class PositionReadSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Position
+        fields = ["id", "position"]
 
 
 class EmployeeWriteSerializer(serializers.ModelSerializer):
