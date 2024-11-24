@@ -3,5 +3,8 @@ from django.contrib import admin
 from .models import Position, Employee
 
 # Register your models here.
-admin.site.register(Position)
+class PositionAdmin(admin.ModelAdmin):
+    ordering = ["cost_center"]
+
+admin.site.register(Position, PositionAdmin)
 admin.site.register(Employee)
