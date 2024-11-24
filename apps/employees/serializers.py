@@ -24,6 +24,7 @@ class EmployeeWriteSerializer(serializers.ModelSerializer):
 
 
 class EmployeeReadSerializer(serializers.ModelSerializer):
+    position = PositionReadSerializer()
     cost_center = DepartmentSerializer()
     requester = UserCustomSerializer()
     approver = UserCustomSerializer()
