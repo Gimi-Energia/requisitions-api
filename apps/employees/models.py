@@ -41,7 +41,7 @@ class Employee(models.Model):
     company = models.CharField(_("Company"), choices=COMPANIES, default="Gimi", max_length=5)
     cost_center = models.ForeignKey(Department, on_delete=models.CASCADE, null=True)
     request_date = models.DateField(_("Request Date"), default=date.today)
-    position = models.CharField(_("Position"), max_length=50)
+    position = models.ForeignKey(Position, on_delete=models.CASCADE, null=True)
     is_replacement = models.BooleanField(_("Is Replacement"))
     has_pc = models.BooleanField(_("Has Pc"))
     needs_phone = models.BooleanField(_("Needs Phone"))
