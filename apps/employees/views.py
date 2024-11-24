@@ -10,7 +10,8 @@ from .serializers import PositionsSerializer, EmployeeReadSerializer, EmployeeWr
 # Create your views here.
 class EmployeeList(CustomErrorHandlerMixin, generics.ListCreateAPIView):
     queryset = Employee.objects.all()
-
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ["status"]
     def get_serializer_class(self):
         if self.request.method == "GET":
             return EmployeeReadSerializer
