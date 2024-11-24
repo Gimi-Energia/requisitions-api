@@ -1,4 +1,4 @@
-from rest_framework import generics
+from rest_framework import generics, filters
 
 from django_filters.rest_framework import DjangoFilterBackend
 
@@ -10,8 +10,10 @@ from .serializers import PositionsSerializer, EmployeeReadSerializer, EmployeeWr
 # Create your views here.
 class EmployeeList(CustomErrorHandlerMixin, generics.ListCreateAPIView):
     queryset = Employee.objects.all()
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
     filterset_fields = ["status"]
+    ordering_fields = ["created_at", "request_date", "approval_date", "start_date"]
+
     def get_serializer_class(self):
         if self.request.method == "GET":
             return EmployeeReadSerializer
