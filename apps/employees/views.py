@@ -24,7 +24,7 @@ class EmployeeDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = EmployeeWriteSerializer
     # permission_classes = [IsAuthenticated]
 
-class PositionList(generics.ListAPIView):
+class PositionList(CustomErrorHandlerMixin, generics.ListCreateAPIView):
     queryset = Position.objects.all()
     serializer_class = PositionWriteSerializer
     filter_backends = [DjangoFilterBackend]
