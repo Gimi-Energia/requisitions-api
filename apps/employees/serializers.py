@@ -6,7 +6,7 @@ from apps.departments.serializers import DepartmentSerializer
 from apps.users.serializers import UserCustomSerializer
 
 
-class PositionsWriteSerializer(serializers.ModelSerializer):
+class PositionWriteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Position
         fields = "__all__"
