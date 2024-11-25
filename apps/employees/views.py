@@ -21,7 +21,11 @@ class EmployeeList(CustomErrorHandlerMixin, generics.ListCreateAPIView):
     
 class EmployeeDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Employee.objects.all()
-    serializer_class = EmployeeReadSerializer
+    
+    def get_serializer_class(self):
+        if self.request.method == "GET":
+            return EmployeeReadSerializer
+        return EmployeeWriteSerializer
     # permission_classes = [IsAuthenticated]
 
 class PositionList(CustomErrorHandlerMixin, generics.ListCreateAPIView):
