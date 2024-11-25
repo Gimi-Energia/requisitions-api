@@ -31,8 +31,7 @@ SECRET_KEY = str(os.getenv("SECRET_KEY"))
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = str(os.getenv("DEBUG"))
 
-# ALLOWED_HOSTS = str(os.getenv("ALLOWED_HOSTS", "127.0.0.1")).split(" ")
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = str(os.getenv("ALLOWED_HOSTS", "127.0.0.1")).split(" ")
 
 # Application definition
 
@@ -163,8 +162,7 @@ REST_FRAMEWORK = {
 
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ALLOW_CREDENTIALS = True
-# CORS_ALLOWED_ORIGINS = str(os.getenv("CORS_ALLOWED_ORIGINS")).split(" ")
-CORS_ALLOWED_ORIGINS = ['http://127.0.0.1']
+CORS_ALLOWED_ORIGINS = str(os.getenv("CORS_ALLOWED_ORIGINS")).split(" ")
 
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(days=30),
