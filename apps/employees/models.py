@@ -33,7 +33,7 @@ class Position(models.Model):
     company = models.CharField(_("Company"), choices=COMPANIES, default="Gimi", max_length=5)
 
     def __str__(self):
-        return f"{self.cost_center.name} - {self.position}"
+        return f"{self.cost_center.name} - {self.position} - {self.company}"
 
 
 class Employee(models.Model):
