@@ -34,6 +34,9 @@ class EmployeeWriteSerializer(serializers.ModelSerializer):
         if data.get("start_date") and not retroactive_date(data["start_date"]):
             raise serializers.ValidationError({"start_date": "Não é permitido data retroativa."})
 
+        if data.get("approval_date") and not retroactive_date(data["approval_date"]):
+            raise serializers.ValidationError({"approval_date": "Não é permitido data retroativa."})
+
         return data
 
 
