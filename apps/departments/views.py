@@ -6,9 +6,11 @@ from apps.departments.models import Department
 from apps.departments.serializers import DepartmentSerializer
 from utils.permissions import IsAdminPost, IsAuthenticatedGet
 
+from django.db.models.functions import Length
+
 
 class DepartmentList(generics.ListCreateAPIView):
-    queryset = Department.objects.all()
+    queryset = Department.objects.annotate(id_length=Length('id')).filter(id_length=7)
     serializer_class = DepartmentSerializer
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
     search_fields = ["id", "name"]
