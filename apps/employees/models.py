@@ -1,8 +1,9 @@
 from datetime import date
 from uuid import uuid4
+
 from django.db import models, transaction
-from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 
 from apps.departments.models import Department
 from apps.users.models import User
@@ -21,11 +22,10 @@ SOFTWARES = [
     ("Cogineer", "Cogineer"),
     ("SolidWorks", "Cogineer"),
     ("Metalix", "Metalix"),
-    ("Inventor", "Inventor")
+    ("Inventor", "Inventor"),
 ]
 
 
-# Create your models here.
 class Position(models.Model):
     id = models.UUIDField(primary_key=True, unique=True, default=uuid4, editable=False)
     position = models.CharField(_("Position"), max_length=50)

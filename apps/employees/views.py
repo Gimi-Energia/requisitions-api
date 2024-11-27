@@ -1,13 +1,15 @@
-from rest_framework import generics, filters
-
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters, generics
 
+from apps.employees.models import Employee, Position
+from apps.employees.serializers import (
+    EmployeeReadSerializer,
+    EmployeeWriteSerializer,
+    PositionWriteSerializer,
+)
 from setup.validators.custom_view_validator import CustomErrorHandlerMixin
 
-from apps.employees.models import Position, Employee
-from apps.employees.serializers import PositionWriteSerializer, EmployeeReadSerializer, EmployeeWriteSerializer
 
-# Create your views here.
 class EmployeeList(CustomErrorHandlerMixin, generics.ListCreateAPIView):
     queryset = Employee.objects.all()
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
@@ -18,15 +20,17 @@ class EmployeeList(CustomErrorHandlerMixin, generics.ListCreateAPIView):
         if self.request.method == "GET":
             return EmployeeReadSerializer
         return EmployeeWriteSerializer
-    
+
+
 class EmployeeDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Employee.objects.all()
-    
+    # permission_classes = [IsAuthenticated]
+
     def get_serializer_class(self):
         if self.request.method == "GET":
             return EmployeeReadSerializer
         return EmployeeWriteSerializer
-    # permission_classes = [IsAuthenticated]
+
 
 class PositionList(CustomErrorHandlerMixin, generics.ListCreateAPIView):
     queryset = Position.objects.all()
@@ -34,6 +38,7 @@ class PositionList(CustomErrorHandlerMixin, generics.ListCreateAPIView):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ["company", "cost_center__id"]
     # permission_classes = [IsAuthenticated]
+
 
 class PositionDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Position.objects.all()
