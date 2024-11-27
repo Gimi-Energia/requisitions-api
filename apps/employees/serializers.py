@@ -1,10 +1,8 @@
 from rest_framework import serializers
 
-from apps.employees.models import Position, Employee
-
 from apps.departments.serializers import DepartmentSerializer
+from apps.employees.models import Employee, Position
 from apps.users.serializers import UserCustomSerializer
-
 from utils.validators.valid_date import retroactive_date
 
 SOFTWARES = ("ZwCad", "Eplan P8", "Cogineer", "SolidWorks", "Metalix", "Inventor")
@@ -47,8 +45,9 @@ class EmployeeWriteSerializer(serializers.ModelSerializer):
 
         print(invalid_softwares)
         if len(invalid_softwares) > 0:
+            invalid_softwares_str = " ".join(invalid_softwares)
             raise serializers.ValidationError(
-                {"software_names": f"Os softwares {" ".join(invalid_softwares)} não são válidos."}
+                {"software_names": f"Os softwares {invalid_softwares_str} não são válidos."}
             )
 
         return data
