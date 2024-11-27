@@ -4,8 +4,8 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 from setup.validators.custom_view_validator import CustomErrorHandlerMixin
 
-from .models import Position, Employee
-from .serializers import PositionWriteSerializer, EmployeeReadSerializer, EmployeeWriteSerializer
+from apps.employees.models import Position, Employee
+from apps.employees.serializers import PositionWriteSerializer, EmployeeReadSerializer, EmployeeWriteSerializer
 
 # Create your views here.
 class EmployeeList(CustomErrorHandlerMixin, generics.ListCreateAPIView):
