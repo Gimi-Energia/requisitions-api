@@ -61,6 +61,7 @@ class Service(models.Model):
         _("Quotation Date"), auto_now=False, auto_now_add=False, blank=True, null=True
     )
     control_number = models.IntegerField(_("Control Number"), default=0)
+    motive_denied = models.TextField(_("Motive Denied"), blank=True, null=True)
 
     def __str__(self):
         return str(self.id)
