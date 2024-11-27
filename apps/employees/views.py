@@ -1,3 +1,4 @@
+from django.db import transaction
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, generics
 
@@ -8,6 +9,8 @@ from apps.employees.serializers import (
     PositionWriteSerializer,
 )
 from setup.validators.custom_view_validator import CustomErrorHandlerMixin
+
+from apps.employees.services.email_service import send_status_change_email
 
 
 class EmployeeList(CustomErrorHandlerMixin, generics.ListCreateAPIView):
@@ -20,6 +23,14 @@ class EmployeeList(CustomErrorHandlerMixin, generics.ListCreateAPIView):
         if self.request.method == "GET":
             return EmployeeReadSerializer
         return EmployeeWriteSerializer
+
+    def perform_create(self, serializer):
+        print("vamos criar o Employee")
+        with transaction.atomic():
+            serializer.save()
+            instance = serializer.instance
+            print("Employee criado com sucesso")
+            send_status_change_email(instance)
 
 
 class EmployeeDetail(generics.RetrieveUpdateDestroyAPIView):
