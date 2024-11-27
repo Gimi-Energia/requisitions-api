@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Position, Employee
+from apps.employees.models import Position, Employee
 
 # Register your models here.
 class PositionAdmin(admin.ModelAdmin):
