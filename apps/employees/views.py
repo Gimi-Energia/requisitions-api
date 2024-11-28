@@ -33,7 +33,7 @@ class EmployeeList(CustomErrorHandlerMixin, generics.ListCreateAPIView):
             send_status_change_email(instance)
 
 
-class EmployeeDetail(generics.RetrieveUpdateDestroyAPIView):
+class EmployeeDetail(CustomErrorHandlerMixin, generics.RetrieveUpdateDestroyAPIView):
     queryset = Employee.objects.all()
     # permission_classes = [IsAuthenticated]
 
