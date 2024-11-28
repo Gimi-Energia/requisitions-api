@@ -42,6 +42,20 @@ class EmployeeDetail(generics.RetrieveUpdateDestroyAPIView):
             return EmployeeReadSerializer
         return EmployeeWriteSerializer
 
+    def perform_update(self, serializer):
+        print("preparando para atualizar...")
+        old_status = serializer.instance.status
+        print(f"status antigo {old_status}")
+
+        with transaction.atomic():
+            print("preparando para atualizar Employee")
+            instance = serializer.save()
+            print("Employee salvo com sucesso")
+
+            if old_status != instance.status:
+                print("preparando para enviar o email")
+                send_status_change_email(instance)
+
 
 class PositionList(CustomErrorHandlerMixin, generics.ListCreateAPIView):
     queryset = Position.objects.all()
