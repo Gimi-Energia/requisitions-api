@@ -2,7 +2,7 @@ from django.conf import settings
 from django.contrib.auth.models import Group
 from django.core.mail import send_mail
 
-from apps.employees.services.email_service_templates import TEMPLATES
+from apps.employees.services.email_service_templates import generateEmailTemplates
 
 STATUS = {
     "Opened": "Opened",
@@ -11,7 +11,6 @@ STATUS = {
     "Denied": "Denied",
     "Canceled": "Canceled",
 }
-
 
 def send_status_change_email(instance):
     # Get the TI and RH groups
@@ -38,50 +37,36 @@ def send_status_change_email(instance):
 
     if instance.status == STATUS["Opened"]:
         email_subject = "Nova requisição de funcionário"
-        email_body_intro = (
-            f"Foi criada uma nova requisição de funcionário por {instance.requester.name}"
-        )
         emails = [instance.requester, instance.approver]
         print("Dados de email criados para status Opened")
 
     if instance.status == STATUS["Pending"]:
         email_subject = "Requisição de novo funcionário pendente"
-        email_body_intro = "<p>Há uma requisição de novo funcionário pendente.</p>"
         emails = [instance.requester, *rh_emails, *ti_emails]
 
     if instance.status == STATUS["Approved"]:
         email_subject = "Requisição de funcionário aprovada"
-        email_body_intro = f"<p>A requisição de funcionário foi aprovada por {instance.approver.name}. O processo pode seguir. Favor, cada setor, tomar as seguintes providências:</p>"  # noqa: E501
         emails = [instance.requester, *ti_emails]
         print("Dados de email criados para status Approved")
 
     if instance.status == STATUS["Denied"]:
         email_subject = "Requisição de novo funcionário negada"
-        email_body_intro = f"<p>A requisição foi negada por {instance.approver}</p>"
         emails = [instance.requester]
 
     if instance.status == STATUS["Canceled"]:
         email_subject = "Requisição de novo funcionário negada"
-        email_body_intro = "<p>A requisição de novo funcionário foi cancelada.</p>"
         emails = [instance.requester, instance.approver]
 
-    summary_body = f"""
-        <h2>Dados da solicitação:</h2>
-        Empresa: {instance.company}<br>
-        Departamento: {instance.cost_center.id} - {instance.cost_center.name}<br>
-        Cargo: {instance.position.position}<br>
-        Data solicitada: {instance.request_date.strftime("%d/%m/%Y")}<br>
-        Número de controle: {instance.control_number}<br>
-        Motivo: {instance.motive}<br>
-        Requisitante: {instance.requester}<br>
-        Aprovador: {instance.approver}<br>
-        Obsevações: {instance.obs}<br>
-    """
+    TEMPLATES = generateEmailTemplates(instance=instance)
+
+    summary_body = TEMPLATES["summary_body"]
+    email_body_intro = TEMPLATES["email_body_intro"][instance.status]
 
     if len(emails) == 0:
         emails = ["dev3.engenhadev@gmail.com"]
         summary_body = "Houve um erro"
         print("Não encontrei emails para enviar")
+
 
     button_html = '<a href="https://gimi-requisitions.vercel.app" target="_blank" class="btn">Acessar Webapp</a><br>'  # noqa: E501
 
@@ -103,6 +88,14 @@ def send_status_change_email(instance):
                         margin-top: 10px;
                         border: 2px solid black;
                         font-weight: bold;
+                    }}
+                    ul{{
+                        list-style: none;
+                        margin: 0;
+                        padding: 0;
+                    }}
+                    li{{
+                        margin-left: 10px;
                     }}
                 </style>
             </head>
