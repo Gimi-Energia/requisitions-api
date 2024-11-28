@@ -52,6 +52,7 @@ def send_status_change_email(instance):
         email_subject = "Requisição de funcionário aprovada"
         email_body_intro = f"A requisição de funcionário foi aprovada por {instance.approver.name}. O processo pode seguir."
         emails = [instance.requester, *rh_emails, *ti_emails]
+        print("Dados de email criados para status Approved")
 
     if instance.status == STATUS["Denied"]:
         email_subject = "Requisição de novo funcionário negada"
@@ -61,6 +62,11 @@ def send_status_change_email(instance):
     if instance.status == STATUS["Canceled"]:
         email_subject = "Requisição de novo funcionário negada"
         email_body_intro = "A requisição de novo funcionário foi cancelada."
+        emails = [instance.requester, instance.approver]
+
+    if instance.status == STATUS["Pending"]:
+        email_subject = "Requisição de novo funcionário pendente"
+        email_body_intro = "Há uma requisição de novo funcionário pendente."
         emails = [instance.requester, instance.approver]
 
     common_body = f"""
