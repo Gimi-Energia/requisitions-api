@@ -35,20 +35,21 @@ class EmployeeWriteSerializer(serializers.ModelSerializer):
         if data.get("approval_date") and not retroactive_date(data["approval_date"]):
             raise serializers.ValidationError({"approval_date": "Não é permitido data retroativa."})
 
-        software_names = data.get("software_names").split(",")
-        invalid_softwares = []
-        print(software_names)
+        if data.get("software_names"):
+            software_names = data.get("software_names").split(",")
+            invalid_softwares = []
+            print(software_names)
 
-        for software_name in software_names:
-            if software_name and SOFTWARES.count(software_name) == 0:
-                invalid_softwares.append(software_name)
+            for software_name in software_names:
+                if software_name and SOFTWARES.count(software_name) == 0:
+                    invalid_softwares.append(software_name)
 
-        print(invalid_softwares)
-        if len(invalid_softwares) > 0:
-            invalid_softwares_str = " ".join(invalid_softwares)
-            raise serializers.ValidationError(
-                {"software_names": f"Os softwares {invalid_softwares_str} não são válidos."}
-            )
+            print(invalid_softwares)
+            if len(invalid_softwares) > 0:
+                invalid_softwares_str = " ".join(invalid_softwares)
+                raise serializers.ValidationError(
+                    {"software_names": f"Os softwares {invalid_softwares_str} não são válidos."}
+                )
 
         return data
 
