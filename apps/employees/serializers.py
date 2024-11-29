@@ -5,9 +5,6 @@ from apps.employees.models import Employee, Position, Software
 from apps.users.serializers import UserCustomSerializer
 from utils.validators.valid_date import retroactive_date
 
-SOFTWARES = ("ZwCad", "Eplan P8", "Cogineer", "SolidWorks", "Metalix", "Inventor")
-
-
 class PositionWriteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Position
@@ -36,12 +33,13 @@ class EmployeeWriteSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError({"approval_date": "Não é permitido data retroativa."})
 
         if data.get("software_names"):
+            SOFTWARES = list(map(lambda software: software.name, Software.objects.all()))
             software_names = data.get("software_names").split(",")
             invalid_softwares = []
             print(software_names)
 
             for software_name in software_names:
-                if software_name and SOFTWARES.count(software_name) == 0:
+                if software_name and software_name not in SOFTWARES:
                     invalid_softwares.append(software_name)
 
             print(invalid_softwares)
