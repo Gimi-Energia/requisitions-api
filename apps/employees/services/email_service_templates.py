@@ -73,8 +73,12 @@ def generateEmailTemplates(instance):
                     <li>Verificar equipamentos</li>
                     <li>Verificar estoque ou reserva</li>
                     <li>Necessidade de compra</li>
-                    <li>Softwares necessários: {software_names}</li>
                     <li>Lead time médio</li>
+                    <li>Softwares necessários: {software_names}</li>
+                    <li>Tem PC: {has_pc}</li>
+                    <li>Precisa Telefone: {needs_phone}</li>
+                    <li>Precisa Tablet: {needs_tablet}</li>
+                    <li>Tem estação de trabalho: {has_workstation}</li>
                 </ul>
                 <br>
             """,
@@ -90,10 +94,6 @@ def generateEmailTemplates(instance):
                 <ul>
                     <li>Nome Completo: {complete_name}</li>
                     <li>Reposição: {is_replacement}</li>
-                    <li>Tem PC: {has_pc}</li>
-                    <li>Precisa Telefone: {needs_phone}</li>
-                    <li>Precisa Tablet: {needs_tablet}</li>
-                    <li>Tem estação de trabalho: {has_workstation}</li>
                     {replaced_email}
                 </ul>
                 <br>
