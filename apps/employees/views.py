@@ -2,22 +2,23 @@ from django.db import transaction
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, generics, serializers
 
-from apps.employees.models import Employee, Position
+from apps.employees.models import Employee, Position, Software
 from apps.employees.serializers import (
     EmployeeReadSerializer,
     EmployeeWriteSerializer,
     PositionWriteSerializer,
+    SoftwareSerializer,
 )
-from setup.validators.custom_view_validator import CustomErrorHandlerMixin
-
 from apps.employees.services.email_service import send_status_change_email
+from setup.validators.custom_view_validator import CustomErrorHandlerMixin
 
 
 class EmployeeList(CustomErrorHandlerMixin, generics.ListCreateAPIView):
     queryset = Employee.objects.all()
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
     filterset_fields = ["status"]
-    ordering_fields = ["created_at", "request_date", "approval_date", "start_date"]
+    ordering_fields = ["created_at", "request_date",
+                       "approval_date", "start_date"]
 
     def get_serializer_class(self):
         if self.request.method == "GET":
@@ -71,3 +72,14 @@ class PositionList(CustomErrorHandlerMixin, generics.ListCreateAPIView):
 class PositionDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Position.objects.all()
     serializer_class = PositionWriteSerializer
+
+
+class SoftwareList(CustomErrorHandlerMixin, generics.ListCreateAPIView):
+    queryset = Software.objects.all()
+    serializer_class = SoftwareSerializer
+    # permission_classes = [IsAuthenticated]
+
+
+class SoftwareDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Software.objects.all()
+    serializer_class = SoftwareSerializer

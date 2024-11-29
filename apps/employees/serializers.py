@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from apps.departments.serializers import DepartmentSerializer
-from apps.employees.models import Employee, Position
+from apps.employees.models import Employee, Position, Software
 from apps.users.serializers import UserCustomSerializer
 from utils.validators.valid_date import retroactive_date
 
@@ -62,4 +62,10 @@ class EmployeeReadSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Employee
+        fields = "__all__"
+
+
+class SoftwareSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Software
         fields = "__all__"
