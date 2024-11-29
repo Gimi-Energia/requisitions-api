@@ -1,6 +1,6 @@
 from django.db import transaction
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import filters, generics
+from rest_framework import filters, generics, serializers
 
 from apps.employees.models import Employee, Position
 from apps.employees.serializers import (
@@ -51,6 +51,9 @@ class EmployeeDetail(CustomErrorHandlerMixin, generics.RetrieveUpdateDestroyAPIV
             print("preparando para atualizar Employee")
             instance = serializer.save()
             print("Employee salvo com sucesso")
+
+            if instance.status == "Approved" and not instance.complete_name:
+                raise serializers.ValidationError(detail={"error": "Para mudar para aprovação é necessário inserir o nome completo do funcionário."})  # noqa: E501
 
             if old_status != instance.status:
                 print("preparando para enviar o email")
