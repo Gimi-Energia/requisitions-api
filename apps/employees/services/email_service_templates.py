@@ -48,7 +48,7 @@ def generateEmailTemplates(instance):
             Motivo: {instance.motive}<br>
             Requisitante: {instance.requester}<br>
             Aprovador: {instance.approver}<br>
-            Obsevações: {instance.obs}<br>
+            Observações: {instance.obs}<br>
         """,
 
         "RH": {
