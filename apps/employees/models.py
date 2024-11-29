@@ -64,7 +64,7 @@ class Employee(models.Model):
     control_number = models.IntegerField(_("Control Number"), default=0)
 
     def __str__(self):
-        return f"{self.complete_name} - {self.position}"
+        return f"{self.position}"
 
     def save(self, *args, **kwargs):
         exists = Employee.objects.filter(id=self.pk).exists()
