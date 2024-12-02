@@ -62,6 +62,7 @@ class Employee(models.Model):
     approver = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name="approver")
     approval_date = models.DateTimeField(_("Approval Date"), null=True, blank=True)
     control_number = models.IntegerField(_("Control Number"), default=0)
+    motive_denied = models.TextField(_("Motive Denied"), blank=True, null=True)
 
     def __str__(self):
         return f"{self.position}"

@@ -59,6 +59,7 @@ class Maintenance(models.Model):
         _("Approver Status"), choices=APPROVER_STATUS, max_length=9, blank=True, null=True
     )
     end_date = models.DateTimeField(_("End Date"), blank=True, null=True)
+    motive_denied = models.TextField(_("Motive Denied"), blank=True, null=True)
 
     def __str__(self):
         return str(self.id)

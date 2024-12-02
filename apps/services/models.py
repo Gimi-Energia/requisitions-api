@@ -9,7 +9,14 @@ from apps.departments.models import Department
 from apps.providers.models import Provider
 from apps.users.models import User
 
-COMPANIES = [("Gimi", "Gimi"), ("GBL", "GBL"), ("GPB", "GPB"), ("GS", "GS"), ("GIR", "GIR")]
+COMPANIES = [
+    ("Gimi", "Gimi"),
+    ("GBL", "GBL"),
+    ("GPB", "GPB"),
+    ("GS", "GS"),
+    ("GIR", "GIR"),
+    ("Filial", "Filial"),
+]
 STATUS = [
     ("Opened", "Opened"),
     ("Approved", "Approved"),
@@ -29,7 +36,7 @@ class ServiceType(models.Model):
 
 class Service(models.Model):
     id = models.UUIDField(primary_key=True, unique=True, default=uuid4, editable=False)
-    company = models.CharField(_("Company"), choices=COMPANIES, default="Gimi", max_length=4)
+    company = models.CharField(_("Company"), choices=COMPANIES, default="Gimi", max_length=6)
     department = models.ForeignKey(
         Department, verbose_name=_("Department"), on_delete=models.CASCADE
     )
@@ -46,7 +53,7 @@ class Service(models.Model):
     # provider = models.ForeignKey(Provider, verbose_name=_("Provider"), on_delete=models.CASCADE)
     provider = models.CharField(_("Provider"), max_length=120, blank=True, null=True)
     service = models.ForeignKey(ServiceType, verbose_name=_("Service"), on_delete=models.CASCADE)
-    value = models.DecimalField(_("Value"), max_digits=7, decimal_places=2, blank=True, null=True)
+    value = models.DecimalField(_("Value"), max_digits=12, decimal_places=2, blank=True, null=True)
     status = models.CharField(_("Status"), choices=STATUS, default="Opened", max_length=9)
     approver = models.ForeignKey(
         User,
@@ -61,6 +68,7 @@ class Service(models.Model):
         _("Quotation Date"), auto_now=False, auto_now_add=False, blank=True, null=True
     )
     control_number = models.IntegerField(_("Control Number"), default=0)
+    motive_denied = models.TextField(_("Motive Denied"), blank=True, null=True)
 
     def __str__(self):
         return str(self.id)
