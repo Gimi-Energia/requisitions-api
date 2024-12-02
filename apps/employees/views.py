@@ -17,8 +17,7 @@ class EmployeeList(CustomErrorHandlerMixin, generics.ListCreateAPIView):
     queryset = Employee.objects.all()
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
     filterset_fields = ["status"]
-    ordering_fields = ["created_at", "request_date",
-                       "approval_date", "start_date"]
+    ordering_fields = ["created_at", "request_date", "approval_date", "start_date"]
 
     def get_serializer_class(self):
         if self.request.method == "GET":
@@ -54,7 +53,11 @@ class EmployeeDetail(CustomErrorHandlerMixin, generics.RetrieveUpdateDestroyAPIV
             print("Employee salvo com sucesso")
 
             if instance.status == "Approved" and not instance.complete_name:
-                raise serializers.ValidationError(detail={"error": "Para mudar para aprovação é necessário inserir o nome completo do funcionário."})  # noqa: E501
+                raise serializers.ValidationError(
+                    detail={
+                        "error": "Para mudar para aprovação é necessário inserir o nome completo do funcionário."
+                    }
+                )  # noqa: E501
 
             if old_status != instance.status:
                 print("preparando para enviar o email")

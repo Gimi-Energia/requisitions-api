@@ -5,6 +5,7 @@ from apps.employees.models import Employee, Position, Software
 from apps.users.serializers import UserCustomSerializer
 from utils.validators.valid_date import retroactive_date
 
+
 class PositionWriteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Position

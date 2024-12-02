@@ -2,7 +2,7 @@ from django.conf import settings
 from django.contrib.auth.models import Group
 from django.core.mail import send_mail
 
-from apps.employees.services.email_service_templates import generateEmailTemplates
+from apps.employees.services.email_service_templates import generate_email_templates
 
 STATUS = {
     "Opened": "Opened",
@@ -12,18 +12,16 @@ STATUS = {
     "Canceled": "Canceled",
 }
 
+
 def send_status_change_email(instance):
-    # Get the TI and RH groups
     ti_group = Group.objects.get(name="TI")
     rh_group = Group.objects.get(name="RH")
     print("Grupos acessados com sucesso")
 
-    # Get users from each group
     ti_users = ti_group.user_set.all()
     rh_users = rh_group.user_set.all()
     print("usuários recuperados com sucesso")
 
-    # Get emails from both groups
     ti_emails = ti_users.values_list("email", flat=True)
     rh_emails = rh_users.values_list("email", flat=True)
     print("emails recuperados com sucesso")
@@ -57,7 +55,7 @@ def send_status_change_email(instance):
         email_subject = "Requisição de novo funcionário negada"
         emails = [instance.requester, instance.approver]
 
-    TEMPLATES = generateEmailTemplates(instance=instance)
+    TEMPLATES = generate_email_templates(instance=instance)
 
     summary_body = TEMPLATES["summary_body"]
     email_body_intro = TEMPLATES["email_body_intro"][instance.status]
@@ -66,7 +64,6 @@ def send_status_change_email(instance):
         emails = ["dev3.engenhadev@gmail.com"]
         summary_body = "Houve um erro"
         print("Não encontrei emails para enviar")
-
 
     button_html = '<a href="https://gimi-requisitions.vercel.app" target="_blank" class="btn">Acessar Webapp</a><br>'  # noqa: E501
 

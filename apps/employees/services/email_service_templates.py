@@ -1,5 +1,4 @@
-def generateEmailTemplates(instance):
-    
+def generate_email_templates(instance):
     software_names = "Nenhum"
     is_replacement = "Não"
     has_pc = "Não"
@@ -8,26 +7,25 @@ def generateEmailTemplates(instance):
     has_workstation = "Não"
     replaced_email = ""
     complete_name = instance.complete_name
-    
+
     if len(instance.software_names) > 0:
         software_names = instance.software_names
 
     if instance.is_replacement:
         is_replacement = "Sim"
         replaced_email = f"<li>E-mail substituído: {instance.replaced_email}</li>"
-    
+
     if instance.has_pc:
         has_pc = "Sim"
 
     if instance.needs_phone:
         needs_phone = "Sim"
-    
+
     if instance.needs_tablet:
         needs_tablet = "Sim"
-    
+
     if instance.has_workstation:
         has_workstation = "Sim"
-    
 
     TEMPLATES = {
         "email_body_intro": {
@@ -37,7 +35,6 @@ def generateEmailTemplates(instance):
             "Denied": f"<p>A requisição foi negada por {instance.approver}</p>",
             "Canceled": "<p>A requisição de novo funcionário foi cancelada.</p>",
         },
-        
         "summary_body": f"""
             <h2>Dados da solicitação:</h2>
             Empresa: {instance.company}<br>
@@ -50,7 +47,6 @@ def generateEmailTemplates(instance):
             Aprovador: {instance.approver}<br>
             Observações: {instance.obs}<br>
         """,
-
         "RH": {
             "Pending": """
                 <h3>RH</h3>
@@ -65,7 +61,6 @@ def generateEmailTemplates(instance):
             "Denied": "<br>",
             "Canceled": "<br>",
         },
-
         "TI": {
             "Pending": f"""
                 <h3>TI</h3>
@@ -82,7 +77,6 @@ def generateEmailTemplates(instance):
                 </ul>
                 <br>
             """,
-
             "Approved": f"""
                 <h3>TI</h3>
                 <ul>
@@ -98,11 +92,10 @@ def generateEmailTemplates(instance):
                 </ul>
                 <br>
             """,
-
             "Opened": "<br>",
             "Denied": "<br>",
             "Canceled": "<br>",
-        }
+        },
     }
-    
+
     return TEMPLATES
