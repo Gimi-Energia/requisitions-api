@@ -75,6 +75,3 @@ class PurchaseProduct(models.Model):
 
     def __str__(self):
         return f"{self.product} - {self.quantity} x R$ {self.price}"
-
-    class Meta:
-        unique_together = ("purchase", "product")

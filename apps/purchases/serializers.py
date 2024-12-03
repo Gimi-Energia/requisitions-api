@@ -59,10 +59,10 @@ class PurchaseWriteSerializer(serializers.ModelSerializer):
         if len(products_data) == 0:
             raise serializers.ValidationError("Não é permitido requisição sem produtos.")
 
-        if len(set((product_data["product"],) for product_data in products_data)) != len(
-            products_data
-        ):
-            raise serializers.ValidationError({"products": "Não é permitido produtos repetidos."})
+        # if len(set((product_data["product"],) for product_data in products_data)) != len(
+        #     products_data
+        # ):
+        #     raise serializers.ValidationError({"products": "Não é permitido produtos repetidos."})
 
         purchase = Purchase.objects.create(**validated_data)
 
