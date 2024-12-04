@@ -72,7 +72,7 @@ class ServiceDetail(CustomErrorHandlerMixin, generics.RetrieveUpdateDestroyAPIVi
                 and instance.status == "Approved"
                 and not instance.approval_date):
                 
-                raise serializers.ValidationError(detail={"error": "A valid approval date is needed to send status Approved e-mail."})  # noqa: E501
+                raise serializers.ValidationError(detail={"error": "Para mandar o e-mail de aprovação é necessário uma data de aprovação válida."})  # noqa: E501
 
             if old_status != instance.status:
                 send_status_change_email(instance)
