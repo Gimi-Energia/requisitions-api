@@ -20,7 +20,7 @@ def send_status_change_email(instance):
             Sua solicitação foi aprovada por {instance.approver} 
             em {instance.approval_date.strftime("%d/%m/%Y")}<br>
         """
-        # Get the TI and RH groups
+
         service_group = Group.objects.get(name="Purchase Services")
         service_users = service_group.user_set.all().values_list("email", flat=True)
         emails = [*service_users]
