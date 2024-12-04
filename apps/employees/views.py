@@ -1,6 +1,7 @@
 from django.db import transaction
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, generics, serializers
+from rest_framework.permissions import IsAuthenticated
 
 from apps.employees.models import Employee, Position, Software
 from apps.employees.serializers import (
@@ -18,6 +19,7 @@ class EmployeeList(CustomErrorHandlerMixin, generics.ListCreateAPIView):
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
     filterset_fields = ["status"]
     ordering_fields = ["created_at", "request_date", "approval_date", "start_date"]
+    permission_classes = [IsAuthenticated]
 
     def get_serializer_class(self):
         if self.request.method == "GET":
@@ -35,7 +37,7 @@ class EmployeeList(CustomErrorHandlerMixin, generics.ListCreateAPIView):
 
 class EmployeeDetail(CustomErrorHandlerMixin, generics.RetrieveUpdateDestroyAPIView):
     queryset = Employee.objects.all()
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def get_serializer_class(self):
         if self.request.method == "GET":
@@ -69,7 +71,7 @@ class PositionList(CustomErrorHandlerMixin, generics.ListCreateAPIView):
     serializer_class = PositionWriteSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ["company", "cost_center__id"]
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
 
 class PositionDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -80,9 +82,10 @@ class PositionDetail(generics.RetrieveUpdateDestroyAPIView):
 class SoftwareList(CustomErrorHandlerMixin, generics.ListCreateAPIView):
     queryset = Software.objects.all()
     serializer_class = SoftwareSerializer
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
 
 class SoftwareDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Software.objects.all()
     serializer_class = SoftwareSerializer
+    permission_classes = [IsAuthenticated]
