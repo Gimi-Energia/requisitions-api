@@ -1,12 +1,15 @@
 def generate_email_templates(instance):
+    formatted_approval_date = (
+        instance.approval_date.strftime("%d/%m/%Y") if instance.approval_date else None
+    )
     formatted_start_date = instance.start_date.strftime("%d/%m/%Y") if instance.start_date else None
 
     TEMPLATES = {
         "email_body_intro": {
             "Opened": f"<p>Foi criada a requisição Nº {instance.control_number} de funcionário por {instance.requester}</p>",  # noqa: E501
-            "Pending": f"<p>A requisição Nº {instance.control_number} de funcionário foi aprovada por {instance.approver} e agora está pendente.</p>",
+            "Pending": f"<p>A requisição Nº {instance.control_number} de funcionário foi aprovada por {instance.approver} em {formatted_approval_date} e agora está pendente.</p>",
             "Approved": f"<p>A requisição Nº {instance.control_number} de funcionário foi finalizada. O processo pode seguir. Favor, cada setor, tomar as seguintes providências:</p>",  # noqa: E501
-            "Denied": f"<p>A requisição Nº {instance.control_number} de funcionário foi negada por {instance.approver}. Motivo: {instance.motive_denied}</p>",
+            "Denied": f"<p>A requisição Nº {instance.control_number} de funcionário foi negada por {instance.approver} em {formatted_approval_date}. Motivo: {instance.motive_denied}</p>",
         },
         "summary_body": f"""
             <h2>Dados da solicitação:</h2>
