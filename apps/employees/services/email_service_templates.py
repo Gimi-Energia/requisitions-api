@@ -1,4 +1,6 @@
 def generate_email_templates(instance):
+    formatted_start_date = instance.start_date.strftime("%d/%m/%Y") if instance.start_date else None
+
     TEMPLATES = {
         "email_body_intro": {
             "Opened": f"<p>Foi criada a requisição Nº {instance.control_number} de funcionário por {instance.requester}</p>",  # noqa: E501
@@ -55,7 +57,7 @@ def generate_email_templates(instance):
                 <h4>Dados:</h4>
                 <ul>
                     <li>Nome Completo: {instance.complete_name}</li>
-                    <li>Data de início: {instance.start_date.strftime("%d/%m/%Y")}</li>
+                    {f"<li>Data de início: {formatted_start_date}</li>" if formatted_start_date else ""}
                     <li>Reposição: {"Sim" if instance.is_replacement else "Não"}</li>
                     {f"<li>E-mail substituído: {instance.replaced_email}</li>" if instance.is_replacement else ""}
                 </ul>

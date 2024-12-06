@@ -101,11 +101,11 @@ def send_status_change_email(instance):
             </head>
             <body>
                 <div>
-                    {email_body_intro}<br>
-                    {summary_body}<br>
+                    {email_body_intro}
+                    {summary_body}
                     {rh_content}
                     {ti_content}
-                    {button_html}
+                    <br>{button_html}
                 </div>
             </body>
         </html>
