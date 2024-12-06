@@ -13,59 +13,62 @@ STATUS = {
 }
 
 
+def get_group_emails(group_name):
+    try:
+        group = Group.objects.get(name=group_name)
+        return group.user_set.values_list("email", flat=True)
+    except Group.DoesNotExist:
+        print(f"Grupo {group_name} não encontrado.")
+        return []
+
+
 def send_status_change_email(instance):
-    ti_group = Group.objects.get(name="TI")
-    rh_group = Group.objects.get(name="RH")
-    print("Grupos acessados com sucesso")
+    print("Iniciando envio de email para mudança de status.")
 
-    ti_users = ti_group.user_set.all()
-    rh_users = rh_group.user_set.all()
-    print("usuários recuperados com sucesso")
+    ti_emails = list(get_group_emails("TI"))
+    rh_emails = list(get_group_emails("RH"))
+    print("Emails de TI e RH recuperados com sucesso.")
 
-    ti_emails = ti_users.values_list("email", flat=True)
-    rh_emails = rh_users.values_list("email", flat=True)
-    print("emails recuperados com sucesso")
-    print(f"TI: {ti_users}")
-    print(f"RH: {rh_users}")
+    status_configs = {
+        STATUS["Opened"]: {
+            "subject": f"Nova requisição de funcionário Nº {instance.control_number}",
+            "emails": [instance.requester.email, instance.approver.email],
+        },
+        STATUS["Pending"]: {
+            "subject": f"Requisição Nº {instance.control_number} de funcionário pendente",
+            "emails": [instance.requester.email, *rh_emails, *ti_emails],
+        },
+        STATUS["Approved"]: {
+            "subject": f"Requisição Nº {instance.control_number} de funcionário aprovada",
+            "emails": [instance.requester.email, *ti_emails],
+        },
+        STATUS["Denied"]: {
+            "subject": f"Requisição Nº {instance.control_number} de funcionário negada",
+            "emails": [instance.requester.email],
+        },
+        STATUS["Canceled"]: None,
+    }
 
-    email_subject = ""
-    email_body_intro = ""
+    config = status_configs.get(instance.status)
 
-    emails = []
-
-    if instance.status == STATUS["Opened"]:
-        email_subject = "Nova requisição de funcionário"
-        emails = [instance.requester, instance.approver]
-        print("Dados de email criados para status Opened")
-
-    if instance.status == STATUS["Pending"]:
-        email_subject = "Requisição de novo funcionário pendente"
-        emails = [instance.requester, *rh_emails, *ti_emails]
-
-    if instance.status == STATUS["Approved"]:
-        email_subject = "Requisição de funcionário aprovada"
-        emails = [instance.requester, *ti_emails]
-        print("Dados de email criados para status Approved")
-
-    if instance.status == STATUS["Denied"]:
-        email_subject = "Requisição de novo funcionário negada"
-        emails = [instance.requester]
-
-    if instance.status == STATUS["Canceled"]:
-        email_subject = "Requisição de novo funcionário negada"
-        emails = [instance.requester, instance.approver]
+    if not config:
+        print(f"Sem envio de email para o status {instance.status}.")
+        return
 
     TEMPLATES = generate_email_templates(instance=instance)
-
-    summary_body = TEMPLATES["summary_body"]
     email_body_intro = TEMPLATES["email_body_intro"][instance.status]
+    summary_body = TEMPLATES["summary_body"]
+    rh_content = TEMPLATES["RH"].get(instance.status, "")
+    ti_content = TEMPLATES["TI"].get(instance.status, "")
 
-    if len(emails) == 0:
-        emails = ["dev3.engenhadev@gmail.com"]
-        summary_body = "Houve um erro"
-        print("Não encontrei emails para enviar")
+    if not config["emails"]:
+        print("Nenhum email encontrado para envio. Usando fallback.")
+        config["emails"] = ["dev2@engenhadev.com"]
+        summary_body = (
+            f"Houve um erro ao identificar os destinatários (Nº {instance.control_number})."
+        )
 
-    button_html = '<a href="https://gimi-requisitions.vercel.app" target="_blank" class="btn">Acessar Webapp</a><br>'  # noqa: E501
+    button_html = '<a href="https://gimi-requisitions.vercel.app" target="_blank" class="btn">Acessar Webapp</a>'
 
     html_message = f"""
         <html>
@@ -86,12 +89,12 @@ def send_status_change_email(instance):
                         border: 2px solid black;
                         font-weight: bold;
                     }}
-                    ul{{
+                    ul {{
                         list-style: none;
                         margin: 0;
                         padding: 0;
                     }}
-                    li{{
+                    li {{
                         margin-left: 10px;
                     }}
                 </style>
@@ -100,20 +103,24 @@ def send_status_change_email(instance):
                 <div>
                     {email_body_intro}<br>
                     {summary_body}<br>
-                    {TEMPLATES["RH"][instance.status]}
-                    {TEMPLATES["TI"][instance.status]}
+                    {rh_content}
+                    {ti_content}
                     {button_html}
                 </div>
             </body>
         </html>
-    """  # noqa: E501
-    print(f"Preparando para enviar o email para {emails}")
-    send_mail(
-        email_subject,
-        "This is a plain text for email clients that don't support HTML",
-        settings.EMAIL_HOST_USER,
-        emails,
-        fail_silently=False,
-        html_message=html_message,
-    )
-    print("Email enviado com sucesso!")
+    """
+
+    try:
+        print(f"Enviando email para: {config['emails']}")
+        send_mail(
+            config["subject"],
+            "Este é um texto para clientes de email que não suportam HTML.",
+            settings.EMAIL_HOST_USER,
+            config["emails"],
+            fail_silently=False,
+            html_message=html_message,
+        )
+        print("Email enviado com sucesso.")
+    except Exception as e:
+        print(f"Erro ao enviar email: {e}")
