@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.contrib.auth.models import Group
 from django.core.mail import EmailMessage, send_mail
 
 from apps.products.models import Product
@@ -78,7 +79,11 @@ def send_status_change_email(instance):
             em {instance.approval_date.strftime("%d/%m/%Y")}<br>
         """
         table_html = build_quotation_table(instance.id)
-        emails = [user.email for user in User.objects.filter(email__icontains="compras")]
+        
+        purchase_group = Group.objects.get(name="Purchase Products")
+        purchase_users = purchase_group.user_set.all().values_list("email", flat=True)
+        emails = [*purchase_users]
+
     elif instance.status == "Denied":
         email_subject = "Solicitação de Compra Rejeitada"
         email_body_intro = f"""

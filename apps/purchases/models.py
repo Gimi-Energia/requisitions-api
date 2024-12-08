@@ -9,7 +9,14 @@ from apps.departments.models import Department
 from apps.products.models import Product
 from apps.users.models import User
 
-COMPANIES = [("Gimi", "Gimi"), ("GBL", "GBL"), ("GPB", "GPB"), ("GS", "GS"), ("GIR", "GIR")]
+COMPANIES = [
+    ("Gimi", "Gimi"),
+    ("GBL", "GBL"),
+    ("GPB", "GPB"),
+    ("GS", "GS"),
+    ("GIR", "GIR"),
+    ("Filial", "Filial"),
+]
 STATUS = [
     ("Opened", "Opened"),
     ("Approved", "Approved"),
@@ -21,7 +28,7 @@ STATUS = [
 
 class Purchase(models.Model):
     id = models.UUIDField(primary_key=True, unique=True, default=uuid4, editable=False)
-    company = models.CharField(_("Company"), choices=COMPANIES, default="Gimi", max_length=4)
+    company = models.CharField(_("Company"), choices=COMPANIES, default="Gimi", max_length=6)
     department = models.ForeignKey(
         Department, verbose_name=_("Department"), on_delete=models.CASCADE
     )
@@ -49,6 +56,7 @@ class Purchase(models.Model):
         _("Quotation Date"), auto_now=False, auto_now_add=False, blank=True, null=True
     )
     control_number = models.IntegerField(_("Control Number"), default=0)
+    motive_denied = models.TextField(_("Motive Denied"), blank=True, null=True)
 
     def __str__(self):
         return str(self.id)
@@ -72,9 +80,7 @@ class PurchaseProduct(models.Model):
     quantity = models.DecimalField(_("Quantity"), max_digits=12, decimal_places=5)
     price = models.DecimalField(_("Price"), max_digits=12, decimal_places=5, blank=True, null=True)
     status = models.CharField(_("Status"), choices=STATUS, default="Opened", max_length=9)
+    obs = models.TextField(_("Observation"), blank=True, null=True)
 
     def __str__(self):
         return f"{self.product} - {self.quantity} x R$ {self.price}"
-
-    class Meta:
-        unique_together = ("purchase", "product")

@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     "apps.freights.apps.FreightsConfig",
     "apps.contracts.apps.ContractsConfig",
     "apps.maintenances.apps.MaintenancesConfig",
+    "apps.employees.apps.EmployeesConfig",
 ]
 
 MIDDLEWARE = [
@@ -155,8 +156,7 @@ REST_FRAMEWORK = {
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ],
     "EXCEPTION_HANDLER": "setup.exceptions.exception_handler.custom_exception_handler",
-    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
-    "PAGE_SIZE": 1000,
+    "DEFAULT_PAGINATION_CLASS": "utils.pagination.MyCustomPagination",
 }
 
 CORS_ORIGIN_ALLOW_ALL = False

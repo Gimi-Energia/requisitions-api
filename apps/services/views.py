@@ -20,7 +20,8 @@ from .services.email_service import (
 
 class ServiceList(CustomErrorHandlerMixin, generics.ListCreateAPIView):
     queryset = Service.objects.all()
-    filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
+    filter_backends = [DjangoFilterBackend,
+                       filters.OrderingFilter, filters.SearchFilter]
     search_fields = []
     ordering_fields = ["created_at", "approval_date"]
     filterset_fields = ["status"]
@@ -67,6 +68,12 @@ class ServiceDetail(CustomErrorHandlerMixin, generics.RetrieveUpdateDestroyAPIVi
         with transaction.atomic():
             instance = serializer.save()
 
+            if (old_status != instance.status
+                and instance.status == "Approved"
+                and not instance.approval_date):
+                
+                raise serializers.ValidationError(detail={"error": "A valid approval date is needed to send status Approved e-mail."})  # noqa: E501
+
             if old_status != instance.status:
                 send_status_change_email(instance)
 
@@ -85,7 +92,8 @@ class ServiceDetail(CustomErrorHandlerMixin, generics.RetrieveUpdateDestroyAPIVi
 class ServiceTypeList(generics.ListCreateAPIView):
     queryset = ServiceType.objects.all()
     serializer_class = ServiceTypeSerializer
-    filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
+    filter_backends = [DjangoFilterBackend,
+                       filters.OrderingFilter, filters.SearchFilter]
     search_fields = []
     ordering_fields = []
     filterset_fields = []
