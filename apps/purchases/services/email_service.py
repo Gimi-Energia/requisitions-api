@@ -22,6 +22,7 @@ def build_quotation_table(
         purchase_products = PurchaseProduct.objects.filter(purchase=purchase_pk)
 
     table_rows = []
+    total_price = 0
 
     for purchase_product in purchase_products:
         product_code = purchase_product.product.code
@@ -30,17 +31,24 @@ def build_quotation_table(
         product_quantity = purchase_product.quantity
 
         if include_price:
-            product_price = f"<td>R$ {purchase_product.price}</td>"
+            product_price = purchase_product.price
+            total_price += product_price * product_quantity
+            price_cell = f"<td>R$ {product_price:.2f}</td>"
         else:
-            product_price = ""
+            price_cell = ""
 
-        table_row = f"<tr><td>{product_code}</td><td>{product_description}</td><td>{product_quantity}</td>{product_price}</tr>"
+        table_row = f"<tr><td>{product_code}</td><td>{product_description}</td><td>{product_quantity}</td>{price_cell}</tr>"
         table_rows.append(table_row)
 
     if not table_rows:
         return False
 
     price_header = "<th>Preço Un.</th>" if include_price else ""
+    total_row = (
+        f"<tr><td colspan='2'><b>Total</b></td><td></td><td><b>R$ {total_price:.2f}</b></td></tr>"
+        if include_price
+        else ""
+    )
 
     return f"""
         <table border="1">
@@ -51,6 +59,7 @@ def build_quotation_table(
                 {price_header}
             </tr>
             {''.join(table_rows)}
+            {total_row}
         </table>
     """
 

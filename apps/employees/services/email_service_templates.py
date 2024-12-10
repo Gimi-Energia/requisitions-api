@@ -1,47 +1,23 @@
 def generate_email_templates(instance):
-    software_names = "Nenhum"
-    is_replacement = "Não"
-    has_pc = "Não"
-    needs_phone = "Não"
-    needs_tablet = "Não"
-    has_workstation = "Não"
-    replaced_email = ""
-    complete_name = instance.complete_name
-
-    if len(instance.software_names) > 0:
-        software_names = instance.software_names
-
-    if instance.is_replacement:
-        is_replacement = "Sim"
-        replaced_email = f"<li>E-mail substituído: {instance.replaced_email}</li>"
-
-    if instance.has_pc:
-        has_pc = "Sim"
-
-    if instance.needs_phone:
-        needs_phone = "Sim"
-
-    if instance.needs_tablet:
-        needs_tablet = "Sim"
-
-    if instance.has_workstation:
-        has_workstation = "Sim"
+    formatted_approval_date = (
+        instance.approval_date.strftime("%d/%m/%Y") if instance.approval_date else None
+    )
+    formatted_start_date = instance.start_date.strftime("%d/%m/%Y") if instance.start_date else None
 
     TEMPLATES = {
         "email_body_intro": {
-            "Opened": f"<p>Foi criada uma nova requisição de funcionário por {instance.requester.name}</p>",  # noqa: E501
-            "Pending": "<p>Há uma requisição de novo funcionário pendente.</p>",
-            "Approved": f"<p>A requisição de funcionário foi aprovada por {instance.approver.name}. O processo pode seguir. Favor, cada setor, tomar as seguintes providências:</p>",  # noqa: E501
-            "Denied": f"<p>A requisição foi negada por {instance.approver}</p>",
-            "Canceled": "<p>A requisição de novo funcionário foi cancelada.</p>",
+            "Opened": f"<p>Foi criada a requisição Nº {instance.control_number} de funcionário por {instance.requester}</p>",  # noqa: E501
+            "Pending": f"<p>A requisição Nº {instance.control_number} de funcionário foi aprovada por {instance.approver} em {formatted_approval_date} e agora está pendente.</p>",
+            "Approved": f"<p>A requisição Nº {instance.control_number} de funcionário foi finalizada. O processo pode seguir. Favor, cada setor, tomar as seguintes providências:</p>",  # noqa: E501
+            "Denied": f"<p>A requisição Nº {instance.control_number} de funcionário foi negada por {instance.approver} em {formatted_approval_date}. Motivo: {instance.motive_denied}</p>",
         },
         "summary_body": f"""
             <h2>Dados da solicitação:</h2>
+            Número de controle: {instance.control_number}<br>
             Empresa: {instance.company}<br>
-            Departamento: {instance.cost_center.id} - {instance.cost_center.name}<br>
+            Departamento: {instance.cost_center.name}<br>
             Cargo: {instance.position.position}<br>
             Data solicitada: {instance.request_date.strftime("%d/%m/%Y")}<br>
-            Número de controle: {instance.control_number}<br>
             Motivo: {instance.motive}<br>
             Requisitante: {instance.requester}<br>
             Aprovador: {instance.approver}<br>
@@ -49,36 +25,33 @@ def generate_email_templates(instance):
         """,
         "RH": {
             "Pending": """
-                <h3>RH</h3>
+                <h3>RH ⬇️</h3>
                 <ul>
                     <li>Abrir a vaga para o candidato selecionado.</li>
-                    <li>Entrar em contato com o getor do setor</li>
+                    <li>Entrar em contato com o gestor do setor</li>
                 </ul>
-                <br>
             """,
-            "Opened": "<br>",
-            "Approved": "<br>",
-            "Denied": "<br>",
-            "Canceled": "<br>",
+            "Opened": "",
+            "Approved": "",
+            "Denied": "",
         },
         "TI": {
             "Pending": f"""
-                <h3>TI</h3>
+                <h3>TI ⬇️</h3>
                 <ul>
                     <li>Verificar equipamentos</li>
                     <li>Verificar estoque ou reserva</li>
                     <li>Necessidade de compra</li>
                     <li>Lead time médio</li>
-                    <li>Softwares necessários: {software_names}</li>
-                    <li>Tem PC: {has_pc}</li>
-                    <li>Precisa Telefone: {needs_phone}</li>
-                    <li>Precisa Tablet: {needs_tablet}</li>
-                    <li>Tem estação de trabalho: {has_workstation}</li>
+                    <li>Softwares necessários: {instance.software_names if instance.software_names else "Nenhum"}</li>
+                    <li>Tem PC: {"Sim" if instance.has_pc else "Não"}</li>
+                    <li>Precisa Telefone: {"Sim" if instance.needs_phone else "Não"}</li>
+                    <li>Precisa Tablet: {"Sim" if instance.needs_tablet else "Não"}</li>
+                    <li>Tem posto de trabalho: {"Sim" if instance.has_workstation else "Não"}</li>
                 </ul>
-                <br>
             """,
             "Approved": f"""
-                <h3>TI</h3>
+                <h3>TI ⬇️</h3>
                 <ul>
                     <li>Criar e-mail</li>
                     <li>Criar login nos softwares</li>
@@ -86,15 +59,14 @@ def generate_email_templates(instance):
                 </ul>
                 <h4>Dados:</h4>
                 <ul>
-                    <li>Nome Completo: {complete_name}</li>
-                    <li>Reposição: {is_replacement}</li>
-                    {replaced_email}
+                    <li>Nome Completo: {instance.complete_name}</li>
+                    {f"<li>Data de início: {formatted_start_date}</li>" if formatted_start_date else ""}
+                    <li>Reposição: {"Sim" if instance.is_replacement else "Não"}</li>
+                    {f"<li>E-mail substituído: {instance.replaced_email}</li>" if instance.is_replacement else ""}
                 </ul>
-                <br>
             """,
-            "Opened": "<br>",
-            "Denied": "<br>",
-            "Canceled": "<br>",
+            "Opened": "",
+            "Denied": "",
         },
     }
 
