@@ -43,6 +43,7 @@ def include_purchase_requisition(instance):
                         "obsIntReqCompra": f"""
                         NC Interno: {instance.control_number} 
                         Requisitante: {instance.requester}
+                        Aprovador: {instance.approver}
                         Departamento: {instance.department.name}
                         """,
                         "ItensReqCompra": data,
