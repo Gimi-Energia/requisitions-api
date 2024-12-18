@@ -45,7 +45,7 @@ def build_quotation_table(
 
     price_header = "<th>Preço Un.</th>" if include_price else ""
     total_row = (
-        f"<tr><td colspan='2'><b>Total</b></td><td></td><td><b>R$ {total_price:.2f}</b></td></tr>"
+        f"<tr><td colspan='3'><b>Total</b></td><td><b>R$ {total_price:.2f}</b></td></tr>"
         if include_price
         else ""
     )
