@@ -9,7 +9,13 @@ from django.utils.translation import gettext_lazy as _
 from apps.departments.models import Department
 from apps.users.models import User
 
-COMPANIES = [("Gimi", "Gimi"), ("GBL", "GBL"), ("GPB", "GPB"), ("GS", "GS")]
+COMPANIES = [
+    ("Gimi", "Gimi"),
+    ("GBL", "GBL"),
+    ("GPB", "GPB"),
+    ("GS", "GS"),
+    ("Filial", "Filial"),
+]
 REQUEST_STATUS = [
     ("Opened", "Opened"),
     ("Scheduled", "Scheduled"),
@@ -25,7 +31,7 @@ APPROVER_STATUS = [
 
 class Maintenance(models.Model):
     id = models.UUIDField(primary_key=True, unique=True, default=uuid4, editable=False)
-    company = models.CharField(_("Company"), choices=COMPANIES, default="Gimi", max_length=4)
+    company = models.CharField(_("Company"), choices=COMPANIES, default="Gimi", max_length=6)
     name = models.CharField(_("Name"), max_length=50)
     extension = models.CharField(_("Extension"), max_length=10)
     department = models.ForeignKey(
