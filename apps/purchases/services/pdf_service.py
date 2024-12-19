@@ -55,6 +55,14 @@ def generate_pdf(instance):
             "14900-000",
             "(16) 3263-9400",
         ],
+        "GS": [
+            "GIMI SERVICE",
+            "https://www.gimiservice.com.br/",
+            "36.921.522/0001-73",
+            "Estrada Portão Honda, 3470 - Jardim Revista",
+            "08694-080",
+            "(11) 4752-9900",
+        ],
         "FILIAL": [
             "IND MONTAGEM E INSTALACOES GIMI - FILIAL",
             "https://www.gimi.com.br/",
