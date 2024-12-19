@@ -27,7 +27,7 @@ def generate_pdf(instance):
             "IND MONTAGEM E INSTALACOES GIMI",
             "https://www.gimi.com.br/",
             "43.030.931/0001-45",
-            "Estrada Portão Honda, 3530 - Jardim Revista",
+            "Estrada Portão Honda, 3.530 - Jardim Revista",
             "08694-080",
             "(11) 4752-9900",
         ],
@@ -54,6 +54,14 @@ def generate_pdf(instance):
             "Rua Maria de Lourdes Vessoni Porto Francischetti, 750 - Distrito Industrial II",
             "14900-000",
             "(16) 3263-9400",
+        ],
+        "FILIAL": [
+            "IND MONTAGEM E INSTALACOES GIMI - FILIAL",
+            "https://www.gimi.com.br/",
+            "43.030.931/0004-98",
+            "Estrada Portão Honda, 3.500 (galpão ?) - Jardim Revista",
+            "08694-080",
+            "(11) 4752-9900",
         ],
     }
 
