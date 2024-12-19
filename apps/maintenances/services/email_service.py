@@ -15,7 +15,7 @@ def send_status_change_email(instance):
         email_body_intro = f"""
             Olá, {instance.requester}!<br>
             Sua solicitação foi programada
-            em {instance.forecast_date.strftime("%d/%m/%Y")}.<br>
+            para {instance.forecast_date.strftime("%d/%m/%Y")}.<br>
         """
         emails.append(instance.requester)
     elif instance.status == "Opened":
@@ -52,15 +52,15 @@ def send_status_change_email(instance):
         Objeto a receber manutenção: {instance.object}<br>
         Anexo (Link): {instance.url}<br>
         Observação do requisitante: {instance.obs}<br>
-        Data solicitada: {instance.request_date.strftime("%d/%m/%Y")}<br>
+        Data da solicitação: {instance.request_date.strftime("%d/%m/%Y")}<br>
     """
 
     if instance.status in ["Scheduled", "Completed"]:
-        common_body += f"""
-            Data de previsão: {instance.forecast_date.strftime("%d/%m/%Y")}<br>
-            Observação do executor: {instance.approver_obs}<br>
-            Status do executor: {translate_status(instance.approver_status)}<br>
-        """
+        common_body += f"Data de previsão: {instance.forecast_date.strftime('%d/%m/%Y')}<br>"
+        if instance.approver_obs:
+            common_body += f"Observação do executor: {instance.approver_obs}<br>"
+        if instance.approver_status:
+            common_body += f"Status do executor: {translate_status(instance.approver_status)}<br>"
 
     button_html = '<a href="https://gimi-requisitions.vercel.app" target="_blank" class="btn">Acessar Webapp</a><br>'
 
