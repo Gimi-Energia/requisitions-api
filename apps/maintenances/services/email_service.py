@@ -8,7 +8,7 @@ from apps.users.models import User
 def send_status_change_email(instance):
     email_subject = ""
     email_body_intro = ""
-    emails = []
+    emails = [instance.requester]
 
     if instance.status == "Scheduled":
         email_subject = "Solicitação de Manutenção Interna Programada"
@@ -17,7 +17,6 @@ def send_status_change_email(instance):
             Sua solicitação foi programada
             para {instance.forecast_date.strftime("%d/%m/%Y")}.<br>
         """
-        emails.append(instance.requester)
     elif instance.status == "Opened":
         local_timezone = pytz.timezone("America/Sao_Paulo")
         local_created_at = instance.created_at.astimezone(local_timezone)
@@ -28,7 +27,7 @@ def send_status_change_email(instance):
             Uma solicitação foi criada em {formatted_created_at}<br>
             De {instance.requester}.<br>
         """
-        emails = [user.email for user in User.objects.filter(groups__name="Maintenance")]
+        emails.extend(user.email for user in User.objects.filter(groups__name="Maintenance"))
     elif instance.status == "Completed":
         local_timezone = pytz.timezone("America/Sao_Paulo")
         local_end_date = instance.end_date.astimezone(local_timezone)
@@ -38,7 +37,6 @@ def send_status_change_email(instance):
             Olá {instance.requester}!<br>
             Sua solicitação foi encerrada em {formatted_end_date}<br>
         """
-        emails.append(instance.requester)
     else:
         return
 
@@ -110,4 +108,4 @@ def translate_status(status: str) -> str:
 
     translated = options.get(status)
 
-    return translated
+    return translated if translated is not None else ""
