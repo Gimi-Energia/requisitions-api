@@ -13,7 +13,7 @@ def send_status_change_email(instance):
     if instance.status == "Scheduled":
         email_subject = "Solicitação de Manutenção Interna Programada"
         email_body_intro = f"""
-            Olá, {instance.requester}!<br>
+            Olá {instance.requester},<br>
             Sua solicitação foi programada
             para {instance.forecast_date.strftime("%d/%m/%Y")}.<br>
         """
@@ -23,18 +23,23 @@ def send_status_change_email(instance):
         formatted_created_at = local_created_at.strftime("%d/%m/%Y às %H:%M:%S")
         email_subject = "Solicitação de Manutenção Interna Criada"
         email_body_intro = f"""
-            Olá!<br>
+            Olá,<br>
             Uma solicitação foi criada em {formatted_created_at}<br>
             De {instance.requester}.<br>
         """
         emails.extend(user.email for user in User.objects.filter(groups__name="Maintenance"))
-    elif instance.status == "Completed":
+    elif instance.status in ["Completed", "Denied"]:
         local_timezone = pytz.timezone("America/Sao_Paulo")
         local_end_date = instance.end_date.astimezone(local_timezone)
         formatted_end_date = local_end_date.strftime("%d/%m/%Y às %H:%M:%S")
-        email_subject = "Solicitação de Manutenção Interna Encerrada"
+
+        email_subject = (
+            "Solicitação de Manutenção Interna Encerrada"
+            if instance.status == "Completed"
+            else "Solicitação de Manutenção Interna Negada"
+        )
         email_body_intro = f"""
-            Olá {instance.requester}!<br>
+            Olá {instance.requester},<br>
             Sua solicitação foi encerrada em {formatted_end_date}<br>
         """
     else:
