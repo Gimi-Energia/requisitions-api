@@ -39,7 +39,7 @@ class Freight(models.Model):
         on_delete=models.CASCADE,
         related_name="freight_requester",
     )
-    motive = models.CharField(_("Motive"), max_length=50)
+    motive = models.TextField(_("Motive"))
     obs = models.TextField(_("Observation"))
     status = models.CharField(_("Status"), choices=STATUS_FREIGHTS, default="Opened", max_length=8)
     quotations = models.ManyToManyField(
@@ -61,6 +61,8 @@ class Freight(models.Model):
         null=True,
     )
     motive_denied = models.TextField(_("Motive Denied"), blank=True, null=True)
+    due_date = models.DateTimeField(_("Due Date"), blank=True, null=True)
+    is_internal = models.BooleanField(_("Is Internal"), default=False)
 
     def __str__(self):
         return str(self.id)
@@ -69,7 +71,6 @@ class Freight(models.Model):
 class FreightQuotation(models.Model):
     freight = models.ForeignKey(Freight, on_delete=models.CASCADE)
     transporter = models.ForeignKey(Transporter, on_delete=models.CASCADE)
-    name_other = models.CharField(_("Name Other"), max_length=50, blank=True, null=True)
     price = models.DecimalField(_("Price"), max_digits=10, decimal_places=2)
     status = models.CharField(
         _("Status"), choices=STATUS_QUOTATIONS, default="Opened", max_length=8

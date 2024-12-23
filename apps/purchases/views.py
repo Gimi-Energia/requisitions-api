@@ -4,7 +4,12 @@ from rest_framework import filters, generics, serializers
 from rest_framework.permissions import IsAuthenticated
 
 from apps.purchases.models import Purchase, PurchaseProduct
-from apps.purchases.serializers import PurchaseProductSerializer, PurchaseSerializer
+from apps.purchases.serializers import (
+    PurchaseProductReadSerializer,
+    PurchaseProductWriteSerializer,
+    PurchaseReadSerializer,
+    PurchaseWriteSerializer,
+)
 from setup.validators.custom_view_validator import CustomErrorHandlerMixin
 
 from .services.email_service import (
@@ -18,12 +23,16 @@ from .services.omie_service import include_purchase_requisition
 
 class PurchaseListCreateView(CustomErrorHandlerMixin, generics.ListCreateAPIView):
     queryset = Purchase.objects.all()
-    serializer_class = PurchaseSerializer
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
     search_fields = []
-    ordering_fields = []
-    filterset_fields = []
+    ordering_fields = ["created_at", "approval_date"]
+    filterset_fields = ["status"]
     permission_classes = [IsAuthenticated]
+
+    def get_serializer_class(self):
+        if self.request.method == "GET":
+            return PurchaseReadSerializer
+        return PurchaseWriteSerializer
 
     def perform_create(self, serializer):
         with transaction.atomic():
@@ -47,8 +56,12 @@ class PurchaseListCreateView(CustomErrorHandlerMixin, generics.ListCreateAPIView
 
 class PurchaseDetailView(CustomErrorHandlerMixin, generics.RetrieveUpdateDestroyAPIView):
     queryset = Purchase.objects.all()
-    serializer_class = PurchaseSerializer
     permission_classes = [IsAuthenticated]
+
+    def get_serializer_class(self):
+        if self.request.method == "GET":
+            return PurchaseReadSerializer
+        return PurchaseWriteSerializer
 
     def perform_update(self, serializer):
         old_status = serializer.instance.status
@@ -101,11 +114,15 @@ class PurchaseDetailView(CustomErrorHandlerMixin, generics.RetrieveUpdateDestroy
 
 
 class PurchaseProductListCreateView(generics.ListCreateAPIView):
-    serializer_class = PurchaseProductSerializer
     filter_backends = [filters.OrderingFilter, filters.SearchFilter]
     search_fields = []
     ordering_fields = []
     permission_classes = [IsAuthenticated]
+
+    def get_serializer_class(self):
+        if self.request.method == "GET":
+            return PurchaseProductReadSerializer
+        return PurchaseProductWriteSerializer
 
     def get_queryset(self):
         purchase_pk = self.kwargs["pk"]

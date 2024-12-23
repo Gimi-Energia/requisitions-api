@@ -108,6 +108,8 @@ def send_status_change_email(instance):
         Produtos: <br>{table_html}
     """
 
+    button_html = '<a href="https://gimi-requisitions.vercel.app" target="_blank" class="btn">Acessar Webapp</a><br>'
+
     html_message = f"""
         <html>
             <head>
@@ -133,6 +135,7 @@ def send_status_change_email(instance):
                 <div>
                     {email_body_intro}<br>
                     {common_body}<br>
+                    {button_html}
                 </div>
             </body>
         </html>

@@ -56,3 +56,9 @@ class UserSerializer(serializers.ModelSerializer):
         user.password = make_password(password)
         user.save()
         return user
+
+
+class UserCustomSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ["id", "name", "email"]

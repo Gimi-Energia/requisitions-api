@@ -13,8 +13,7 @@ def build_quotation_table(freight_pk, include_approved_only=False):
 
     table_rows = []
     for fq in freight_quotations:
-        transporter = fq.name_other if fq.transporter.name == "Outro" else fq.transporter.name
-        table_rows.append(f"<tr><td>{transporter}</td><td>R$ {fq.price}</td></tr>")
+        table_rows.append(f"<tr><td>{fq.transporter.name}</td><td>R$ {fq.price}</td></tr>")
 
     if not table_rows:
         return ""
@@ -41,7 +40,7 @@ def send_status_change_email(instance):
         email_subject = "Solicitação de Frete Aprovada"
         email_body_intro = f"""
             Olá, {instance.requester.name}!<br>
-            Sua solicitação foi aprovada por {instance.approver} 
+            Sua solicitação foi aprovada no sistema
             em {instance.approval_date.strftime("%d/%m/%Y")}.<br>
         """
         table_html = build_quotation_table(instance.id, include_approved_only=True)
@@ -50,7 +49,7 @@ def send_status_change_email(instance):
         email_subject = "Solicitação de Frete Rejeitada"
         email_body_intro = f"""
             Olá, {instance.requester.name}!<br>
-            Sua solicitação foi rejeitada por {instance.approver} 
+            Sua solicitação foi rejeitada no sistema
             em {instance.approval_date.strftime("%d/%m/%Y")}.<br>
             Motivo da recusa: {instance.motive_denied}<br>
         """
@@ -64,10 +63,18 @@ def send_status_change_email(instance):
         email_body_intro = f"""
             Olá!<br>
             Uma solicitação foi criada em {formatted_created_at}<br>
-            De {instance.requester} para {instance.approver} aprovar.<br>
+            Criador {instance.requester}.<br>
         """
         table_html = build_quotation_table(instance.id, include_approved_only=False)
         emails.append(instance.approver)
+    elif instance.status == "Approved" and instance.is_internal is True:
+        email_subject = "Solicitação de Frete Aprovada"
+        email_body_intro = f"""
+            Olá, {instance.requester.name}!<br>
+            Sua solicitação foi aprovada no sistema
+            em {instance.approval_date.strftime("%d/%m/%Y")}.<br>
+        """
+        table_html = build_quotation_table(instance.id, include_approved_only=True)
     else:
         return
 
@@ -76,11 +83,12 @@ def send_status_change_email(instance):
         Empresa: {instance.company}<br>
         Departamento: {instance.department}<br>
         Data solicitada: {instance.request_date.strftime("%d/%m/%Y")}<br>
-        Aprovador: {instance.approver}<br>
         Motivo: {instance.motive}<br>
         Obsevações: {instance.obs}<br>
         Cotação:<br>{table_html}
     """
+
+    button_html = '<a href="https://gimi-requisitions.vercel.app" target="_blank" class="btn">Acessar Webapp</a><br>'
 
     html_message = f"""
         <html>
@@ -89,13 +97,26 @@ def send_status_change_email(instance):
                     * {{ font-size: 1rem; }}
                     table {{ border-collapse: collapse; }}
                     th, td {{ border: 1px solid black; padding: 5px; text-align: left; font-size: 0.9rem; }}
+                    .btn {{
+                        display: inline-block;
+                        background-color: #f0f0f0;
+                        padding: 8px 16px;
+                        text-align: center;
+                        text-decoration: none;
+                        font-size: 16px;
+                        border-radius: 10px;
+                        margin-top: 10px;
+                        border: 2px solid black;
+                        font-weight: bold;
+                    }}
                 </style>
             </head>
             <body>
                 <div>
                     {email_body_intro}<br>
                     {common_body}
-                    <p><strong>{important_note}</strong></p>
+                    <p><strong>{important_note}</strong></p><br>
+                    {button_html}
                 </div>
             </body>
         </html>

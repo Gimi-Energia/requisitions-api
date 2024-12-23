@@ -31,7 +31,7 @@ SECRET_KEY = str(os.getenv("SECRET_KEY"))
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = str(os.getenv("DEBUG"))
 
-ALLOWED_HOSTS = str(os.getenv("ALLOWED_HOSTS")).split(" ")
+ALLOWED_HOSTS = str(os.getenv("ALLOWED_HOSTS", "127.0.0.1")).split(" ")
 
 # Application definition
 
@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     "apps.providers.apps.ProvidersConfig",
     "apps.freights.apps.FreightsConfig",
     "apps.contracts.apps.ContractsConfig",
+    "apps.maintenances.apps.MaintenancesConfig",
 ]
 
 MIDDLEWARE = [
@@ -92,6 +93,7 @@ WSGI_APPLICATION = "setup.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
@@ -99,7 +101,9 @@ DATABASES = {
     }
 }
 
-DATABASES["default"] = dj_database_url.parse(str(os.getenv("POSTGRES_URL")))
+DATABASES["default"] = dj_database_url.parse(
+    "postgres://default:zgb3OpC4BLTY@ep-shiny-hat-a43guu1v.us-east-1.aws.neon.tech:5432/verceldb"
+)
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -157,11 +161,7 @@ REST_FRAMEWORK = {
 
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "http://localhost:5173",
-    "https://gimi-requisitions.vercel.app",
-]
+CORS_ALLOWED_ORIGINS = str(os.getenv("CORS_ALLOWED_ORIGINS")).split(" ")
 
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(days=30),
@@ -189,3 +189,9 @@ EMAIL_USE_TLS = True
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_HOST_USER = str(os.getenv("EMAIL_HOST_USER"))
 EMAIL_HOST_PASSWORD = str(os.getenv("EMAIL_HOST_PASSWORD"))
+
+
+SWAGGER_SETTINGS = {
+    "SECURITY_DEFINITIONS": {"Bearer": {"type": "apiKey", "name": "Authorization", "in": "header"}},
+    "USE_SESSION_AUTH": False,
+}

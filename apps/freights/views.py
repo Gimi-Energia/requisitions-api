@@ -4,7 +4,12 @@ from rest_framework import filters, generics, serializers
 from rest_framework.permissions import IsAuthenticated
 
 from apps.freights.models import Freight, FreightQuotation
-from apps.freights.serializers import FreightQuotationSerializer, FreightSerializer
+from apps.freights.serializers import (
+    FreightQuotationReadSerializer,
+    FreightQuotationWriteSerializer,
+    FreightReadSerializer,
+    FreightWriteSerializer,
+)
 from setup.validators.custom_view_validator import CustomErrorHandlerMixin
 
 from .services.email_service import send_status_change_email
@@ -12,19 +17,23 @@ from .services.email_service import send_status_change_email
 
 class FreightListCreateView(CustomErrorHandlerMixin, generics.ListCreateAPIView):
     queryset = Freight.objects.all()
-    serializer_class = FreightSerializer
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
     search_fields = []
-    ordering_fields = []
-    filterset_fields = []
+    ordering_fields = ["created_at", "approval_date", "due_date"]
+    filterset_fields = ["status"]
     permission_classes = [IsAuthenticated]
+
+    def get_serializer_class(self):
+        if self.request.method == "GET":
+            return FreightReadSerializer
+        return FreightWriteSerializer
 
     def perform_create(self, serializer):
         with transaction.atomic():
             serializer.save()
             instance = serializer.instance
 
-            if instance.status == "Opened":
+            if instance.status == "Opened" or instance.status == "Approved":
                 send_status_change_email(instance)
 
     def create(self, request, *args, **kwargs):
@@ -38,8 +47,12 @@ class FreightListCreateView(CustomErrorHandlerMixin, generics.ListCreateAPIView)
 
 class FreightDetailView(CustomErrorHandlerMixin, generics.RetrieveUpdateDestroyAPIView):
     queryset = Freight.objects.all()
-    serializer_class = FreightSerializer
     permission_classes = [IsAuthenticated]
+
+    def get_serializer_class(self):
+        if self.request.method == "GET":
+            return FreightReadSerializer
+        return FreightWriteSerializer
 
     def perform_update(self, serializer):
         old_status = serializer.instance.status
@@ -60,11 +73,15 @@ class FreightDetailView(CustomErrorHandlerMixin, generics.RetrieveUpdateDestroyA
 
 
 class FreightQuotationListCreateView(generics.ListCreateAPIView):
-    serializer_class = FreightQuotationSerializer
     filter_backends = [filters.OrderingFilter, filters.SearchFilter]
     search_fields = []
     ordering_fields = []
     permission_classes = [IsAuthenticated]
+
+    def get_serializer_class(self):
+        if self.request.method == "GET":
+            return FreightQuotationReadSerializer
+        return FreightQuotationWriteSerializer
 
     def get_queryset(self):
         freight_pk = self.kwargs["pk"]

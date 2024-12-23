@@ -18,7 +18,7 @@ def fetch_page(token, secret, page):
 
 def get_iapp_contracts(token, secret):
     items = []
-    max_pages = 200
+    max_pages = 400
     with ThreadPoolExecutor(max_workers=10) as executor:
         future_to_page = {
             executor.submit(fetch_page, token, secret, page): page
