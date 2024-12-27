@@ -75,6 +75,7 @@ class Purchase(models.Model):
 
 
 class PurchaseProduct(models.Model):
+    uuid = models.UUIDField(default=uuid4, unique=True)
     purchase = models.ForeignKey(Purchase, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.DecimalField(_("Quantity"), max_digits=12, decimal_places=5)

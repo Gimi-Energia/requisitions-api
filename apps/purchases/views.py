@@ -113,7 +113,7 @@ class PurchaseDetailView(CustomErrorHandlerMixin, generics.RetrieveUpdateDestroy
             return self.handle_generic_exception(e, request)
 
 
-class PurchaseProductListCreateView(generics.ListCreateAPIView):
+class PurchaseProductListCreateView(CustomErrorHandlerMixin, generics.ListCreateAPIView):
     filter_backends = [filters.OrderingFilter, filters.SearchFilter]
     search_fields = []
     ordering_fields = []
@@ -127,3 +127,24 @@ class PurchaseProductListCreateView(generics.ListCreateAPIView):
     def get_queryset(self):
         purchase_pk = self.kwargs["pk"]
         return PurchaseProduct.objects.filter(purchase=purchase_pk)
+
+
+class PurchaseProductDetail(CustomErrorHandlerMixin, generics.RetrieveUpdateDestroyAPIView):
+    queryset = PurchaseProduct.objects.all()
+    permission_classes = [IsAuthenticated]
+    lookup_field = "uuid"
+
+    
+    def get_serializer_class(self):
+        if self.request.method == "GET":
+            return PurchaseProductReadSerializer
+        return PurchaseProductWriteSerializer
+    
+    
+    # def update(self, request, *args, **kwargs):
+    #     try:
+    #         return super().update(request, *args, **kwargs)
+    #     except serializers.ValidationError as ve:
+    #         return self.handle_validation_error(ve)
+    #     except Exception as e:
+    #         return self.handle_generic_exception(e, request)

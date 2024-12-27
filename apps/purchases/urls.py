@@ -3,6 +3,7 @@ from apps.purchases.views import (
     PurchaseListCreateView,
     PurchaseDetailView,
     PurchaseProductListCreateView,
+    PurchaseProductDetail
 )
 
 urlpatterns = [
@@ -11,6 +12,11 @@ urlpatterns = [
     path(
         "api/purchases/<str:pk>/products/",
         PurchaseProductListCreateView.as_view(),
+        name="purchase-product-list-create",
+    ),
+    path(
+        "api/purchases/<str:pk>/products/<str:uuid>/",
+        PurchaseProductDetail.as_view(),
         name="purchase-product-list-create",
     ),
 ]
