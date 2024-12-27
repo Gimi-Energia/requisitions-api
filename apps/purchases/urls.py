@@ -1,9 +1,10 @@
 from django.urls import path
+
 from apps.purchases.views import (
-    PurchaseListCreateView,
     PurchaseDetailView,
+    PurchaseListCreateView,
+    PurchaseProductDetail,
     PurchaseProductListCreateView,
-    PurchaseProductDetail
 )
 
 urlpatterns = [
