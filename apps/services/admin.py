@@ -26,7 +26,7 @@ class Services(admin.ModelAdmin):
     list_display_links = ("id",)
     search_fields = (
         "provider",
-        "service",
+        "service__description",
         "control_number",
         "requester__email",
         "approver__email",
