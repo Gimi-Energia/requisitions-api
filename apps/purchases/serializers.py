@@ -23,14 +23,15 @@ class PurchaseProductWriteSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PurchaseProduct
-        fields = ("product_id", "quantity", "price", "status", "obs")
+        fields = ("uuid", "product_id", "quantity", "price", "status", "obs")
 
 
 class PurchaseReadSerializer(serializers.ModelSerializer):
     requester = UserCustomSerializer()
     approver = UserCustomSerializer()
     department = DepartmentCustomSerializer()
-    products = PurchaseProductReadSerializer(many=True, source="purchaseproduct_set")
+    products = PurchaseProductReadSerializer(
+        many=True, source="purchaseproduct_set")
 
     class Meta:
         model = Purchase
@@ -38,7 +39,8 @@ class PurchaseReadSerializer(serializers.ModelSerializer):
 
 
 class PurchaseWriteSerializer(serializers.ModelSerializer):
-    products = PurchaseProductWriteSerializer(many=True, source="purchaseproduct_set")
+    products = PurchaseProductWriteSerializer(
+        many=True, source="purchaseproduct_set")
 
     class Meta:
         model = Purchase
@@ -46,10 +48,12 @@ class PurchaseWriteSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         if data.get("request_date") and not retroactive_date(data["request_date"]):
-            raise serializers.ValidationError({"request_date": "Não é permitido data retroativa."})
+            raise serializers.ValidationError(
+                {"request_date": "Não é permitido data retroativa."})
 
         if data.get("quotation_date") and not data.get("quotation_emails"):
-            raise serializers.ValidationError({"emails": "Deve ter no mínimo um fornecedor."})
+            raise serializers.ValidationError(
+                {"emails": "Deve ter no mínimo um fornecedor."})
 
         return data
 
@@ -57,7 +61,8 @@ class PurchaseWriteSerializer(serializers.ModelSerializer):
         products_data = validated_data.pop("purchaseproduct_set")
 
         if len(products_data) == 0:
-            raise serializers.ValidationError("Não é permitido requisição sem produtos.")
+            raise serializers.ValidationError(
+                "Não é permitido requisição sem produtos.")
 
         # if len(set((product_data["product"],) for product_data in products_data)) != len(
         #     products_data
@@ -71,8 +76,14 @@ class PurchaseWriteSerializer(serializers.ModelSerializer):
             quantity = product_data["quantity"]
             price = product_data["price"]
             status = product_data["status"]
+            obs = product_data["obs"]
             PurchaseProduct.objects.create(
-                purchase=purchase, product=product, quantity=quantity, price=price, status=status
+                purchase=purchase,
+                product=product,
+                quantity=quantity,
+                price=price,
+                status=status,
+                obs=obs
             )
 
         return purchase
