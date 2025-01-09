@@ -23,7 +23,7 @@ class PurchaseProductWriteSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PurchaseProduct
-        fields = ("uuid", "product_id", "quantity", "price", "status", "obs")
+        fields = ("product_id", "quantity", "price", "status", "obs")
 
 
 class PurchaseReadSerializer(serializers.ModelSerializer):
