@@ -16,7 +16,7 @@ urlpatterns = [
         name="purchase-product-list-create",
     ),
     path(
-        "api/purchases/<str:pk>/products/<str:uuid>/",
+        "api/purchases/<str:pk>/products/<str:product_pk>/",
         PurchaseProductDetail.as_view(),
         name="purchase-product-list-create",
     ),

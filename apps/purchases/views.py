@@ -23,8 +23,7 @@ from .services.omie_service import include_purchase_requisition
 
 class PurchaseListCreateView(CustomErrorHandlerMixin, generics.ListCreateAPIView):
     queryset = Purchase.objects.all()
-    filter_backends = [DjangoFilterBackend,
-                       filters.OrderingFilter, filters.SearchFilter]
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
     search_fields = []
     ordering_fields = ["created_at", "approval_date"]
     filterset_fields = ["status"]
@@ -85,8 +84,7 @@ class PurchaseDetailView(CustomErrorHandlerMixin, generics.RetrieveUpdateDestroy
                     success = omie is not False
 
                     if not success:
-                        raise serializers.ValidationError(
-                            "Erro no Omie: Abra um chamado")
+                        raise serializers.ValidationError("Erro no Omie: Abra um chamado")
                     elif success and omie.status_code == 500:
                         raise serializers.ValidationError(
                             f"Erro {omie.status_code} do Omie: Produto não cadastrado"
@@ -137,7 +135,6 @@ class PurchaseProductListCreateView(CustomErrorHandlerMixin, generics.ListCreate
 class PurchaseProductDetail(CustomErrorHandlerMixin, generics.RetrieveUpdateDestroyAPIView):
     queryset = PurchaseProduct.objects.all()
     permission_classes = [IsAuthenticated]
-    # lookup_field = "uuid"
 
     def get_serializer_class(self):
         if self.request.method == "GET":
