@@ -13,6 +13,7 @@ class PurchaseProductReadSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PurchaseProduct
+        # fields = "__all__"
         fields = ("uuid", "product", "quantity", "price", "status", "obs")
 
 
@@ -20,10 +21,13 @@ class PurchaseProductWriteSerializer(serializers.ModelSerializer):
     product_id = serializers.PrimaryKeyRelatedField(
         queryset=Product.objects.all(), source="product", write_only=False
     )
+    # product_id = serializers.UUIDField(source="product", write_only=True)
+    # product_id = serializers.StringRelatedField(source="product")
 
     class Meta:
         model = PurchaseProduct
-        fields = ("product_id", "quantity", "price", "status", "obs")
+        fields = "__all__"
+        # fields = ("uuid", "quantity", "price", "status", "obs")
 
 
 class PurchaseReadSerializer(serializers.ModelSerializer):

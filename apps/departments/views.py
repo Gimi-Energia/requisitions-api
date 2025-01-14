@@ -17,12 +17,12 @@ class DepartmentList(generics.ListCreateAPIView):
     ordering_fields = ["name"]
     filterset_fields = ["id", "name"]
 
-    def get_permissions(self):
-        if self.request.method == "GET":
-            return [IsAuthenticatedGet()]
-        elif self.request.method == "POST":
-            return [IsAdminPost()]
-        return super().get_permissions()
+    # def get_permissions(self):
+    #     if self.request.method == "GET":
+    #         return [IsAuthenticatedGet()]
+    #     elif self.request.method == "POST":
+    #         return [IsAdminPost()]
+    #     return super().get_permissions()
 
 
 class DepartmentDetail(generics.RetrieveUpdateDestroyAPIView):
