@@ -28,7 +28,7 @@ class PurchaseListCreateView(CustomErrorHandlerMixin, generics.ListCreateAPIView
     search_fields = []
     ordering_fields = ["created_at", "approval_date"]
     filterset_fields = ["status"]
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def get_serializer_class(self):
         if self.request.method == "GET":
@@ -59,7 +59,7 @@ class PurchaseListCreateView(CustomErrorHandlerMixin, generics.ListCreateAPIView
 
 class PurchaseDetailView(CustomErrorHandlerMixin, generics.RetrieveUpdateDestroyAPIView):
     queryset = Purchase.objects.all()
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def get_serializer_class(self):
         if self.request.method == "GET":
@@ -121,7 +121,7 @@ class PurchaseProductListCreateView(CustomErrorHandlerMixin, generics.ListCreate
     filter_backends = [filters.OrderingFilter, filters.SearchFilter]
     search_fields = []
     ordering_fields = []
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def get_serializer_class(self):
         if self.request.method == "GET":
@@ -136,7 +136,7 @@ class PurchaseProductListCreateView(CustomErrorHandlerMixin, generics.ListCreate
 
 class PurchaseProductDetail(CustomErrorHandlerMixin, generics.RetrieveUpdateDestroyAPIView):
     queryset = PurchaseProduct.objects.all()
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
     # lookup_field = "uuid"
 
     def get_serializer_class(self):

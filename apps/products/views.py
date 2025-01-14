@@ -105,18 +105,18 @@ class ProductList(generics.ListCreateAPIView):
         self.filter_products()
         return super().get(self.request, *args, **kwars)
 
-    # def get_permissions(self):
-    #     if self.request.method == "GET":
-    #         return [IsAuthenticatedGet()]
-    #     elif self.request.method == "POST":
-    #         return [IsAdminPost()]
-    #     return super().get_permissions()
+    def get_permissions(self):
+        if self.request.method == "GET":
+            return [IsAuthenticatedGet()]
+        elif self.request.method == "POST":
+            return [IsAdminPost()]
+        return super().get_permissions()
 
 
 class ProductDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
 
 def remove_duplicates_view(request):
