@@ -176,7 +176,9 @@ def send_purchase_quotation_email(instance):
         instance.id, include_approved_only=False, include_price=False
     )
 
-    emails = [user.email for user in User.objects.filter(email__icontains="compras")]
+    purchase_group = Group.objects.get(name="Purchase Products")
+    purchase_users = purchase_group.user_set.all().values_list("email", flat=True)
+    emails = [*purchase_users]
     emails.append(instance.requester)
     print("Sending email to:")
     print(emails)

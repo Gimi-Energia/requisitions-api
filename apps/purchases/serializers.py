@@ -1,3 +1,4 @@
+import json
 from rest_framework import serializers
 
 from apps.departments.serializers import DepartmentCustomSerializer
@@ -13,18 +14,18 @@ class PurchaseProductReadSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PurchaseProduct
-        fields = ("id", "product", "quantity", "price", "status", "obs")
+        fields = ("id", "uuid", "product", "quantity", "price", "status", "obs")
 
 
 class PurchaseProductWriteSerializer(serializers.ModelSerializer):
     product_id = serializers.PrimaryKeyRelatedField(
         queryset=Product.objects.all(), source="product", write_only=False
     )
+    uuid = serializers.UUIDField(required=False)
 
     class Meta:
         model = PurchaseProduct
-        fields = "__all__"
-        fields = ("product_id", "quantity", "price", "status", "obs")
+        fields = ("uuid", "product_id", "quantity", "price", "status", "obs")
 
 
 class PurchaseReadSerializer(serializers.ModelSerializer):
@@ -40,6 +41,7 @@ class PurchaseReadSerializer(serializers.ModelSerializer):
 
 class PurchaseWriteSerializer(serializers.ModelSerializer):
     products = PurchaseProductWriteSerializer(many=True, source="purchaseproduct_set")
+    uuid = serializers.UUIDField(required=False)
 
     class Meta:
         model = Purchase
@@ -91,12 +93,14 @@ class PurchaseWriteSerializer(serializers.ModelSerializer):
             if hasattr(instance, "purchaseproduct_set"):
                 for purchase_product in instance.purchaseproduct_set.all():
                     for product_data in products_data:
+                        if "uuid" not in product_data:
+                            raise serializers.ValidationError("UUID is required to update purchase products.")
                         status = product_data.get("status")
                         quantity = product_data.get("quantity")
                         price = product_data.get("price")
                         obs = product_data.get("obs")
-
-                        if purchase_product.id == product_data.get("id"):
+                        
+                        if purchase_product.uuid == product_data.get("uuid"):
                             if status and purchase_product.status != status:
                                 purchase_product.status = status
                             if quantity and purchase_product.quantity != quantity:

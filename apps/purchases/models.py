@@ -75,7 +75,7 @@ class Purchase(models.Model):
 
 
 class PurchaseProduct(models.Model):
-    id = models.UUIDField(default=uuid4, unique=True, primary_key=True, editable=False)
+    uuid = models.UUIDField(default=uuid4, unique=True, editable=False)
     purchase = models.ForeignKey(Purchase, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.DecimalField(_("Quantity"), max_digits=12, decimal_places=5)
@@ -85,3 +85,4 @@ class PurchaseProduct(models.Model):
 
     def __str__(self):
         return f"{self.product} - {self.quantity} x R$ {self.price}"
+
