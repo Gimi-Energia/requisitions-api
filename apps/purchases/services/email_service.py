@@ -75,8 +75,7 @@ def send_status_change_email(instance):
         email_subject = "Solicitação de Compra Aprovada"
         email_body_intro = f"""
             Olá, {instance.requester.name}!<br>
-            Sua solicitação foi aprovada por {instance.approver} 
-            em {instance.approval_date.strftime("%d/%m/%Y")}<br>
+            Sua solicitação foi aprovada por {instance.approver}.<br>
         """
         table_html = build_quotation_table(instance.id)
         
@@ -88,8 +87,7 @@ def send_status_change_email(instance):
         email_subject = "Solicitação de Compra Rejeitada"
         email_body_intro = f"""
             Olá, {instance.requester.name}!<br>
-            Sua solicitação foi rejeitada por {instance.approver} 
-            em {instance.approval_date.strftime("%d/%m/%Y")}<br>
+            Sua solicitação foi rejeitada por {instance.approver}.<br>
         """
         table_html = build_quotation_table(instance.id, include_approved_only=False)
     elif instance.status == "Opened":
@@ -163,6 +161,7 @@ def send_status_change_email(instance):
         fail_silently=False,
         html_message=html_message,
     )
+    print(f"Status change email sent - current status: {instance.status}")
     print(f"Email sent to {emails}")
 
 
