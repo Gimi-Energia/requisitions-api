@@ -163,6 +163,7 @@ def send_status_change_email(instance):
         fail_silently=False,
         html_message=html_message,
     )
+    print(f"Email sent to {emails}")
 
 
 def send_purchase_quotation_email(instance):

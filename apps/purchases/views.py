@@ -71,6 +71,7 @@ class PurchaseDetailView(CustomErrorHandlerMixin, generics.RetrieveUpdateDestroy
 
             if old_status != instance.status:
                 if instance.status == "Opened":
+                    print("Sending status change email")
                     send_status_change_email(instance)
 
                 if instance.status == "Approved":
