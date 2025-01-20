@@ -123,7 +123,7 @@ def generate_pdf(instance):
         wordWrap="CJK",
     )
 
-    data = [["Item", "Código", "Descrição", "Quantidade"]]
+    data = [["Item", "Código", "Descrição", "Quantidade", "Observação"]]
     purchase_products = PurchaseProduct.objects.filter(purchase=instance.id)
     item_number = 1
 
@@ -138,6 +138,7 @@ def generate_pdf(instance):
             purchase_product.product.code,
             description_paragraph,
             f"{purchase_product.quantity} {product.un}",
+            purchase_product.obs,
         ]
         data.append(row)
         item_number += 1
