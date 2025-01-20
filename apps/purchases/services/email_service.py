@@ -29,6 +29,7 @@ def build_quotation_table(
         product = Product.objects.filter(code=product_code).first()
         product_description = product.description
         product_quantity = purchase_product.quantity
+        product_obs = purchase_product.obs
 
         if include_price:
             product_price = purchase_product.price
@@ -37,7 +38,15 @@ def build_quotation_table(
         else:
             price_cell = ""
 
-        table_row = f"<tr><td>{product_code}</td><td>{product_description}</td><td>{product_quantity}</td>{price_cell}</tr>"
+        table_row = f"""
+            <tr>
+                <td>{product_code}</td>
+                <td>{product_description}</td>
+                <td>{product_quantity}</td>
+                {price_cell}
+                <td>{product_obs}</td>
+                </tr>
+        """
         table_rows.append(table_row)
 
     if not table_rows:
@@ -57,6 +66,7 @@ def build_quotation_table(
                 <th>Descrição</th>
                 <th>Quantidade</th>
                 {price_header}
+                <th>Observações</th>
             </tr>
             {''.join(table_rows)}
             {total_row}
@@ -75,7 +85,8 @@ def send_status_change_email(instance):
         email_subject = "Solicitação de Compra Aprovada"
         email_body_intro = f"""
             Olá, {instance.requester.name}!<br>
-            Sua solicitação foi aprovada por {instance.approver}.<br>
+            Sua solicitação foi aprovada por {instance.approver} 
+            em {instance.approval_date.strftime("%d/%m/%Y")}<br>
         """
         table_html = build_quotation_table(instance.id)
         
@@ -87,7 +98,8 @@ def send_status_change_email(instance):
         email_subject = "Solicitação de Compra Rejeitada"
         email_body_intro = f"""
             Olá, {instance.requester.name}!<br>
-            Sua solicitação foi rejeitada por {instance.approver}.<br>
+            Sua solicitação foi rejeitada por {instance.approver} 
+            em {instance.approval_date.strftime("%d/%m/%Y")}<br>
         """
         table_html = build_quotation_table(instance.id, include_approved_only=False)
     elif instance.status == "Opened":
@@ -244,6 +256,8 @@ def send_quotation_email_with_pdf(instance):
     recipient_list = [email.strip() for email in instance.quotation_emails.split(",")]
     email_from = settings.EMAIL_HOST_USER
     emails_gimi = [user.email for user in User.objects.filter(email__icontains="compras")]
+    purchase_group = Group.objects.get(name="Purchase Products")
+    purchase_users = purchase_group.user_set.all().values_list("email", flat=True)
 
     pdf_file = generate_pdf(instance)
 
@@ -268,7 +282,7 @@ def send_quotation_email_with_pdf(instance):
 
     for recipient in recipient_list:
         if recipient != "":
-            all_recipients = [recipient, instance.requester] + emails_gimi
+            all_recipients = [recipient, instance.requester] + emails_gimi + purchase_users
 
             email = EmailMessage(
                 subject=subject,
