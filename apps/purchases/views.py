@@ -40,9 +40,7 @@ class PurchaseListCreateView(CustomErrorHandlerMixin, generics.ListCreateAPIView
             instance = serializer.instance
 
             if instance.status == "Quotation":
-                print("Sending purchase quotation email")
                 send_purchase_quotation_email(instance)
-                print("Purchase quotation email sent")
 
     def create(self, request, *args, **kwargs):
         try:
@@ -70,7 +68,6 @@ class PurchaseDetailView(CustomErrorHandlerMixin, generics.RetrieveUpdateDestroy
             instance = serializer.save()
 
             if old_status != instance.status:
-                print("Sending status change email")
                 send_status_change_email(instance)
 
                 if instance.status == "Approved":
@@ -107,10 +104,8 @@ class PurchaseDetailView(CustomErrorHandlerMixin, generics.RetrieveUpdateDestroy
         try:
             return super().update(request, *args, **kwargs)
         except serializers.ValidationError as ve:
-            print("Unable to update purchase")
             return self.handle_validation_error(ve)
         except Exception as e:
-            print("Unable to update purchase")
             return self.handle_generic_exception(e, request)
 
 
@@ -126,7 +121,6 @@ class PurchaseProductListCreateView(CustomErrorHandlerMixin, generics.ListCreate
         return PurchaseProductWriteSerializer
 
     def get_queryset(self):
-        print(PurchaseProduct.objects.filter(purchase=self.kwargs["pk"]).values())
         purchase_pk = self.kwargs["pk"]
         return PurchaseProduct.objects.filter(purchase=purchase_pk)
 
