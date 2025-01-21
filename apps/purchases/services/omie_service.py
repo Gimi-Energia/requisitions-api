@@ -3,7 +3,7 @@ import os
 
 import requests
 
-from apps.purchases.models import PurchaseProduct
+from apps.purchases.models import PurchaseProduct, Purchase
 
 
 def include_purchase_requisition(instance):
@@ -16,7 +16,8 @@ def include_purchase_requisition(instance):
             os.getenv(f"OMIE_APP_SECRET_{company}", str(os.getenv("OMIE_APP_SECRET_GIMI")))
         )
         url = "https://app.omie.com.br/api/v1/produtos/requisicaocompra/"
-        purchase_products = PurchaseProduct.objects.filter(purchase=instance.id, status="Approved")
+        purchase = Purchase.objects.get(id=instance.id, status="Approved")
+        purchase_products = PurchaseProduct.objects.filter(purchase=purchase.id)
         item_number = 1
         data = []
         for purchase_product in purchase_products:
@@ -28,6 +29,7 @@ def include_purchase_requisition(instance):
                 "codProd": product_code,
                 "precoUnit": float(purchase_product.price),
                 "qtde": float(purchase_product.quantity),
+                "obsItem": purchase_product.obs
             }
             data.append(row)
             item_number += 1
