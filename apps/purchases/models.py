@@ -23,6 +23,7 @@ STATUS = [
     ("Denied", "Denied"),
     ("Canceled", "Canceled"),
     ("Quotation", "Quotation"),
+    ("Validation", "Validation"),
 ]
 
 
@@ -39,24 +40,34 @@ class Purchase(models.Model):
     )
     motive = models.TextField(_("Motive"))
     obs = models.TextField(_("Observation"))
-    status = models.CharField(_("Status"), choices=STATUS, default="Opened", max_length=9)
+    status = models.CharField(_("Status"), choices=STATUS, default="Opened", max_length=10)
     products = models.ManyToManyField(
         Product, through="PurchaseProduct", verbose_name=_("Products")
     )
-    approver = models.ForeignKey(
+    approver_director = models.ForeignKey(
         User,
-        verbose_name=_("Approver"),
+        verbose_name=_("Approver Director"),
         on_delete=models.CASCADE,
-        related_name="Approver",
+        related_name="approver_director",
     )
-    approval_date = models.DateTimeField(_("Approval Date"), blank=True, null=True)
+    approval_date_director = models.DateTimeField(_("Approval Date"), blank=True, null=True)
     has_quotation = models.BooleanField(_("Has Quotation?"), default=True)
     quotation_emails = models.TextField(_("Purchase Quotation Emails"), blank=True, null=True)
     quotation_date = models.DateTimeField(
         _("Quotation Date"), auto_now=False, auto_now_add=False, blank=True, null=True
     )
+    quotation_link = models.URLField(_("Quotation Link"), blank=True, null=True)
     control_number = models.IntegerField(_("Control Number"), default=0)
     motive_denied = models.TextField(_("Motive Denied"), blank=True, null=True)
+    approver_manager = models.ForeignKey(
+        User,
+        verbose_name=_("Approver Manager"),
+        on_delete=models.CASCADE,
+        related_name="approver_manager",
+        blank=True,
+        null=True,
+    )
+    approval_date_manager = models.DateTimeField(_("Approval Date Manager"), blank=True, null=True)
 
     def __str__(self):
         return str(self.id)
@@ -80,9 +91,8 @@ class PurchaseProduct(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.DecimalField(_("Quantity"), max_digits=12, decimal_places=5)
     price = models.DecimalField(_("Price"), max_digits=12, decimal_places=5, blank=True, null=True)
-    status = models.CharField(_("Status"), choices=STATUS, default="Opened", max_length=9)
+    status = models.CharField(_("Status"), choices=STATUS, default="Opened", max_length=10)
     obs = models.TextField(_("Observation"), blank=True, null=True)
 
     def __str__(self):
         return f"{self.product} - {self.quantity} x R$ {self.price}"
-

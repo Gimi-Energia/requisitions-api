@@ -30,7 +30,7 @@ class PurchaseProductWriteSerializer(serializers.ModelSerializer):
 
 class PurchaseReadSerializer(serializers.ModelSerializer):
     requester = UserCustomSerializer()
-    approver = UserCustomSerializer()
+    approver_director = UserCustomSerializer()
     department = DepartmentCustomSerializer()
     products = PurchaseProductReadSerializer(many=True, source="purchaseproduct_set")
 

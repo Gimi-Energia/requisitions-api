@@ -25,7 +25,7 @@ class PurchaseListCreateView(CustomErrorHandlerMixin, generics.ListCreateAPIView
     queryset = Purchase.objects.all()
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
     search_fields = []
-    ordering_fields = ["created_at", "approval_date"]
+    ordering_fields = ["created_at", "approval_date_director"]
     filterset_fields = ["status"]
     permission_classes = [IsAuthenticated]
 

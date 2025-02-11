@@ -85,8 +85,8 @@ def send_status_change_email(instance):
         email_subject = "Solicitação de Compra Aprovada"
         email_body_intro = f"""
             Olá, {instance.requester.name}!<br>
-            Sua solicitação foi aprovada por {instance.approver} 
-            em {instance.approval_date.strftime("%d/%m/%Y")}<br>
+            Sua solicitação foi aprovada por {instance.approver_director} 
+            em {instance.approval_date_director.strftime("%d/%m/%Y")}<br>
         """
         table_html = build_quotation_table(instance.id)
         
@@ -98,8 +98,8 @@ def send_status_change_email(instance):
         email_subject = "Solicitação de Compra Rejeitada"
         email_body_intro = f"""
             Olá, {instance.requester.name}!<br>
-            Sua solicitação foi rejeitada por {instance.approver} 
-            em {instance.approval_date.strftime("%d/%m/%Y")}<br>
+            Sua solicitação foi rejeitada por {instance.approver_director} 
+            em {instance.approval_date_director.strftime("%d/%m/%Y")}<br>
         """
         table_html = build_quotation_table(instance.id, include_approved_only=False)
     elif instance.status == "Opened":
@@ -109,10 +109,10 @@ def send_status_change_email(instance):
         email_body_intro = f"""
             Olá, {instance.requester.name}!<br>
             A requisição Nº {instance.control_number} 
-            já pode ser aprovada por {instance.approver}<br>
+            já pode ser aprovada por {instance.approver_director}<br>
         """
         table_html = build_quotation_table(instance.id, include_approved_only=False)
-        emails.append(instance.approver)
+        emails.append(instance.approver_director)
     else:
         return
 
@@ -125,7 +125,7 @@ def send_status_change_email(instance):
         Empresa: {instance.company}<br>
         Departamento: {instance.department}<br>
         Data solicitada: {instance.request_date.strftime("%d/%m/%Y")}<br>
-        Aprovador: {instance.approver}<br>
+        Aprovador: {instance.approver_director}<br>
         Número de controle: {instance.control_number}<br>
         Motivo: {instance.motive}<br>
         Obsevações: {instance.obs}<br>
@@ -203,7 +203,7 @@ def send_purchase_quotation_email(instance):
         Empresa: {instance.company}<br>
         Departamento: {instance.department}<br>
         Data solicitada: {instance.request_date.strftime("%d/%m/%Y")}<br>
-        Aprovador: {instance.approver}<br>
+        Aprovador: {instance.approver_director}<br>
         Número de controle: {instance.control_number}<br>
         Motivo: {instance.motive}<br>
         Obsevações: {instance.obs}<br>
