@@ -22,6 +22,7 @@ REQUEST_STATUS = [
     ("Completed", "Completed"),
     ("Denied", "Denied"),
     ("Canceled", "Canceled"),
+    ("Validation", "Validation"),
 ]
 APPROVER_STATUS = [
     ("Checking", "Checking"),
@@ -49,7 +50,7 @@ class Maintenance(models.Model):
     )
     created_at = models.DateTimeField(_("Created At"), default=timezone.now)
     request_date = models.DateField(_("Request Date"), default=date.today)
-    status = models.CharField(_("Status"), choices=REQUEST_STATUS, default="Opened", max_length=9)
+    status = models.CharField(_("Status"), choices=REQUEST_STATUS, default="Opened", max_length=10)
 
     approver = models.ForeignKey(
         User,
@@ -66,6 +67,7 @@ class Maintenance(models.Model):
     )
     end_date = models.DateTimeField(_("End Date"), blank=True, null=True)
     motive_denied = models.TextField(_("Motive Denied"), blank=True, null=True)
+    want_validate = models.BooleanField(_("Want Validate"), default=False)
 
     def __str__(self):
         return str(self.id)
@@ -73,10 +75,10 @@ class Maintenance(models.Model):
 
 class Responsible(models.Model):
     id = models.UUIDField(primary_key=True, unique=True, default=uuid4, editable=False)
-    name = models.CharField(_("Name"), max_length=50)
-    email = models.EmailField(_("Email"), max_length=254)
-    phone = models.CharField(_("Phone"), max_length=15)
-    extension = models.CharField(_("Extension"), max_length=10)
+    name = models.CharField(_("Name"), max_length=120)
+    email = models.CharField(_("Email"), max_length=120)
+    phone = models.CharField(_("Phone"), max_length=120)
+    extension = models.CharField(_("Extension"), max_length=120)
 
     def save(self, *args, **kwargs):
         if not self.pk and Responsible.objects.exists():
