@@ -13,6 +13,7 @@ class Contract(models.Model):
     project_name = models.CharField(_("Project Name"), max_length=120, null=True, blank=True)
     freight_estimated = models.FloatField(_("Freight Estimated"), null=True, blank=True)
     freight_consumed = models.FloatField(_("Freight Consumed"), default=0)
+    change_reason = models.TextField(_("Change Reason"), null=True, blank=True)
 
     def __str__(self):
         return f"{self.contract_number} ({self.control_number})"
