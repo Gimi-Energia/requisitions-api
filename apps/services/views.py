@@ -20,10 +20,9 @@ from .services.email_service import (
 
 class ServiceList(CustomErrorHandlerMixin, generics.ListCreateAPIView):
     queryset = Service.objects.all()
-    filter_backends = [DjangoFilterBackend,
-                       filters.OrderingFilter, filters.SearchFilter]
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
     search_fields = []
-    ordering_fields = ["created_at", "approval_date"]
+    ordering_fields = ["created_at", "approval_date_director"]
     filterset_fields = ["status"]
     permission_classes = [IsAuthenticated]
 
@@ -68,11 +67,16 @@ class ServiceDetail(CustomErrorHandlerMixin, generics.RetrieveUpdateDestroyAPIVi
         with transaction.atomic():
             instance = serializer.save()
 
-            if (old_status != instance.status
+            if (
+                old_status != instance.status
                 and instance.status == "Approved"
-                and not instance.approval_date):
-                
-                raise serializers.ValidationError(detail={"error": "Para mandar o e-mail de aprovação é necessário uma data de aprovação válida."})  # noqa: E501
+                and not instance.approval_date_director
+            ):
+                raise serializers.ValidationError(
+                    detail={
+                        "error": "Para mandar o e-mail de aprovação é necessário uma data de aprovação válida."
+                    }
+                )  # noqa: E501
 
             if old_status != instance.status:
                 send_status_change_email(instance)
@@ -92,8 +96,7 @@ class ServiceDetail(CustomErrorHandlerMixin, generics.RetrieveUpdateDestroyAPIVi
 class ServiceTypeList(generics.ListCreateAPIView):
     queryset = ServiceType.objects.all()
     serializer_class = ServiceTypeSerializer
-    filter_backends = [DjangoFilterBackend,
-                       filters.OrderingFilter, filters.SearchFilter]
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
     search_fields = []
     ordering_fields = []
     filterset_fields = []

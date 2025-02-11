@@ -23,6 +23,7 @@ STATUS = [
     ("Denied", "Denied"),
     ("Canceled", "Canceled"),
     ("Quotation", "Quotation"),
+    ("Validation", "Validation"),
 ]
 
 
@@ -54,14 +55,14 @@ class Service(models.Model):
     provider = models.CharField(_("Provider"), max_length=120, blank=True, null=True)
     service = models.ForeignKey(ServiceType, verbose_name=_("Service"), on_delete=models.CASCADE)
     value = models.DecimalField(_("Value"), max_digits=12, decimal_places=2, blank=True, null=True)
-    status = models.CharField(_("Status"), choices=STATUS, default="Opened", max_length=9)
-    approver = models.ForeignKey(
+    status = models.CharField(_("Status"), choices=STATUS, default="Opened", max_length=10)
+    approver_director = models.ForeignKey(
         User,
         verbose_name=_("Approver"),
         on_delete=models.CASCADE,
         related_name="service_approver",
     )
-    approval_date = models.DateTimeField(_("Approval Date"), blank=True, null=True)
+    approval_date_director = models.DateTimeField(_("Approval Date"), blank=True, null=True)
     has_quotation = models.BooleanField(_("Has Quotation?"), default=True)
     quotation_emails = models.TextField(_("Service Quotation Emails"), blank=True, null=True)
     quotation_date = models.DateTimeField(
@@ -69,6 +70,15 @@ class Service(models.Model):
     )
     control_number = models.IntegerField(_("Control Number"), default=0)
     motive_denied = models.TextField(_("Motive Denied"), blank=True, null=True)
+    approver_manager = models.ForeignKey(
+        User,
+        verbose_name=_("Approver Manager"),
+        on_delete=models.CASCADE,
+        related_name="service_approver_manager",
+        blank=True,
+        null=True,
+    )
+    approval_date_manager = models.DateTimeField(_("Approval Date Manager"), blank=True, null=True)
 
     def __str__(self):
         return str(self.id)

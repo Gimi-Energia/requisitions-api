@@ -29,7 +29,7 @@ class ServiceTypeSerializer(serializers.ModelSerializer):
 
 class ServiceReadSerializer(serializers.ModelSerializer):
     requester = UserCustomSerializer()
-    approver = UserCustomSerializer()
+    approver_director = UserCustomSerializer()
     department = DepartmentCustomSerializer()
     service = ServiceTypeSerializer()
 

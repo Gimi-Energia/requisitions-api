@@ -17,8 +17,8 @@ def send_status_change_email(instance):
         email_subject = "Solicitação de Serviço Aprovada"
         email_body_intro = f"""
             Olá, {instance.requester.name}!<br>
-            Sua solicitação foi aprovada por {instance.approver} 
-            em {instance.approval_date.strftime("%d/%m/%Y")}<br>
+            Sua solicitação foi aprovada por {instance.approver_director} 
+            em {instance.approval_date_director.strftime("%d/%m/%Y")}<br>
         """
 
         service_group = Group.objects.get(name="Purchase Services")
@@ -29,15 +29,15 @@ def send_status_change_email(instance):
         email_subject = "Solicitação de Serviço Rejeitada"
         email_body_intro = f"""
             Olá, {instance.requester.name}!<br>
-            Sua solicitação foi rejeitada por {instance.approver}<br>
+            Sua solicitação foi rejeitada por {instance.approver_director}<br>
         """
     elif instance.status == "Opened":
         email_subject = "Solicitação de Serviço Cotada"
         email_body_intro = f"""
             Olá, {instance.requester.name}!<br>
-            Sua solicitação foi cotada e já pode ser aprovada por {instance.approver}<br>
+            Sua solicitação foi cotada e já pode ser aprovada por {instance.approver_director}<br>
         """
-        emails.append(instance.approver)
+        emails.append(instance.approver_director)
     else:
         return
 
@@ -48,7 +48,7 @@ def send_status_change_email(instance):
         Empresa: {instance.company}<br>
         Departamento: {instance.department}<br>
         Data solicitada: {instance.request_date.strftime("%d/%m/%Y")}<br>
-        Aprovador: {instance.approver}<br>
+        Aprovador: {instance.approver_director}<br>
         Número de controle: {instance.control_number}<br>
         Serviço: {instance.service.description}<br>
         Prestador: {instance.provider}<br>
@@ -116,7 +116,7 @@ def send_service_quotation_email(instance):
         Empresa: {instance.company}<br>
         Departamento: {instance.department}<br>
         Data solicitada: {instance.request_date.strftime("%d/%m/%Y")}<br>
-        Aprovador: {instance.approver}<br>
+        Aprovador: {instance.approver_director}<br>
         Número de controle: {instance.control_number}<br>
         Serviço: {instance.service.description}<br>
         Motivo: {instance.motive}<br>
