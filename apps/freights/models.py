@@ -75,6 +75,7 @@ class FreightQuotation(models.Model):
     status = models.CharField(
         _("Status"), choices=STATUS_QUOTATIONS, default="Opened", max_length=8
     )
+    name_other = models.CharField(_("Name Other"), max_length=100, blank=True, null=True)
 
     def __str__(self):
         return f"{self.transporter} - {self.price}"

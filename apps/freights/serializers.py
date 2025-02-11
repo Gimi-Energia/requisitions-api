@@ -14,7 +14,7 @@ class FreightQuotationReadSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FreightQuotation
-        fields = ("transporter", "price", "status")
+        fields = ("transporter", "name_other", "price", "status")
 
 
 class FreightQuotationWriteSerializer(serializers.ModelSerializer):
@@ -24,7 +24,7 @@ class FreightQuotationWriteSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FreightQuotation
-        fields = ("transporter_id", "price", "status")
+        fields = ("transporter_id", "name_other", "price", "status")
 
 
 class FreightReadSerializer(serializers.ModelSerializer):
