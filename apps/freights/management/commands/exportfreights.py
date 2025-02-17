@@ -1,6 +1,7 @@
 import csv
 
 from django.core.management.base import BaseCommand
+from django.utils.dateparse import parse_date
 
 from apps.freights.models import Freight
 
@@ -8,9 +9,15 @@ from apps.freights.models import Freight
 class Command(BaseCommand):
     help = "Exporta dados de fretes para um arquivo CSV"
 
-    def handle(self, *args, **kwargs):
-        output_file = "freights_export.csv"
+    def add_arguments(self, parser):
+        parser.add_argument("--start_date", type=str, help="Data de início no formato YYYY-MM-DD")
+        parser.add_argument("--end_date", type=str, help="Data de término no formato YYYY-MM-DD")
 
+    def handle(self, *args, **kwargs):
+        start_date = kwargs.get("start_date")
+        end_date = kwargs.get("end_date")
+
+        output_file = "freights_export.csv"
         fields_csv = [
             "UID",
             "Empresa",
@@ -33,11 +40,15 @@ class Command(BaseCommand):
 
         rows = []
 
+        freights = Freight.objects.all()
+        if start_date:
+            freights = freights.filter(created_at__gte=parse_date(start_date))
+        if end_date:
+            freights = freights.filter(created_at__lte=parse_date(end_date))
+
         with open(output_file, "w", newline="") as csvfile:
             writer = csv.DictWriter(csvfile, fieldnames=fields_csv)
             writer.writeheader()
-
-            freights = Freight.objects.all()
 
             for freight in freights:
                 created_at_date = freight.created_at.date().isoformat()

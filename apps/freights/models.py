@@ -82,3 +82,10 @@ class FreightQuotation(models.Model):
 
     class Meta:
         unique_together = ("freight", "transporter")
+
+
+class ExportLog(models.Model):
+    export_date = models.DateField(auto_now=True)
+
+    def __str__(self):
+        return f"Exportação realizada em {self.export_date}"

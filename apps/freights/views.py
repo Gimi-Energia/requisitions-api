@@ -1,9 +1,15 @@
+from datetime import date
+
+from django.core.management import call_command
 from django.db import transaction
+from django.http import HttpResponse
 from django_filters.rest_framework import DjangoFilterBackend
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import filters, generics, serializers
 from rest_framework.permissions import IsAuthenticated
 
-from apps.freights.models import Freight, FreightQuotation
+from apps.freights.models import ExportLog, Freight, FreightQuotation
 from apps.freights.serializers import (
     FreightQuotationReadSerializer,
     FreightQuotationWriteSerializer,
@@ -86,3 +92,43 @@ class FreightQuotationListCreateView(generics.ListCreateAPIView):
     def get_queryset(self):
         freight_pk = self.kwargs.get("pk")
         return FreightQuotation.objects.filter(freight=freight_pk)
+
+
+class ExportFreightsView(CustomErrorHandlerMixin, generics.GenericAPIView):
+    permission_classes = [IsAuthenticated]
+
+    @swagger_auto_schema(
+        manual_parameters=[
+            openapi.Parameter(
+                "start_date",
+                openapi.IN_QUERY,
+                description="Data de início no formato YYYY-MM-DD",
+                type=openapi.TYPE_STRING,
+            ),
+            openapi.Parameter(
+                "end_date",
+                openapi.IN_QUERY,
+                description="Data de término no formato YYYY-MM-DD",
+                type=openapi.TYPE_STRING,
+            ),
+        ]
+    )
+    def get(self, request, *args, **kwargs):
+        try:
+            last_export = ExportLog.objects.last()
+            if last_export and last_export.export_date == date.today():
+                return HttpResponse("A exportação só pode ser feita uma vez por dia.", status=403)
+
+            output_file = "freights_export.csv"
+            start_date = request.query_params.get("start_date")
+            end_date = request.query_params.get("end_date")
+            call_command("exportfreights", start_date=start_date, end_date=end_date)
+
+            ExportLog.objects.create()
+
+            with open(output_file, "rb") as f:
+                response = HttpResponse(f.read(), content_type="text/csv")
+                response["Content-Disposition"] = f"attachment; filename={output_file}"
+                return response
+        except Exception as e:
+            return self.handle_generic_exception(e, request)
