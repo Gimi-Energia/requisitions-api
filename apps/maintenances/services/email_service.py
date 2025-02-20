@@ -18,7 +18,7 @@ def send_status_change_email(instance):
             em {instance.forecast_date.strftime("%d/%m/%Y")}.<br>
         """
         emails.append(instance.requester)
-    elif instance.status == "Opened":
+    elif instance.status == "Opened" and not instance.motive_denied:
         local_timezone = pytz.timezone("America/Sao_Paulo")
         local_created_at = instance.created_at.astimezone(local_timezone)
         formatted_created_at = local_created_at.strftime("%d/%m/%Y às %H:%M:%S")
@@ -29,6 +29,14 @@ def send_status_change_email(instance):
             De {instance.requester}.<br>
         """
         emails = [user.email for user in User.objects.filter(groups__name="Maintenance")]
+    elif instance.status == "Opened" and instance.motive_denied:
+        email_subject = "Solicitação de Manutenção Interna Reprovada"
+        email_body_intro = f"""
+            Olá!<br>
+            Uma solicitação foi reprovada e agora está novamente em aberto<br>
+            Motivo: {instance.motive_denied}.<br>
+        """
+        emails = [user.email for user in User.objects.filter(groups__name="Maintenance")]
     elif instance.status == "Completed":
         local_timezone = pytz.timezone("America/Sao_Paulo")
         local_end_date = instance.end_date.astimezone(local_timezone)
@@ -37,6 +45,13 @@ def send_status_change_email(instance):
         email_body_intro = f"""
             Olá {instance.requester}!<br>
             Sua solicitação foi encerrada em {formatted_end_date}<br>
+        """
+        emails.append(instance.requester)
+    elif instance.status == "Validation":
+        email_subject = "Solicitação de Manutenção Interna em Validação"
+        email_body_intro = f"""
+            Olá {instance.requester}!<br>
+            Sua solicitação está em processo de validação.<br>
         """
         emails.append(instance.requester)
     else:
@@ -53,6 +68,7 @@ def send_status_change_email(instance):
         Anexo (Link): {instance.url}<br>
         Observação do requisitante: {instance.obs}<br>
         Data da solicitação: {instance.request_date.strftime("%d/%m/%Y")}<br>
+        Deseja validar o serviço: {"Sim" if instance.want_validate else "Não"}<br>
     """
 
     if instance.status in ["Scheduled", "Completed"]:
