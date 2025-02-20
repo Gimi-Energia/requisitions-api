@@ -68,6 +68,7 @@ class Purchase(models.Model):
         null=True,
     )
     approval_date_manager = models.DateTimeField(_("Approval Date Manager"), blank=True, null=True)
+    omie_total = models.DecimalField(_("Omie Total"), max_digits=12, decimal_places=5, default=0)
 
     def __str__(self):
         return str(self.id)

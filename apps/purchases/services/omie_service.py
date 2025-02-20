@@ -29,7 +29,7 @@ def include_purchase_requisition(instance):
                 "codProd": product_code,
                 "precoUnit": float(purchase_product.price),
                 "qtde": float(purchase_product.quantity),
-                "obsItem": purchase_product.obs
+                "obsItem": purchase_product.obs,
             }
             data.append(row)
             item_number += 1
@@ -94,3 +94,38 @@ def get_omie_product_code(code, company):
     response_data = response.json()
 
     return response_data["codigo_produto"]
+
+
+def search_sale_orders():
+    purchases = Purchase.objects.filter(status="Approved", omie_total__isnull=True)
+    for purchase in purchases:
+        company = str(purchase.company).upper()
+        omie_app_key = str(
+            os.getenv(f"OMIE_APP_KEY_{company}", str(os.getenv("OMIE_APP_KEY_GIMI")))
+        )
+        omie_app_secret = str(
+            os.getenv(f"OMIE_APP_SECRET_{company}", str(os.getenv("OMIE_APP_SECRET_GIMI")))
+        )
+        url = "https://app.omie.com.br/api/v1/produtos/pedidocompra/"
+        payload = json.dumps(
+            {
+                "call": "ConsultarPedCompra",
+                "app_key": omie_app_key,
+                "app_secret": omie_app_secret,
+                "param": [
+                    {
+                        "cCodIntPed": f"INT-{purchase.control_number}",
+                    }
+                ],
+            }
+        )
+        headers = {"Content-Type": "application/json"}
+        response = requests.post(url, headers=headers, data=payload)
+        if response.status_code != 200:
+            return f"Erro {response.status_code} ao enviar requisição para Omie: {response.text}"
+
+        response_data = response.json()
+        for installment in response_data["parcelas_consulta"]:
+            purchase.omie_total += installment["nValor"]
+
+        purchase.save()

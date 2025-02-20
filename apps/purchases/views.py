@@ -2,6 +2,9 @@ from django.db import transaction
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, generics, serializers
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
 
 from apps.purchases.models import Purchase, PurchaseProduct
 from apps.purchases.serializers import (
@@ -18,7 +21,7 @@ from .services.email_service import (
     send_quotation_email_with_pdf,
     send_status_change_email,
 )
-from .services.omie_service import include_purchase_requisition
+from .services.omie_service import include_purchase_requisition, search_sale_orders
 
 
 class PurchaseListCreateView(CustomErrorHandlerMixin, generics.ListCreateAPIView):
@@ -133,3 +136,14 @@ class PurchaseProductDetail(CustomErrorHandlerMixin, generics.RetrieveUpdateDest
         if self.request.method == "GET":
             return PurchaseProductReadSerializer
         return PurchaseProductWriteSerializer
+
+
+class UpdateSearchSaleOrderView(CustomErrorHandlerMixin, APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        try:
+            search_sale_orders()
+            return Response({"status": "success"}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return self.handle_generic_exception(e, request)
