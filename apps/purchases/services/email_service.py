@@ -68,7 +68,7 @@ def build_quotation_table(
                 {price_header}
                 <th>Observações</th>
             </tr>
-            {''.join(table_rows)}
+            {"".join(table_rows)}
             {total_row}
         </table>
     """
@@ -89,7 +89,7 @@ def send_status_change_email(instance):
             em {instance.approval_date_director.strftime("%d/%m/%Y")}<br>
         """
         table_html = build_quotation_table(instance.id)
-        
+
         purchase_group = Group.objects.get(name="Purchase Products")
         purchase_users = purchase_group.user_set.all().values_list("email", flat=True)
         emails = [*purchase_users]
@@ -113,6 +113,14 @@ def send_status_change_email(instance):
         """
         table_html = build_quotation_table(instance.id, include_approved_only=False)
         emails.append(instance.approver_director)
+    elif instance.status == "Validation":
+        email_subject = "Solicitação de Compra em Validação"
+        email_body_intro = f"""
+            Olá, {instance.requester.name}!<br>
+            A requisição Nº {instance.control_number} está em processo de validação.<br>
+        """
+        table_html = build_quotation_table(instance.id, include_approved_only=False)
+        emails.append(instance.approver_manager)
     else:
         return
 
