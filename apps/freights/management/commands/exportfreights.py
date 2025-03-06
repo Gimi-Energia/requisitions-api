@@ -35,6 +35,7 @@ class Command(BaseCommand):
             "G",
             "Frete Estimado",
             "Frete Consumido",
+            "Valores Aprovados",
             "Motivo Alteração Frete",
         ]
 
@@ -86,12 +87,14 @@ class Command(BaseCommand):
                     row["Frete Consumido"] = str(freight.contract.freight_consumed).replace(
                         ".", ","
                     )
+                    row["Valores Aprovados"] = freight.contract.approved_value
                     row["Motivo Alteração Frete"] = freight.contract.change_reason
                 else:
                     row["E"] = ""
                     row["G"] = ""
                     row["Frete Estimado"] = ""
                     row["Frete Consumido"] = ""
+                    row["Valores Aprovados"] = ""
                     row["Motivo Alteração Frete"] = ""
 
                 rows.append(row)
