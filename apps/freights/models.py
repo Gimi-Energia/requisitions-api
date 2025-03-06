@@ -70,7 +70,7 @@ class Freight(models.Model):
 
 class FreightQuotation(models.Model):
     freight = models.ForeignKey(Freight, on_delete=models.CASCADE)
-    transporter = models.ForeignKey(Transporter, on_delete=models.CASCADE)
+    transporter = models.ForeignKey(Transporter, on_delete=models.CASCADE, blank=True, null=True)
     price = models.DecimalField(_("Price"), max_digits=10, decimal_places=2)
     status = models.CharField(
         _("Status"), choices=STATUS_QUOTATIONS, default="Opened", max_length=8
