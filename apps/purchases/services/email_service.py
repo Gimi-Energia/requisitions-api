@@ -257,7 +257,7 @@ def send_quotation_email_with_pdf(instance):
     email_from = settings.EMAIL_HOST_USER
     emails_gimi = [user.email for user in User.objects.filter(email__icontains="compras")]
     purchase_group = Group.objects.get(name="Purchase Products")
-    purchase_users = purchase_group.user_set.all().values_list("email", flat=True)
+    purchase_users = list(purchase_group.user_set.all().values_list("email", flat=True))
 
     pdf_file = generate_pdf(instance)
 
