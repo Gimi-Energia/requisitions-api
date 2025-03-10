@@ -41,6 +41,9 @@ class PurchaseListCreateView(CustomErrorHandlerMixin, generics.ListCreateAPIView
 
             if instance.status == "Quotation":
                 send_purchase_quotation_email(instance)
+            
+            if instance.status == "Opened":
+                send_status_change_email(instance)
 
     def create(self, request, *args, **kwargs):
         try:
@@ -68,13 +71,12 @@ class PurchaseDetailView(CustomErrorHandlerMixin, generics.RetrieveUpdateDestroy
             instance = serializer.save()
 
             if old_status != instance.status:
-                send_status_change_email(instance)
-
                 if instance.status == "Approved":
                     omie = include_purchase_requisition(instance)
 
                     if omie is None:
                         send_generic_product_email(instance)
+                        send_status_change_email(instance)
                         return
 
                     success = omie is not False
@@ -97,9 +99,11 @@ class PurchaseDetailView(CustomErrorHandlerMixin, generics.RetrieveUpdateDestroy
                     send_status_change_email(instance)
                     return
 
+                send_status_change_email(instance)
+
             if instance.quotation_emails and old_quotation_emails != instance.quotation_emails:
                 send_quotation_email_with_pdf(instance)
-
+                
     def update(self, request, *args, **kwargs):
         try:
             return super().update(request, *args, **kwargs)
