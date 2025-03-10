@@ -15,7 +15,7 @@ def send_status_change_email(instance):
         email_body_intro = f"""
             Olá, {instance.requester}!<br>
             Sua solicitação foi programada
-            em {instance.forecast_date.strftime("%d/%m/%Y")}.<br>
+            para {instance.forecast_date.strftime("%d/%m/%Y")}.<br>
         """
         emails.append(instance.requester)
     elif instance.status == "Opened":
