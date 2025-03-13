@@ -16,8 +16,7 @@ def include_purchase_requisition(instance):
             os.getenv(f"OMIE_APP_SECRET_{company}", str(os.getenv("OMIE_APP_SECRET_GIMI")))
         )
         url = "https://app.omie.com.br/api/v1/produtos/requisicaocompra/"
-        purchase = Purchase.objects.get(id=instance.id, status="Approved")
-        purchase_products = PurchaseProduct.objects.filter(purchase=purchase.id)
+        purchase_products = PurchaseProduct.objects.filter(purchase=instance.id, status="Approved")
         item_number = 1
         data = []
         for purchase_product in purchase_products:
