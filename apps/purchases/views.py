@@ -65,7 +65,7 @@ class PurchaseDetailView(CustomErrorHandlerMixin, generics.RetrieveUpdateDestroy
 
     def perform_update(self, serializer):
         old_status = serializer.instance.status
-        old_quotation_emails = serializer.instance.quotation_emails
+        # old_quotation_emails = serializer.instance.quotation_emails
 
         with transaction.atomic():
             instance = serializer.save()
