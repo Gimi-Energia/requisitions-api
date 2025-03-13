@@ -101,7 +101,10 @@ class PurchaseDetailView(CustomErrorHandlerMixin, generics.RetrieveUpdateDestroy
 
                 send_status_change_email(instance)
 
-            if instance.quotation_emails and old_quotation_emails != instance.quotation_emails:
+            # if instance.quotation_emails and old_quotation_emails != instance.quotation_emails:
+            #     send_quotation_email_with_pdf(instance)
+            
+            if instance.quotation_emails:
                 send_quotation_email_with_pdf(instance)
                 
     def update(self, request, *args, **kwargs):
