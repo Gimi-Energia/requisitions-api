@@ -115,12 +115,12 @@ class ExportFreightsView(CustomErrorHandlerMixin, generics.GenericAPIView):
         ]
     )
     def get(self, request, *args, **kwargs):
-        try:
-            last_export = ExportLog.objects.last()
-            if last_export and last_export.export_date == date.today():
-                return HttpResponse(
-                    {"error": "A exportação só pode ser feita uma vez por dia."}, status=403
-                )
+        try:  # TODO: Discomment this block when tests end
+            # last_export = ExportLog.objects.last()
+            # if last_export and last_export.export_date == date.today():
+            #     return HttpResponse(
+            #         {"error": "A exportação só pode ser feita uma vez por dia."}, status=403
+            #     )
 
             start_date = request.query_params.get("start_date")
             end_date = request.query_params.get("end_date")
