@@ -52,9 +52,12 @@ class UserSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         password = validated_data.pop("password")
         validated_data.pop("password_confirm")
+        groups = validated_data.pop("groups", None)
         user = User(**validated_data)
         user.password = make_password(password)
         user.save()
+        if groups:
+            user.groups.set(groups)
         return user
 
 
