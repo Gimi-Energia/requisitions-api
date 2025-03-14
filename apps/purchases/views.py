@@ -5,7 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, generics, serializers, status, viewsets
 from rest_framework.decorators import action
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -183,7 +183,7 @@ class PurchaseFlowView(CustomErrorHandlerMixin, viewsets.ViewSet):
             return Response({"detail": "Purchase not found."}, status=status.HTTP_404_NOT_FOUND)
 
     @method_decorator(csrf_exempt)
-    @action(detail=False, methods=["post"])
+    @action(detail=False, methods=["post"], permission_classes=[AllowAny])
     def webhook(self, request):
         try:
             data = request.data
