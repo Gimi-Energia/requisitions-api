@@ -118,7 +118,9 @@ class ExportFreightsView(CustomErrorHandlerMixin, generics.GenericAPIView):
         try:
             last_export = ExportLog.objects.last()
             if last_export and last_export.export_date == date.today():
-                return HttpResponse("A exportação só pode ser feita uma vez por dia.", status=403)
+                return HttpResponse(
+                    {"error": "A exportação só pode ser feita uma vez por dia."}, status=403
+                )
 
             start_date = request.query_params.get("start_date")
             end_date = request.query_params.get("end_date")
