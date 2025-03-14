@@ -1,12 +1,15 @@
 from django.db import transaction
+from django.http import JsonResponse
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import filters, generics, serializers
+from rest_framework import filters, generics, serializers, status, viewsets
+from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework.views import APIView
 
-from apps.purchases.models import Purchase, PurchaseProduct
+from apps.purchases.models import Purchase, PurchaseFlow, PurchaseProduct
 from apps.purchases.serializers import (
     PurchaseProductReadSerializer,
     PurchaseProductWriteSerializer,
@@ -21,7 +24,11 @@ from .services.email_service import (
     send_quotation_email_with_pdf,
     send_status_change_email,
 )
-from .services.omie_service import include_purchase_requisition, search_sale_orders
+from .services.omie_service import (
+    include_purchase_requisition,
+    query_purchase_order,
+    search_sale_orders,
+)
 
 
 class PurchaseListCreateView(CustomErrorHandlerMixin, generics.ListCreateAPIView):
@@ -147,3 +154,42 @@ class UpdateSearchSaleOrderView(CustomErrorHandlerMixin, APIView):
             return Response({"status": "success"}, status=status.HTTP_200_OK)
         except Exception as e:
             return self.handle_generic_exception(e, request)
+
+
+class PurchaseFlowView(CustomErrorHandlerMixin, viewsets.ViewSet):
+    permission_classes = [IsAuthenticated]
+
+    @action(detail=True, methods=["get"])
+    def flow(self, request, pk=None):
+        try:
+            purchase = Purchase.objects.get(pk=pk)
+            purchase_flow = PurchaseFlow.objects.get(purchase=purchase)
+
+            if not purchase_flow.arrival_forecast_date and not purchase_flow.order_number:
+                company = str(purchase.company).upper()
+                response_data = query_purchase_order(purchase.control_number, company)
+
+                if isinstance(response_data, str):
+                    return Response({"detail": response_data}, status=status.HTTP_400_BAD_REQUEST)
+
+                purchase_flow.arrival_forecast_date = response_data.get("cabecalho_consulta").get(
+                    "dDtPrevisao"
+                )
+                purchase_flow.order_number = response_data.get("cabecalho_consulta").get("cNumero")
+                purchase_flow.save()
+
+            return Response(purchase_flow, status=status.HTTP_200_OK)
+        except Purchase.DoesNotExist:
+            return Response({"detail": "Purchase not found."}, status=status.HTTP_404_NOT_FOUND)
+
+    @method_decorator(csrf_exempt)
+    @action(detail=False, methods=["post"])
+    def webhook(self, request):
+        try:
+            data = request.data
+            print(data)
+            return JsonResponse({"status": "success"}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return JsonResponse(
+                {"status": "error", "message": str(e)}, status=status.HTTP_400_BAD_REQUEST
+            )

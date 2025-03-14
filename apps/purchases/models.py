@@ -97,3 +97,20 @@ class PurchaseProduct(models.Model):
 
     def __str__(self):
         return f"{self.product} - {self.quantity} x R$ {self.price}"
+
+
+class PurchaseFlow(models.Model):
+    purchase = models.OneToOneField(Purchase, on_delete=models.CASCADE)
+    step = models.CharField(max_length=255)
+    requested_date = models.DateField(null=True, blank=True)
+    approved_manager_date = models.DateField(null=True, blank=True)
+    approved_director_date = models.DateField(null=True, blank=True)
+    purchased_date = models.DateField(null=True, blank=True)
+    order_number = models.CharField(max_length=255, null=True, blank=True)
+    arrival_forecast_date = models.DateField(null=True, blank=True)
+    delivered_order_date = models.DateField(null=True, blank=True)
+    nf_entry_date = models.DateField(null=True, blank=True)
+    nf_number = models.CharField(max_length=255, null=True, blank=True)
+
+    def __str__(self):
+        return f"Flow for Purchase {self.purchase.id}"

@@ -1,4 +1,3 @@
-import json
 from rest_framework import serializers
 
 from apps.departments.serializers import DepartmentCustomSerializer
@@ -94,12 +93,14 @@ class PurchaseWriteSerializer(serializers.ModelSerializer):
                 for purchase_product in instance.purchaseproduct_set.all():
                     for product_data in products_data:
                         if "uuid" not in product_data:
-                            raise serializers.ValidationError("UUID is required to update purchase products.")
+                            raise serializers.ValidationError(
+                                "UUID is required to update purchase products."
+                            )
                         status = product_data.get("status")
                         quantity = product_data.get("quantity")
                         price = product_data.get("price")
                         obs = product_data.get("obs")
-                        
+
                         if purchase_product.uuid == product_data.get("uuid"):
                             if status and purchase_product.status != status:
                                 purchase_product.status = status
