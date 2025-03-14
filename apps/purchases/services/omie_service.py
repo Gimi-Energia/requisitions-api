@@ -96,35 +96,40 @@ def get_omie_product_code(code, company):
     return response_data["codigo_produto"]
 
 
+def query_purchase_order(control_number, company):
+    omie_app_key = str(os.getenv(f"OMIE_APP_KEY_{company}", str(os.getenv("OMIE_APP_KEY_GIMI"))))
+    omie_app_secret = str(
+        os.getenv(f"OMIE_APP_SECRET_{company}", str(os.getenv("OMIE_APP_SECRET_GIMI")))
+    )
+    url = "https://app.omie.com.br/api/v1/produtos/pedidocompra/"
+    payload = json.dumps(
+        {
+            "call": "ConsultarPedCompra",
+            "app_key": omie_app_key,
+            "app_secret": omie_app_secret,
+            "param": [
+                {
+                    "cCodIntPed": f"INT-{control_number}",
+                }
+            ],
+        }
+    )
+    headers = {"Content-Type": "application/json"}
+    response = requests.post(url, headers=headers, data=payload)
+    if response.status_code != 200:
+        return f"Erro {response.status_code} ao enviar requisição para Omie: {response.text}"
+
+    return response.json()
+
+
 def search_sale_orders():
     purchases = Purchase.objects.filter(status="Approved", omie_total__isnull=True)
     for purchase in purchases:
         company = str(purchase.company).upper()
-        omie_app_key = str(
-            os.getenv(f"OMIE_APP_KEY_{company}", str(os.getenv("OMIE_APP_KEY_GIMI")))
-        )
-        omie_app_secret = str(
-            os.getenv(f"OMIE_APP_SECRET_{company}", str(os.getenv("OMIE_APP_SECRET_GIMI")))
-        )
-        url = "https://app.omie.com.br/api/v1/produtos/pedidocompra/"
-        payload = json.dumps(
-            {
-                "call": "ConsultarPedCompra",
-                "app_key": omie_app_key,
-                "app_secret": omie_app_secret,
-                "param": [
-                    {
-                        "cCodIntPed": f"INT-{purchase.control_number}",
-                    }
-                ],
-            }
-        )
-        headers = {"Content-Type": "application/json"}
-        response = requests.post(url, headers=headers, data=payload)
-        if response.status_code != 200:
-            return f"Erro {response.status_code} ao enviar requisição para Omie: {response.text}"
+        response_data = query_purchase_order(purchase.control_number, company)
+        if isinstance(response_data, str):
+            return response_data
 
-        response_data = response.json()
         for installment in response_data["parcelas_consulta"]:
             purchase.omie_total += installment["nValor"]
 
