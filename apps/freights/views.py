@@ -1,3 +1,4 @@
+import io
 from datetime import date
 
 from django.core.management import call_command
@@ -119,16 +120,15 @@ class ExportFreightsView(CustomErrorHandlerMixin, generics.GenericAPIView):
             if last_export and last_export.export_date == date.today():
                 return HttpResponse("A exportação só pode ser feita uma vez por dia.", status=403)
 
-            output_file = "freights_export.csv"
             start_date = request.query_params.get("start_date")
             end_date = request.query_params.get("end_date")
-            call_command("exportfreights", start_date=start_date, end_date=end_date)
+            output = io.StringIO()
+            call_command("exportfreights", start_date=start_date, end_date=end_date, stdout=output)
 
             ExportLog.objects.create()
 
-            with open(output_file, "rb") as f:
-                response = HttpResponse(f.read(), content_type="text/csv")
-                response["Content-Disposition"] = f"attachment; filename={output_file}"
-                return response
+            response = HttpResponse(output.getvalue(), content_type="text/csv")
+            response["Content-Disposition"] = "attachment; filename=freights_export.csv"
+            return response
         except Exception as e:
             return self.handle_generic_exception(e, request)

@@ -12,10 +12,12 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument("--start_date", type=str, help="Data de início no formato YYYY-MM-DD")
         parser.add_argument("--end_date", type=str, help="Data de término no formato YYYY-MM-DD")
+        parser.add_argument("--stdout", type=bool, help="Escrever o CSV em um buffer de memória")
 
     def handle(self, *args, **kwargs):
         start_date = kwargs.get("start_date")
         end_date = kwargs.get("end_date")
+        stdout = kwargs.get("stdout", None)
 
         output_file = "freights_export.csv"
         fields_csv = [
@@ -47,10 +49,9 @@ class Command(BaseCommand):
         if end_date:
             freights = freights.filter(created_at__lte=parse_date(end_date))
 
-        with open(output_file, "w", newline="") as csvfile:
-            writer = csv.DictWriter(csvfile, fieldnames=fields_csv)
+        if stdout:
+            writer = csv.DictWriter(stdout, fieldnames=fields_csv)
             writer.writeheader()
-
             for freight in freights:
                 created_at_date = freight.created_at.date().isoformat()
                 approval_date_date = (
@@ -98,11 +99,61 @@ class Command(BaseCommand):
                     row["Motivo Alteração Frete"] = ""
 
                 rows.append(row)
-
-        with open(output_file, "w", newline="") as csvfile:
-            writer = csv.DictWriter(csvfile, fieldnames=fields_csv)
-            writer.writeheader()
             writer.writerows(rows)
+        else:
+            with open(output_file, "w", newline="") as csvfile:
+                writer = csv.DictWriter(csvfile, fieldnames=fields_csv)
+                writer.writeheader()
+                for freight in freights:
+                    created_at_date = freight.created_at.date().isoformat()
+                    approval_date_date = (
+                        freight.approval_date.date().isoformat() if freight.approval_date else ""
+                    )
+
+                    approved_quotation = freight.freightquotation_set.filter(
+                        status="Approved"
+                    ).first()
+
+                    row = {
+                        "UID": freight.id,
+                        "Empresa": freight.company,
+                        "Departamento": freight.department.name,
+                        "Criado Em": created_at_date,
+                        "Data da Requisição": freight.request_date,
+                        "Requisitante": freight.requester.email,
+                        "Status": self.translate_status(freight.status),
+                        "Aprovador": freight.approver.email if freight.approver else "",
+                        "Data da aprovação": approval_date_date,
+                        "CTE": freight.cte_number,
+                        "Transportadora": approved_quotation.transporter.name
+                        if approved_quotation
+                        else "",
+                        "Valor Frete": str(approved_quotation.price).replace(".", ",")
+                        if approved_quotation
+                        else "",
+                    }
+
+                    if freight.contract:
+                        row["E"] = freight.contract.contract_number.replace(".", ",")
+                        row["G"] = freight.contract.control_number.replace(".", ",")
+                        row["Frete Estimado"] = str(freight.contract.freight_estimated).replace(
+                            ".", ","
+                        )
+                        row["Frete Consumido"] = str(freight.contract.freight_consumed).replace(
+                            ".", ","
+                        )
+                        row["Valores Aprovados"] = freight.contract.approved_value
+                        row["Motivo Alteração Frete"] = freight.contract.change_reason
+                    else:
+                        row["E"] = ""
+                        row["G"] = ""
+                        row["Frete Estimado"] = ""
+                        row["Frete Consumido"] = ""
+                        row["Valores Aprovados"] = ""
+                        row["Motivo Alteração Frete"] = ""
+
+                    rows.append(row)
+                writer.writerows(rows)
 
         self.stdout.write(self.style.SUCCESS(f"Arquivo CSV {output_file} gerado com sucesso."))
 
