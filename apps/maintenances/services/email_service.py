@@ -46,6 +46,16 @@ def send_status_change_email(instance):
             Sua solicitação foi encerrada em {formatted_end_date}<br>
         """
         emails.append(instance.requester)
+    elif instance.status == "Denied":
+        local_timezone = pytz.timezone("America/Sao_Paulo")
+        local_end_date = instance.end_date.astimezone(local_timezone)
+        formatted_end_date = local_end_date.strftime("%d/%m/%Y às %H:%M:%S")
+        email_subject = "Solicitação de Manutenção Interna Negada"
+        email_body_intro = f"""
+            Olá {instance.requester}!<br>
+            Sua solicitação foi negada em {formatted_end_date}<br>
+        """
+        emails.append(instance.requester)
     else:
         return
 
