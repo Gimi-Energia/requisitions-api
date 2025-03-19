@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta
+
 from django.db import transaction
 from django.http import JsonResponse
 from django.utils.decorators import method_decorator
@@ -161,21 +163,12 @@ class PurchaseFlowView(CustomErrorHandlerMixin, viewsets.ViewSet):
     def flow(self, request, pk=None):
         try:
             purchase = Purchase.objects.get(pk=pk)
-            purchase_flow = PurchaseFlow.objects.get(purchase=purchase)
-
-            if not purchase_flow.arrival_forecast_date and not purchase_flow.order_number:
-                company = str(purchase.company).upper()
-                response_data = query_purchase_order(purchase.control_number, company)
-
-                if isinstance(response_data, str):
-                    return Response({"detail": response_data}, status=status.HTTP_400_BAD_REQUEST)
-
-                purchase_flow.arrival_forecast_date = response_data.get("cabecalho_consulta").get(
-                    "dDtPrevisao"
-                )
-                purchase_flow.order_number = response_data.get("cabecalho_consulta").get("cNumero")
+            purchase_flow, created = PurchaseFlow.objects.get_or_create(purchase=purchase)
+            if created:
+                purchase_flow.requested_date = purchase.request_date
+                purchase_flow.approved_manager_date = purchase.approval_date_manager
+                purchase_flow.approved_director_date = purchase.approval_date_director
                 purchase_flow.save()
-
             return Response(purchase_flow, status=status.HTTP_200_OK)
         except Purchase.DoesNotExist:
             return Response({"detail": "Purchase not found."}, status=status.HTTP_404_NOT_FOUND)
@@ -185,7 +178,33 @@ class PurchaseFlowView(CustomErrorHandlerMixin, viewsets.ViewSet):
     def webhook(self, request):
         try:
             data = request.data
-            print(data)
+            omie_data = data.get("event", {}).get("cabecalho_consulta", {})
+            int_order = omie_data.get("cCodIntPed", "")
+
+            if int_order.startswith("INT-"):
+                control_number = int(int_order.split("-")[1])
+                purchase = Purchase.objects.get(control_number=control_number)
+                purchase_flow, created = PurchaseFlow.objects.get_or_create(purchase=purchase)
+                omie_step = omie_data.get("cEtapa", "")
+                date = datetime.now().date()
+
+                if omie_step == "10":
+                    if created:
+                        purchase_flow.requested_date = purchase.request_date
+                        purchase_flow.approved_manager_date = purchase.approval_date_manager
+                        purchase_flow.approved_director_date = purchase.approval_date_director
+
+                    purchase_flow.order_number = omie_data.get("cNumero", None)
+                    purchase_flow.arrival_forecast_date = datetime.strptime(
+                        omie_data.get("dDtPrevisao", None), "%d/%m/%Y"
+                    ).date()
+                    purchase_flow.step = "Ordered"
+                elif omie_step == "15":
+                    purchase_flow.purchased_date = date
+                    purchase_flow.step = "Purchased"
+
+                purchase_flow.save()
+
             return JsonResponse({"status": "success"}, status=status.HTTP_200_OK)
         except Exception as e:
             return JsonResponse(
