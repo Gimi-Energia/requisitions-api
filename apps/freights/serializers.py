@@ -76,7 +76,11 @@ class FreightWriteSerializer(serializers.ModelSerializer):
                 )
 
             quotation_data = quotations_data[0]
-            transporter_name = quotation_data["transporter"].name
+            transporter_name = (
+                quotation_data["transporter"].name
+                if quotation_data["transporter"]
+                else quotation_data["name_other"]
+            )
             transporter_status = quotation_data["status"]
             freight_status = validated_data["status"]
 
@@ -95,6 +99,7 @@ class FreightWriteSerializer(serializers.ModelSerializer):
                 transporter=quotation_data["transporter"],
                 price=quotation_data["price"],
                 status=quotation_data["status"],
+                name_other=quotation_data["name_other"],
             )
         else:
             if internal_transporter_count > 0 and external_transporter_count > 0:
@@ -115,11 +120,13 @@ class FreightWriteSerializer(serializers.ModelSerializer):
                 transporter = quotation_data["transporter"]
                 price = quotation_data["price"]
                 status = quotation_data["status"]
+                name_other = quotation_data["name_other"]
                 FreightQuotation.objects.create(
                     freight=freight,
                     transporter=transporter,
                     price=price,
                     status=status,
+                    name_other=name_other,
                 )
 
         return freight
@@ -133,12 +140,15 @@ class FreightWriteSerializer(serializers.ModelSerializer):
                     for quotation_data in quotations_data:
                         status = quotation_data.get("status")
                         price = quotation_data.get("price")
+                        name_other = quotation_data.get("name_other")
 
                         if freight_quotation.transporter == quotation_data.get("transporter"):
                             if status and freight_quotation.status != status:
                                 freight_quotation.status = status
                             if price and freight_quotation.price != price:
                                 freight_quotation.price = price
+                            if name_other and freight_quotation.name_other != name_other:
+                                freight_quotation.name_other = name_other
 
                             freight_quotation.save()
 
