@@ -20,7 +20,7 @@ class FreightListCreateView(CustomErrorHandlerMixin, generics.ListCreateAPIView)
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
     search_fields = []
     ordering_fields = ["created_at", "approval_date", "due_date"]
-    filterset_fields = ["status"]
+    filterset_fields = ["status", "company", "contract__contract_number"]
     permission_classes = [IsAuthenticated]
 
     def get_serializer_class(self):
