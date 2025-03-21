@@ -24,7 +24,7 @@ class ServiceList(CustomErrorHandlerMixin, generics.ListCreateAPIView):
                        filters.OrderingFilter, filters.SearchFilter]
     search_fields = []
     ordering_fields = ["created_at", "approval_date"]
-    filterset_fields = ["status"]
+    filterset_fields = ["status", "company", "department__id", "department__name", "service"]
     permission_classes = [IsAuthenticated]
 
     def get_serializer_class(self):
