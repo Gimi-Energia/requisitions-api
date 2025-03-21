@@ -17,7 +17,7 @@ from setup.validators.custom_view_validator import CustomErrorHandlerMixin
 class EmployeeList(CustomErrorHandlerMixin, generics.ListCreateAPIView):
     queryset = Employee.objects.all()
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
-    filterset_fields = ["status"]
+    filterset_fields = ["status", "company", "cost_center"]
     ordering_fields = ["created_at", "request_date", "approval_date", "start_date"]
     permission_classes = [IsAuthenticated]
 
@@ -70,7 +70,7 @@ class PositionList(CustomErrorHandlerMixin, generics.ListCreateAPIView):
     queryset = Position.objects.all()
     serializer_class = PositionWriteSerializer
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ["company", "cost_center__id"]
+    filterset_fields = ["company", "cost_center__id", "cost_center__name", "position"]
     permission_classes = [IsAuthenticated]
 
 
