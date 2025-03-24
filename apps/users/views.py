@@ -24,7 +24,7 @@ class UsersList(generics.ListCreateAPIView):
         "department__name",
         "is_active",
         "is_admin",
-        "is_staff",
+        # "is_staff",
         "date_joined",
     ]
 
