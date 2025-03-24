@@ -13,7 +13,20 @@ class UsersList(generics.ListCreateAPIView):
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
     search_fields = []
     ordering_fields = ["created_at", "approval_date"]
-    filterset_fields = ["company", "department__id", "department__name", "name", "email"]
+    filterset_fields = [
+        "id",
+        "name",
+        "email",
+        "phone",
+        "type",
+        "company",
+        "department__id",
+        "department__name",
+        "is_active",
+        "is_admin",
+        "is_staff",
+        "date_joined",
+    ]
 
     def get_permissions(self):
         if self.request.method == "GET":
