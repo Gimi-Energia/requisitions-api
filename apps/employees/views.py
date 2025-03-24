@@ -70,7 +70,36 @@ class PositionList(CustomErrorHandlerMixin, generics.ListCreateAPIView):
     queryset = Position.objects.all()
     serializer_class = PositionWriteSerializer
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ["company", "cost_center__id", "cost_center__name", "position"]
+    filterset_fields = [
+        "id",
+        "company",
+        "cost_center__id",
+        "cost_center__name",
+        "request_date",
+        "position__id",
+        "position__name",
+        "is_replacement",
+        "has_pc",
+        "needs_phone",
+        "needs_tablet",
+        "needs_software",
+        "software_names",
+        "has_workstation",
+        "motive",
+        "created_at",
+        "requester__id",
+        "requester__username",
+        "status",
+        "obs",
+        "replaced_email",
+        "complete_name",
+        "start_date",
+        "approver__id",
+        "approver__username",
+        "approval_date",
+        "control_number",
+        "motive_denied",
+    ]
     permission_classes = [IsAuthenticated]
 
 
