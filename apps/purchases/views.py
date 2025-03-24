@@ -48,12 +48,12 @@ class PurchaseListCreateView(CustomErrorHandlerMixin, generics.ListCreateAPIView
         "motive_denied",
         
         # Campos do modelo PurchaseProduct (Relacionamento ManyToMany)
-        "purchaseproduct__product__id",
-        "purchaseproduct__product__name",
-        "purchaseproduct__quantity",
-        "purchaseproduct__price",
-        "purchaseproduct__status",
-        "purchaseproduct__obs",
+        # "purchaseproduct__product__id",
+        # "purchaseproduct__product__name",
+        # "purchaseproduct__quantity",
+        # "purchaseproduct__price",
+        # "purchaseproduct__status",
+        # "purchaseproduct__obs",
     ]
     permission_classes = [IsAuthenticated]
 
