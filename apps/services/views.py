@@ -39,14 +39,17 @@ class ServiceList(CustomErrorHandlerMixin, generics.ListCreateAPIView):
         "service__description",
         "value",
         "status",
-        "approver__id",
-        "approver__email",
-        "approval_date",
         "has_quotation",
         "quotation_emails",
         "quotation_date",
         "control_number",
         "motive_denied",
+        "approver_director__id",
+        "approver_director__email",
+        "approval_date_director",
+        "approver_manager__id",
+        "approver_manager__email",
+        "approval_date_manager",
     ]
     permission_classes = [IsAuthenticated]
 

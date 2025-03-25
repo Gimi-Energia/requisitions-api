@@ -41,6 +41,7 @@ class MaintenanceList(CustomErrorHandlerMixin, generics.ListCreateAPIView):
         "approver_status",
         "end_date",
         "motive_denied",
+        "want_validate",
     ]
     permission_classes = [IsAuthenticated]
 

@@ -17,7 +17,36 @@ from setup.validators.custom_view_validator import CustomErrorHandlerMixin
 class EmployeeList(CustomErrorHandlerMixin, generics.ListCreateAPIView):
     queryset = Employee.objects.all()
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
-    filterset_fields = ["status"]
+    filterset_fields = [
+        "id",
+        "status",
+        "company",
+        "cost_center__id",
+        "cost_center__name",
+        "position__id",
+        "position__name",
+        "request_date",
+        "is_replacement",
+        "has_pc",
+        "needs_phone",
+        "needs_tablet",
+        "needs_software",
+        "software_names",
+        "has_workstation",
+        "motive",
+        "requester__id",
+        "requester__email",
+        "created_at",
+        "obs",
+        "start_date",
+        "replaced_email",
+        "complete_name",
+        "approver__id",
+        "approver__email",
+        "approval_date",
+        "control_number",
+        "motive_denied",
+    ]
     ordering_fields = ["created_at", "request_date", "approval_date", "start_date"]
     permission_classes = [IsAuthenticated]
 
