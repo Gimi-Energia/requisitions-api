@@ -38,7 +38,33 @@ class PurchaseListCreateView(CustomErrorHandlerMixin, generics.ListCreateAPIView
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
     search_fields = []
     ordering_fields = ["created_at", "approval_date_director"]
-    filterset_fields = ["status"]
+    filterset_fields = [
+        "id",
+        "status",
+        "company",
+        "department__id",
+        "department__name",
+        "created_at",
+        "request_date",
+        "requester__id",
+        "requester__email",
+        "motive",
+        "obs",
+        "approver__id",
+        "approver__email",
+        "approval_date",
+        "has_quotation",
+        "quotation_emails",
+        "quotation_date",
+        "control_number",
+        "motive_denied",
+        # "purchaseproduct__product__id",
+        # "purchaseproduct__product__name",
+        # "purchaseproduct__quantity",
+        # "purchaseproduct__price",
+        # "purchaseproduct__status",
+        # "purchaseproduct__obs",
+    ]
     permission_classes = [IsAuthenticated]
 
     def get_serializer_class(self):
