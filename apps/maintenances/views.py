@@ -19,7 +19,29 @@ class MaintenanceList(CustomErrorHandlerMixin, generics.ListCreateAPIView):
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
     search_fields = []
     ordering_fields = ["created_at", "approval_date", "forecast_date", "end_date"]
-    filterset_fields = ["status"]
+    filterset_fields = [
+        "id",
+        "company",
+        "name",
+        "extension",
+        "department__name",
+        "department__id",
+        "object",
+        "url",
+        "obs",
+        "requester__id",
+        "requester__email",
+        "created_at",
+        "request_date",
+        "status",
+        "approver__id",
+        "approver__email",
+        "forecast_date",
+        "approver_obs",
+        "approver_status",
+        "end_date",
+        "motive_denied",
+    ]
     permission_classes = [IsAuthenticated]
 
     def get_serializer_class(self):
