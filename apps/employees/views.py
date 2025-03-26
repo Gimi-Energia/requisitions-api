@@ -24,7 +24,7 @@ class EmployeeList(CustomErrorHandlerMixin, generics.ListCreateAPIView):
         "cost_center__id",
         "cost_center__name",
         "position__id",
-        "position__name",
+        "position__position",
         "request_date",
         "is_replacement",
         "has_pc",

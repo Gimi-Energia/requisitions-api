@@ -120,6 +120,10 @@ class FreightQuotationListCreateView(generics.ListCreateAPIView):
 
 class ExportFreightsView(CustomErrorHandlerMixin, generics.GenericAPIView):
     permission_classes = [IsAuthenticated]
+    serializer_class = None
+
+    def get_serializer_class(self):
+        return FreightReadSerializer
 
     @swagger_auto_schema(
         manual_parameters=[
