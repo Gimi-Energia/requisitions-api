@@ -97,9 +97,16 @@ class EmployeeDetail(CustomErrorHandlerMixin, generics.RetrieveUpdateDestroyAPIV
 
 class PositionList(CustomErrorHandlerMixin, generics.ListCreateAPIView):
     queryset = Position.objects.all()
-    serializer_class = PositionWriteSerializer
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    filterset_fields = [
+        "position",
+        "cost_center__id",
+        "cost_center__name",
+        "company",
+    ]
+    ordering_fields = ["company", "cost_center__name"]
     permission_classes = [IsAuthenticated]
+    serializer_class = PositionWriteSerializer
 
 
 class PositionDetail(generics.RetrieveUpdateDestroyAPIView):
