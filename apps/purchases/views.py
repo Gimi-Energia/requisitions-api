@@ -46,7 +46,6 @@ class PurchaseListCreateView(CustomErrorHandlerMixin, generics.ListCreateAPIView
         "quotation_date",
         "control_number",
         "motive_denied",
-        
         # Campos do modelo PurchaseProduct (Relacionamento ManyToMany)
         "purchaseproduct__product__code",
         "purchaseproduct__product__description",
@@ -69,7 +68,7 @@ class PurchaseListCreateView(CustomErrorHandlerMixin, generics.ListCreateAPIView
 
             if instance.status == "Quotation":
                 send_purchase_quotation_email(instance)
-            
+
             if instance.status == "Opened":
                 send_status_change_email(instance)
 
@@ -93,7 +92,7 @@ class PurchaseDetailView(CustomErrorHandlerMixin, generics.RetrieveUpdateDestroy
 
     def perform_update(self, serializer):
         old_status = serializer.instance.status
-        # old_quotation_emails = serializer.instance.quotation_emails
+        old_quotation_emails = serializer.instance.quotation_emails
 
         with transaction.atomic():
             instance = serializer.save()
@@ -129,12 +128,16 @@ class PurchaseDetailView(CustomErrorHandlerMixin, generics.RetrieveUpdateDestroy
 
                 send_status_change_email(instance)
 
-            # if instance.quotation_emails and old_quotation_emails != instance.quotation_emails:
-            #     send_quotation_email_with_pdf(instance)
-            
-            if instance.quotation_emails:
+            if (
+                instance.quotation_emails
+                and old_quotation_emails != instance.quotation_emails
+                and instance.status == "Quotation"
+            ):
                 send_quotation_email_with_pdf(instance)
-                
+
+            # if instance.quotation_emails:
+            #     send_quotation_email_with_pdf(instance)
+
     def update(self, request, *args, **kwargs):
         try:
             return super().update(request, *args, **kwargs)
