@@ -135,9 +135,6 @@ class PurchaseDetailView(CustomErrorHandlerMixin, generics.RetrieveUpdateDestroy
             ):
                 send_quotation_email_with_pdf(instance)
 
-            # if instance.quotation_emails:
-            #     send_quotation_email_with_pdf(instance)
-
     def update(self, request, *args, **kwargs):
         try:
             return super().update(request, *args, **kwargs)
