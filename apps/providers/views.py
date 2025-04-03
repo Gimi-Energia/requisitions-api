@@ -13,7 +13,7 @@ class ProviderList(generics.ListCreateAPIView):
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
     search_fields = []
     ordering_fields = []
-    filterset_fields = []
+    filterset_fields = ["name", "cnpj", "email", "phone"]
 
     def get_permissions(self):
         if self.request.method == "GET":

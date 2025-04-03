@@ -1,3 +1,4 @@
+import json
 from rest_framework import serializers
 
 from apps.departments.serializers import DepartmentCustomSerializer
@@ -13,17 +14,18 @@ class PurchaseProductReadSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PurchaseProduct
-        fields = ("product", "quantity", "price", "status")
+        fields = ("id", "uuid", "product", "quantity", "price", "status", "obs")
 
 
 class PurchaseProductWriteSerializer(serializers.ModelSerializer):
     product_id = serializers.PrimaryKeyRelatedField(
         queryset=Product.objects.all(), source="product", write_only=False
     )
+    uuid = serializers.UUIDField(required=False)
 
     class Meta:
         model = PurchaseProduct
-        fields = ("product_id", "quantity", "price", "status")
+        fields = ("uuid", "product_id", "quantity", "price", "status", "obs")
 
 
 class PurchaseReadSerializer(serializers.ModelSerializer):
@@ -39,6 +41,7 @@ class PurchaseReadSerializer(serializers.ModelSerializer):
 
 class PurchaseWriteSerializer(serializers.ModelSerializer):
     products = PurchaseProductWriteSerializer(many=True, source="purchaseproduct_set")
+    uuid = serializers.UUIDField(required=False)
 
     class Meta:
         model = Purchase
@@ -59,10 +62,10 @@ class PurchaseWriteSerializer(serializers.ModelSerializer):
         if len(products_data) == 0:
             raise serializers.ValidationError("Não é permitido requisição sem produtos.")
 
-        if len(set((product_data["product"],) for product_data in products_data)) != len(
-            products_data
-        ):
-            raise serializers.ValidationError({"products": "Não é permitido produtos repetidos."})
+        # if len(set((product_data["product"],) for product_data in products_data)) != len(
+        #     products_data
+        # ):
+        #     raise serializers.ValidationError({"products": "Não é permitido produtos repetidos."})
 
         purchase = Purchase.objects.create(**validated_data)
 
@@ -71,8 +74,14 @@ class PurchaseWriteSerializer(serializers.ModelSerializer):
             quantity = product_data["quantity"]
             price = product_data["price"]
             status = product_data["status"]
+            obs = product_data["obs"]
             PurchaseProduct.objects.create(
-                purchase=purchase, product=product, quantity=quantity, price=price, status=status
+                purchase=purchase,
+                product=product,
+                quantity=quantity,
+                price=price,
+                status=status,
+                obs=obs,
             )
 
         return purchase
@@ -84,17 +93,22 @@ class PurchaseWriteSerializer(serializers.ModelSerializer):
             if hasattr(instance, "purchaseproduct_set"):
                 for purchase_product in instance.purchaseproduct_set.all():
                     for product_data in products_data:
+                        if "uuid" not in product_data:
+                            raise serializers.ValidationError("UUID is required to update purchase products.")
                         status = product_data.get("status")
                         quantity = product_data.get("quantity")
                         price = product_data.get("price")
-
-                        if purchase_product.product == product_data.get("product"):
+                        obs = product_data.get("obs")
+                        
+                        if purchase_product.uuid == product_data.get("uuid"):
                             if status and purchase_product.status != status:
                                 purchase_product.status = status
                             if quantity and purchase_product.quantity != quantity:
                                 purchase_product.quantity = quantity
                             if price and purchase_product.price != price:
                                 purchase_product.price = price
+                            if obs and purchase_product.obs != obs:
+                                purchase_product.obs = obs
 
                             purchase_product.save()
 

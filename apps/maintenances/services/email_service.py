@@ -10,6 +10,8 @@ def send_status_change_email(instance):
     email_body_intro = ""
     emails = [instance.requester]
 
+    print(instance.status)
+
     if instance.status == "Scheduled":
         email_subject = "Solicitação de Manutenção Interna Programada"
         email_body_intro = f"""
@@ -18,16 +20,21 @@ def send_status_change_email(instance):
             para {instance.forecast_date.strftime("%d/%m/%Y")}.<br>
         """
     elif instance.status == "Opened":
+        print("preparing email for Opened status")
         local_timezone = pytz.timezone("America/Sao_Paulo")
         local_created_at = instance.created_at.astimezone(local_timezone)
         formatted_created_at = local_created_at.strftime("%d/%m/%Y às %H:%M:%S")
+        print(formatted_created_at)
         email_subject = "Solicitação de Manutenção Interna Criada"
         email_body_intro = f"""
             Olá,<br>
             Uma solicitação foi criada em {formatted_created_at}<br>
             De {instance.requester}.<br>
         """
+        print("getting emails")
         emails.extend(user.email for user in User.objects.filter(groups__name="Maintenance"))
+        emails.append(instance.requester.email)
+        print(f"email list {emails}")
     elif instance.status in ["Completed", "Denied"]:
         local_timezone = pytz.timezone("America/Sao_Paulo")
         local_end_date = instance.end_date.astimezone(local_timezone)
@@ -42,6 +49,17 @@ def send_status_change_email(instance):
             Olá {instance.requester},<br>
             Sua solicitação foi encerrada em {formatted_end_date}<br>
         """
+        emails.append(instance.requester)
+    elif instance.status == "Denied":
+        local_timezone = pytz.timezone("America/Sao_Paulo")
+        local_end_date = instance.end_date.astimezone(local_timezone)
+        formatted_end_date = local_end_date.strftime("%d/%m/%Y às %H:%M:%S")
+        email_subject = "Solicitação de Manutenção Interna Negada"
+        email_body_intro = f"""
+            Olá {instance.requester}!<br>
+            Sua solicitação foi negada em {formatted_end_date}<br>
+        """
+        emails.append(instance.requester)
     else:
         return
 
@@ -57,6 +75,7 @@ def send_status_change_email(instance):
         Observação do requisitante: {instance.obs}<br>
         Data da solicitação: {instance.request_date.strftime("%d/%m/%Y")}<br>
     """
+    print("email body created")
 
     if instance.status in ["Scheduled", "Completed"]:
         common_body += f"Data de previsão: {instance.forecast_date.strftime('%d/%m/%Y')}<br>"
@@ -97,7 +116,7 @@ def send_status_change_email(instance):
             </body>
         </html>
     """
-
+    print("start sending email")
     send_mail(
         email_subject,
         "This is a plain text for email clients that don't support HTML",
@@ -106,6 +125,7 @@ def send_status_change_email(instance):
         fail_silently=False,
         html_message=html_message,
     )
+    print(f"email sent to {emails}")
 
 
 def translate_status(status: str) -> str:

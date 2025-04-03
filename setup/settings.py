@@ -16,6 +16,7 @@ import dj_database_url
 from pathlib import Path
 from dotenv import load_dotenv
 
+
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -30,6 +31,7 @@ SECRET_KEY = str(os.getenv("SECRET_KEY"))
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = str(os.getenv("DEBUG"))
+
 
 ALLOWED_HOSTS = str(os.getenv("ALLOWED_HOSTS", "127.0.0.1")).split(" ")
 
@@ -56,6 +58,7 @@ INSTALLED_APPS = [
     "apps.freights.apps.FreightsConfig",
     "apps.contracts.apps.ContractsConfig",
     "apps.maintenances.apps.MaintenancesConfig",
+    "apps.employees.apps.EmployeesConfig",
 ]
 
 MIDDLEWARE = [
@@ -153,8 +156,7 @@ REST_FRAMEWORK = {
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ],
     "EXCEPTION_HANDLER": "setup.exceptions.exception_handler.custom_exception_handler",
-    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
-    "PAGE_SIZE": 1000,
+    "DEFAULT_PAGINATION_CLASS": "utils.pagination.MyCustomPagination",
 }
 
 CORS_ORIGIN_ALLOW_ALL = False

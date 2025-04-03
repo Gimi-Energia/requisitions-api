@@ -107,5 +107,5 @@ class FreightQuotationListCreateView(generics.ListCreateAPIView):
         return FreightQuotationWriteSerializer
 
     def get_queryset(self):
-        freight_pk = self.kwargs["pk"]
+        freight_pk = self.kwargs.get("pk")
         return FreightQuotation.objects.filter(freight=freight_pk)

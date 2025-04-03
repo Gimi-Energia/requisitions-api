@@ -27,6 +27,7 @@ class PurchaseListCreateView(CustomErrorHandlerMixin, generics.ListCreateAPIView
     search_fields = []
     ordering_fields = ["created_at", "approval_date"]
     filterset_fields = [
+        # Campos do modelo Purchase
         "id",
         "status",
         "company",
@@ -46,6 +47,13 @@ class PurchaseListCreateView(CustomErrorHandlerMixin, generics.ListCreateAPIView
         "quotation_date",
         "control_number",
         "motive_denied",
+        # Campos do modelo PurchaseProduct (Relacionamento ManyToMany)
+        "purchaseproduct__product__code",
+        "purchaseproduct__product__description",
+        "purchaseproduct__quantity",
+        "purchaseproduct__price",
+        "purchaseproduct__status",
+        "purchaseproduct__obs",
         # "purchaseproduct__product__id",
         # "purchaseproduct__product__name",
         # "purchaseproduct__quantity",
@@ -127,7 +135,11 @@ class PurchaseDetailView(CustomErrorHandlerMixin, generics.RetrieveUpdateDestroy
 
                 send_status_change_email(instance)
 
-            if instance.quotation_emails and old_quotation_emails != instance.quotation_emails:
+            if (
+                instance.quotation_emails
+                and old_quotation_emails != instance.quotation_emails
+                and instance.status == "Quotation"
+            ):
                 send_quotation_email_with_pdf(instance)
 
     def update(self, request, *args, **kwargs):
@@ -139,7 +151,7 @@ class PurchaseDetailView(CustomErrorHandlerMixin, generics.RetrieveUpdateDestroy
             return self.handle_generic_exception(e, request)
 
 
-class PurchaseProductListCreateView(generics.ListCreateAPIView):
+class PurchaseProductListCreateView(CustomErrorHandlerMixin, generics.ListCreateAPIView):
     filter_backends = [filters.OrderingFilter, filters.SearchFilter]
     search_fields = []
     ordering_fields = []
@@ -153,3 +165,13 @@ class PurchaseProductListCreateView(generics.ListCreateAPIView):
     def get_queryset(self):
         purchase_pk = self.kwargs["pk"]
         return PurchaseProduct.objects.filter(purchase=purchase_pk)
+
+
+class PurchaseProductDetail(CustomErrorHandlerMixin, generics.RetrieveUpdateDestroyAPIView):
+    queryset = PurchaseProduct.objects.all()
+    permission_classes = [IsAuthenticated]
+
+    def get_serializer_class(self):
+        if self.request.method == "GET":
+            return PurchaseProductReadSerializer
+        return PurchaseProductWriteSerializer

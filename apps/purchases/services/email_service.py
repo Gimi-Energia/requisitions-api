@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.contrib.auth.models import Group
 from django.core.mail import EmailMessage, send_mail
 
 from apps.products.models import Product
@@ -21,25 +22,42 @@ def build_quotation_table(
         purchase_products = PurchaseProduct.objects.filter(purchase=purchase_pk)
 
     table_rows = []
+    total_price = 0
 
     for purchase_product in purchase_products:
         product_code = purchase_product.product.code
         product = Product.objects.filter(code=product_code).first()
         product_description = product.description
         product_quantity = purchase_product.quantity
+        product_obs = purchase_product.obs
 
         if include_price:
-            product_price = f"<td>R$ {purchase_product.price}</td>"
+            product_price = purchase_product.price
+            total_price += product_price * product_quantity
+            price_cell = f"<td>R$ {product_price:.2f}</td>"
         else:
-            product_price = ""
+            price_cell = ""
 
-        table_row = f"<tr><td>{product_code}</td><td>{product_description}</td><td>{product_quantity}</td>{product_price}</tr>"
+        table_row = f"""
+            <tr>
+                <td>{product_code}</td>
+                <td>{product_description}</td>
+                <td>{product_quantity}</td>
+                {price_cell}
+                <td>{product_obs}</td>
+                </tr>
+        """
         table_rows.append(table_row)
 
     if not table_rows:
         return False
 
     price_header = "<th>Preço Un.</th>" if include_price else ""
+    total_row = (
+        f"<tr><td colspan='4'><b>Total</b></td><td><b>R$ {total_price:.2f}</b></td></tr>"
+        if include_price
+        else ""
+    )
 
     return f"""
         <table border="1">
@@ -48,8 +66,10 @@ def build_quotation_table(
                 <th>Descrição</th>
                 <th>Quantidade</th>
                 {price_header}
+                <th>Observações</th>
             </tr>
             {''.join(table_rows)}
+            {total_row}
         </table>
     """
 
@@ -69,7 +89,11 @@ def send_status_change_email(instance):
             em {instance.approval_date.strftime("%d/%m/%Y")}<br>
         """
         table_html = build_quotation_table(instance.id)
-        emails = [user.email for user in User.objects.filter(email__icontains="compras")]
+        
+        purchase_group = Group.objects.get(name="Purchase Products")
+        purchase_users = purchase_group.user_set.all().values_list("email", flat=True)
+        emails = [*purchase_users]
+
     elif instance.status == "Denied":
         email_subject = "Solicitação de Compra Rejeitada"
         email_body_intro = f"""
@@ -149,6 +173,8 @@ def send_status_change_email(instance):
         fail_silently=False,
         html_message=html_message,
     )
+    print(f"Status change email sent - current status: {instance.status}")
+    print(f"Email sent to {emails}")
 
 
 def send_purchase_quotation_email(instance):
@@ -162,8 +188,12 @@ def send_purchase_quotation_email(instance):
         instance.id, include_approved_only=False, include_price=False
     )
 
-    emails = [user.email for user in User.objects.filter(email__icontains="compras")]
+    purchase_group = Group.objects.get(name="Purchase Products")
+    purchase_users = purchase_group.user_set.all().values_list("email", flat=True)
+    emails = [*purchase_users]
     emails.append(instance.requester)
+    print("Sending email to:")
+    print(emails)
 
     if not table_html:
         return
@@ -226,6 +256,8 @@ def send_quotation_email_with_pdf(instance):
     recipient_list = [email.strip() for email in instance.quotation_emails.split(",")]
     email_from = settings.EMAIL_HOST_USER
     emails_gimi = [user.email for user in User.objects.filter(email__icontains="compras")]
+    purchase_group = Group.objects.get(name="Purchase Products")
+    purchase_users = list(purchase_group.user_set.all().values_list("email", flat=True))
 
     pdf_file = generate_pdf(instance)
 
@@ -250,7 +282,7 @@ def send_quotation_email_with_pdf(instance):
 
     for recipient in recipient_list:
         if recipient != "":
-            all_recipients = [recipient, instance.requester] + emails_gimi
+            all_recipients = [recipient, instance.requester] + emails_gimi + purchase_users
 
             email = EmailMessage(
                 subject=subject,

@@ -96,7 +96,7 @@ def generate_pdf(instance):
     )
 
     header_data = [[logo, company_details_paragraph]]
-    header_table = Table(header_data, colWidths=[2 * inch, 5 * inch])
+    header_table = Table(header_data, colWidths=[2 * inch, 5* inch])
     header_table.setStyle(
         TableStyle(
             [
@@ -123,7 +123,7 @@ def generate_pdf(instance):
         wordWrap="CJK",
     )
 
-    data = [["Item", "Código", "Descrição", "Quantidade"]]
+    data = [["Item", "Código", "Descrição", "Quantidade", "Observação"]]
     purchase_products = PurchaseProduct.objects.filter(purchase=instance.id)
     item_number = 1
 
@@ -138,6 +138,7 @@ def generate_pdf(instance):
             purchase_product.product.code,
             description_paragraph,
             f"{purchase_product.quantity} {product.un}",
+            purchase_product.obs,
         ]
         data.append(row)
         item_number += 1
@@ -147,7 +148,7 @@ def generate_pdf(instance):
     text_color_header = colors.whitesmoke
     line_color = colors.black
 
-    table = Table(data, colWidths=[0.5 * inch, 1.75 * inch, 4 * inch, 1.25 * inch])
+    table = Table(data, colWidths=[0.5 * inch, 1.75 * inch, 2 * inch, 1.25 * inch, 1.25 * inch])
     table.setStyle(
         TableStyle(
             [

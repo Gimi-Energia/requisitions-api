@@ -3,7 +3,7 @@ import os
 
 import requests
 
-from apps.purchases.models import PurchaseProduct
+from apps.purchases.models import PurchaseProduct, Purchase
 
 
 def include_purchase_requisition(instance):
@@ -28,6 +28,7 @@ def include_purchase_requisition(instance):
                 "codProd": product_code,
                 "precoUnit": float(purchase_product.price),
                 "qtde": float(purchase_product.quantity),
+                "obsItem": purchase_product.obs
             }
             data.append(row)
             item_number += 1
@@ -52,6 +53,7 @@ def include_purchase_requisition(instance):
                         Requisitante: {instance.requester}
                         Aprovador: {instance.approver}
                         Departamento: {instance.department.name}
+                        Aprovador: {instance.approver.email}
                         """,
                         "ItensReqCompra": data,
                     }

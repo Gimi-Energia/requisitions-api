@@ -1,0 +1,3506 @@
+[
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Gerente Presidencia",
+            "cost_center": "111.100",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Gerente Planejamento Estrategico",
+            "cost_center": "111.210",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Marketing",
+            "cost_center": "111.220",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente de Marketing",
+            "cost_center": "111.220",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista de Marketing",
+            "cost_center": "111.220",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de P&D",
+            "cost_center": "111.230",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente de P&D",
+            "cost_center": "111.230",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista de P&D",
+            "cost_center": "111.230",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Dev Eletrico",
+            "cost_center": "111.240",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente de Dev Eletrico",
+            "cost_center": "111.240",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista de Dev Eletrico",
+            "cost_center": "111.240",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Gerente Gerencia RH/FIN",
+            "cost_center": "111.300",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de DP",
+            "cost_center": "111.310",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente de DP",
+            "cost_center": "111.310",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista de DP",
+            "cost_center": "111.310",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de RH",
+            "cost_center": "111.310",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente de RH",
+            "cost_center": "111.310",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista de RH",
+            "cost_center": "111.310",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar Contabil",
+            "cost_center": "111.321",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente Contabil",
+            "cost_center": "111.321",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista Contabil",
+            "cost_center": "111.321",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar Fiscal",
+            "cost_center": "111.322",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente Fiscal",
+            "cost_center": "111.322",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista Fiscal",
+            "cost_center": "111.322",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar Financeiro",
+            "cost_center": "111.323",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente Financeiro",
+            "cost_center": "111.323",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista Financeiro",
+            "cost_center": "111.323",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar Faturamento",
+            "cost_center": "111.324",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente Faturamento",
+            "cost_center": "111.324",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista Faturamento",
+            "cost_center": "111.324",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Controladoria",
+            "cost_center": "111.325",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente de Controladoria",
+            "cost_center": "111.325",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista de Controladoria",
+            "cost_center": "111.325",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Custo",
+            "cost_center": "111.325",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente de Custo",
+            "cost_center": "111.325",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista de Custo",
+            "cost_center": "111.325",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de RNC",
+            "cost_center": "111.325",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente de RNC",
+            "cost_center": "111.325",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista de RNC",
+            "cost_center": "111.325",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Estoque",
+            "cost_center": "111.325",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente de Estoque",
+            "cost_center": "111.325",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista de Estoque",
+            "cost_center": "111.325",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Gerente Juridico",
+            "cost_center": "111.330",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Ajudante Geral",
+            "cost_center": "111.340",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Manutenção Predial",
+            "cost_center": "111.340",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Meio Of de Manutenção Predial",
+            "cost_center": "111.340",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Oficial de Manutenção Predial",
+            "cost_center": "111.340",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Gerente TI",
+            "cost_center": "111.400",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Compras",
+            "cost_center": "111.500",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente de Compras",
+            "cost_center": "111.500",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista de Compras",
+            "cost_center": "111.500",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de PCM",
+            "cost_center": "111.500",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente de PCM",
+            "cost_center": "111.500",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista de PCM",
+            "cost_center": "111.500",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Inventário",
+            "cost_center": "111.500",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente de Inventário",
+            "cost_center": "111.500",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista de Inventário",
+            "cost_center": "111.500",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Gerente Gerencia Comercial",
+            "cost_center": "121.100",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Orçamentos",
+            "cost_center": "121.110",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente de Orçamentos",
+            "cost_center": "121.110",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Orçamentista",
+            "cost_center": "121.110",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Especialista em Orçamentos",
+            "cost_center": "121.110",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente de Vendas",
+            "cost_center": "121.110",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Negociação",
+            "cost_center": "121.110",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente de Negociação",
+            "cost_center": "121.110",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista de Negociação",
+            "cost_center": "121.110",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Vendas",
+            "cost_center": "121.120",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente de Vendas",
+            "cost_center": "121.120",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista de Vendas",
+            "cost_center": "121.120",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Executivo de Vendas",
+            "cost_center": "121.120",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Técnico Eletricista",
+            "cost_center": "121.130",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Contratos",
+            "cost_center": "121.140",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente de Contratos",
+            "cost_center": "121.140",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista de Contratos",
+            "cost_center": "121.140",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Logística",
+            "cost_center": "121.150",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente de Logística",
+            "cost_center": "121.150",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista de Logística",
+            "cost_center": "121.150",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Motorista",
+            "cost_center": "121.150",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Operador de Empilhadeira",
+            "cost_center": "121.150",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Gerente SAC",
+            "cost_center": "121.160",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Gerente MKT",
+            "cost_center": "121.170",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Gerente Gerencia Engenharia",
+            "cost_center": "131.100",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Projetos",
+            "cost_center": "131.110",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Desenhista Eletrico",
+            "cost_center": "131.110",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Projetista Eletrico",
+            "cost_center": "131.110",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Projetos",
+            "cost_center": "131.120",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Desenhista Mecanico",
+            "cost_center": "131.120",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Projetista Mecanico",
+            "cost_center": "131.120",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Gerente Processos Industriais",
+            "cost_center": "131.130",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Gerente Gerencia Industrial",
+            "cost_center": "131.200",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Ajudante Geral",
+            "cost_center": "131.211",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Produção",
+            "cost_center": "131.211",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Meio Of Operador de Maquina",
+            "cost_center": "131.211",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Operador de Maquina",
+            "cost_center": "131.211",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Meio Of Funileiro",
+            "cost_center": "131.211",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Of Funileiro",
+            "cost_center": "131.211",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Meio Of Serralheiro",
+            "cost_center": "131.211",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Of Serralheiro",
+            "cost_center": "131.211",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Gerente Pintura",
+            "cost_center": "131.212",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Ajudante Geral",
+            "cost_center": "131.221",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Produção",
+            "cost_center": "131.221",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Meio Of Mont Paineis Com.",
+            "cost_center": "131.221",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Of Montador de Paineis Com.",
+            "cost_center": "131.221",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Meio Oficial de Pré Teste",
+            "cost_center": "131.221",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Of de Pré Teste",
+            "cost_center": "131.221",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Ajudante Geral",
+            "cost_center": "131.222",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Produção",
+            "cost_center": "131.222",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Meio Of Mont Paineis",
+            "cost_center": "131.222",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Of Montador de Paineis",
+            "cost_center": "131.222",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Ajudante Geral",
+            "cost_center": "131.231",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Produção",
+            "cost_center": "131.231",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Meio Of Mont Paineis",
+            "cost_center": "131.231",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Of Montador de Paineis",
+            "cost_center": "131.231",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Ajudante Geral",
+            "cost_center": "131.232",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Produção",
+            "cost_center": "131.232",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Meio Of Mont Paineis",
+            "cost_center": "131.232",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Of Montador de Paineis",
+            "cost_center": "131.232",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Inspeção Final",
+            "cost_center": "131.240",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Inspetor de Qualidade Final",
+            "cost_center": "131.240",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Almoxarifado",
+            "cost_center": "131.251",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente de Almoxarifado",
+            "cost_center": "131.251",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Almoxarife",
+            "cost_center": "131.251",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de PCP",
+            "cost_center": "131.252",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente de PCP",
+            "cost_center": "131.252",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista de PCP",
+            "cost_center": "131.252",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar Apontador de Produção",
+            "cost_center": "131.252",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente Apontador de Produção",
+            "cost_center": "131.252",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista Apontador de Produção",
+            "cost_center": "131.252",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Ajudante Geral",
+            "cost_center": "131.253",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Expedição",
+            "cost_center": "131.253",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Meio Of. de Expedição",
+            "cost_center": "131.253",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Of. de Expedição",
+            "cost_center": "131.253",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Ajudante Geral",
+            "cost_center": "131.254",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Manutenção",
+            "cost_center": "131.254",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Meio Of. de Manutenção",
+            "cost_center": "131.254",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Of. de Manutenção",
+            "cost_center": "131.254",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar Eletricista de Manutenção",
+            "cost_center": "131.254",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Meio Of. Eletricista de Manutenção",
+            "cost_center": "131.254",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Of. Eletricista de Manutenção",
+            "cost_center": "131.254",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Técnico em Segurança do Trabalho",
+            "cost_center": "131.255",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Qualidade",
+            "cost_center": "131.256",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente de Qualidade",
+            "cost_center": "131.256",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista de Qualidade",
+            "cost_center": "131.256",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Inspeção Final",
+            "cost_center": "131.257",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Inspetor de Qualidade Final",
+            "cost_center": "131.257",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Gerente Desenvolvimento Mecânico",
+            "cost_center": "131.258",
+            "company": "Gimi"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Gerente Presidencia",
+            "cost_center": "111.100",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Gerente Planejamento Estrategico",
+            "cost_center": "111.210",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Marketing",
+            "cost_center": "111.220",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente de Marketing",
+            "cost_center": "111.220",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista de Marketing",
+            "cost_center": "111.220",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de P&D",
+            "cost_center": "111.230",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente de P&D",
+            "cost_center": "111.230",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista de P&D",
+            "cost_center": "111.230",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Dev Eletrico",
+            "cost_center": "111.240",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente de Dev Eletrico",
+            "cost_center": "111.240",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista de Dev Eletrico",
+            "cost_center": "111.240",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Gerente Gerencia RH/FIN",
+            "cost_center": "111.300",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de DP",
+            "cost_center": "111.310",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente de DP",
+            "cost_center": "111.310",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista de DP",
+            "cost_center": "111.310",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de RH",
+            "cost_center": "111.310",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente de RH",
+            "cost_center": "111.310",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista de RH",
+            "cost_center": "111.310",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar Contabil",
+            "cost_center": "111.321",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente Contabil",
+            "cost_center": "111.321",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista Contabil",
+            "cost_center": "111.321",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar Fiscal",
+            "cost_center": "111.322",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente Fiscal",
+            "cost_center": "111.322",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista Fiscal",
+            "cost_center": "111.322",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar Financeiro",
+            "cost_center": "111.323",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente Financeiro",
+            "cost_center": "111.323",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista Financeiro",
+            "cost_center": "111.323",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar Faturamento",
+            "cost_center": "111.324",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente Faturamento",
+            "cost_center": "111.324",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista Faturamento",
+            "cost_center": "111.324",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Controladoria",
+            "cost_center": "111.325",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente de Controladoria",
+            "cost_center": "111.325",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista de Controladoria",
+            "cost_center": "111.325",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Custo",
+            "cost_center": "111.325",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente de Custo",
+            "cost_center": "111.325",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista de Custo",
+            "cost_center": "111.325",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de RNC",
+            "cost_center": "111.325",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente de RNC",
+            "cost_center": "111.325",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista de RNC",
+            "cost_center": "111.325",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Estoque",
+            "cost_center": "111.325",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente de Estoque",
+            "cost_center": "111.325",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista de Estoque",
+            "cost_center": "111.325",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Gerente Juridico",
+            "cost_center": "111.330",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Ajudante Geral",
+            "cost_center": "111.340",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Manutenção Predial",
+            "cost_center": "111.340",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Meio Of de Manutenção Predial",
+            "cost_center": "111.340",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Oficial de Manutenção Predial",
+            "cost_center": "111.340",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Gerente TI",
+            "cost_center": "111.400",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Compras",
+            "cost_center": "111.500",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente de Compras",
+            "cost_center": "111.500",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista de Compras",
+            "cost_center": "111.500",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de PCM",
+            "cost_center": "111.500",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente de PCM",
+            "cost_center": "111.500",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista de PCM",
+            "cost_center": "111.500",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Inventário",
+            "cost_center": "111.500",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente de Inventário",
+            "cost_center": "111.500",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista de Inventário",
+            "cost_center": "111.500",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Gerente Gerencia Comercial",
+            "cost_center": "121.100",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Orçamentos",
+            "cost_center": "121.110",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente de Orçamentos",
+            "cost_center": "121.110",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Orçamentista",
+            "cost_center": "121.110",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Especialista em Orçamentos",
+            "cost_center": "121.110",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente de Vendas",
+            "cost_center": "121.110",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Negociação",
+            "cost_center": "121.110",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente de Negociação",
+            "cost_center": "121.110",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista de Negociação",
+            "cost_center": "121.110",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Vendas",
+            "cost_center": "121.120",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente de Vendas",
+            "cost_center": "121.120",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista de Vendas",
+            "cost_center": "121.120",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Executivo de Vendas",
+            "cost_center": "121.120",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Técnico Eletricista",
+            "cost_center": "121.130",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Contratos",
+            "cost_center": "121.140",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente de Contratos",
+            "cost_center": "121.140",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista de Contratos",
+            "cost_center": "121.140",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Logística",
+            "cost_center": "121.150",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente de Logística",
+            "cost_center": "121.150",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista de Logística",
+            "cost_center": "121.150",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Motorista",
+            "cost_center": "121.150",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Operador de Empilhadeira",
+            "cost_center": "121.150",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Gerente SAC",
+            "cost_center": "121.160",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Gerente MKT",
+            "cost_center": "121.170",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Gerente Gerencia Engenharia",
+            "cost_center": "131.100",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Projetos",
+            "cost_center": "131.110",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Desenhista Eletrico",
+            "cost_center": "131.110",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Projetista Eletrico",
+            "cost_center": "131.110",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Projetos",
+            "cost_center": "131.120",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Desenhista Mecanico",
+            "cost_center": "131.120",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Projetista Mecanico",
+            "cost_center": "131.120",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Gerente Processos Industriais",
+            "cost_center": "131.130",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Gerente Gerencia Industrial",
+            "cost_center": "131.200",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Ajudante Geral",
+            "cost_center": "131.211",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Produção",
+            "cost_center": "131.211",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Meio Of Operador de Maquina",
+            "cost_center": "131.211",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Operador de Maquina",
+            "cost_center": "131.211",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Meio Of Funileiro",
+            "cost_center": "131.211",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Of Funileiro",
+            "cost_center": "131.211",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Meio Of Serralheiro",
+            "cost_center": "131.211",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Of Serralheiro",
+            "cost_center": "131.211",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Gerente Pintura",
+            "cost_center": "131.212",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Ajudante Geral",
+            "cost_center": "131.221",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Produção",
+            "cost_center": "131.221",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Meio Of Mont Paineis Com.",
+            "cost_center": "131.221",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Of Montador de Paineis Com.",
+            "cost_center": "131.221",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Meio Oficial de Pré Teste",
+            "cost_center": "131.221",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Of de Pré Teste",
+            "cost_center": "131.221",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Ajudante Geral",
+            "cost_center": "131.222",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Produção",
+            "cost_center": "131.222",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Meio Of Mont Paineis",
+            "cost_center": "131.222",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Of Montador de Paineis",
+            "cost_center": "131.222",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Ajudante Geral",
+            "cost_center": "131.231",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Produção",
+            "cost_center": "131.231",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Meio Of Mont Paineis",
+            "cost_center": "131.231",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Of Montador de Paineis",
+            "cost_center": "131.231",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Ajudante Geral",
+            "cost_center": "131.232",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Produção",
+            "cost_center": "131.232",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Meio Of Mont Paineis",
+            "cost_center": "131.232",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Of Montador de Paineis",
+            "cost_center": "131.232",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Inspeção Final",
+            "cost_center": "131.240",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Inspetor de Qualidade Final",
+            "cost_center": "131.240",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Almoxarifado",
+            "cost_center": "131.251",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente de Almoxarifado",
+            "cost_center": "131.251",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Almoxarife",
+            "cost_center": "131.251",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de PCP",
+            "cost_center": "131.252",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente de PCP",
+            "cost_center": "131.252",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista de PCP",
+            "cost_center": "131.252",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar Apontador de Produção",
+            "cost_center": "131.252",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente Apontador de Produção",
+            "cost_center": "131.252",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista Apontador de Produção",
+            "cost_center": "131.252",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Ajudante Geral",
+            "cost_center": "131.253",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Expedição",
+            "cost_center": "131.253",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Meio Of. de Expedição",
+            "cost_center": "131.253",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Of. de Expedição",
+            "cost_center": "131.253",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Ajudante Geral",
+            "cost_center": "131.254",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Manutenção",
+            "cost_center": "131.254",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Meio Of. de Manutenção",
+            "cost_center": "131.254",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Of. de Manutenção",
+            "cost_center": "131.254",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar Eletricista de Manutenção",
+            "cost_center": "131.254",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Meio Of. Eletricista de Manutenção",
+            "cost_center": "131.254",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Of. Eletricista de Manutenção",
+            "cost_center": "131.254",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Técnico em Segurança do Trabalho",
+            "cost_center": "131.255",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Qualidade",
+            "cost_center": "131.256",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente de Qualidade",
+            "cost_center": "131.256",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista de Qualidade",
+            "cost_center": "131.256",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Inspeção Final",
+            "cost_center": "131.257",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Inspetor de Qualidade Final",
+            "cost_center": "131.257",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Gerente Desenvolvimento Mecânico",
+            "cost_center": "131.258",
+            "company": "GBL"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Gerente Presidencia",
+            "cost_center": "111.100",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Gerente Planejamento Estrategico",
+            "cost_center": "111.210",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Marketing",
+            "cost_center": "111.220",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente de Marketing",
+            "cost_center": "111.220",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista de Marketing",
+            "cost_center": "111.220",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de P&D",
+            "cost_center": "111.230",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente de P&D",
+            "cost_center": "111.230",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista de P&D",
+            "cost_center": "111.230",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Dev Eletrico",
+            "cost_center": "111.240",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente de Dev Eletrico",
+            "cost_center": "111.240",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista de Dev Eletrico",
+            "cost_center": "111.240",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Gerente Gerencia RH/FIN",
+            "cost_center": "111.300",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de DP",
+            "cost_center": "111.310",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente de DP",
+            "cost_center": "111.310",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista de DP",
+            "cost_center": "111.310",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de RH",
+            "cost_center": "111.310",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente de RH",
+            "cost_center": "111.310",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista de RH",
+            "cost_center": "111.310",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar Contabil",
+            "cost_center": "111.321",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente Contabil",
+            "cost_center": "111.321",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista Contabil",
+            "cost_center": "111.321",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar Fiscal",
+            "cost_center": "111.322",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente Fiscal",
+            "cost_center": "111.322",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista Fiscal",
+            "cost_center": "111.322",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar Financeiro",
+            "cost_center": "111.323",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente Financeiro",
+            "cost_center": "111.323",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista Financeiro",
+            "cost_center": "111.323",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar Faturamento",
+            "cost_center": "111.324",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente Faturamento",
+            "cost_center": "111.324",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista Faturamento",
+            "cost_center": "111.324",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Controladoria",
+            "cost_center": "111.325",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente de Controladoria",
+            "cost_center": "111.325",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista de Controladoria",
+            "cost_center": "111.325",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Custo",
+            "cost_center": "111.325",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente de Custo",
+            "cost_center": "111.325",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista de Custo",
+            "cost_center": "111.325",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de RNC",
+            "cost_center": "111.325",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente de RNC",
+            "cost_center": "111.325",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista de RNC",
+            "cost_center": "111.325",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Estoque",
+            "cost_center": "111.325",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente de Estoque",
+            "cost_center": "111.325",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista de Estoque",
+            "cost_center": "111.325",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Gerente Juridico",
+            "cost_center": "111.330",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Ajudante Geral",
+            "cost_center": "111.340",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Manutenção Predial",
+            "cost_center": "111.340",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Meio Of de Manutenção Predial",
+            "cost_center": "111.340",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Oficial de Manutenção Predial",
+            "cost_center": "111.340",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Gerente TI",
+            "cost_center": "111.400",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Compras",
+            "cost_center": "111.500",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente de Compras",
+            "cost_center": "111.500",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista de Compras",
+            "cost_center": "111.500",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de PCM",
+            "cost_center": "111.500",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente de PCM",
+            "cost_center": "111.500",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista de PCM",
+            "cost_center": "111.500",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Inventário",
+            "cost_center": "111.500",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente de Inventário",
+            "cost_center": "111.500",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista de Inventário",
+            "cost_center": "111.500",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Gerente Gerencia Comercial",
+            "cost_center": "121.100",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Orçamentos",
+            "cost_center": "121.110",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente de Orçamentos",
+            "cost_center": "121.110",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Orçamentista",
+            "cost_center": "121.110",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Especialista em Orçamentos",
+            "cost_center": "121.110",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente de Vendas",
+            "cost_center": "121.110",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Negociação",
+            "cost_center": "121.110",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente de Negociação",
+            "cost_center": "121.110",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista de Negociação",
+            "cost_center": "121.110",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Vendas",
+            "cost_center": "121.120",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente de Vendas",
+            "cost_center": "121.120",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista de Vendas",
+            "cost_center": "121.120",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Executivo de Vendas",
+            "cost_center": "121.120",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Técnico Eletricista",
+            "cost_center": "121.130",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Contratos",
+            "cost_center": "121.140",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente de Contratos",
+            "cost_center": "121.140",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista de Contratos",
+            "cost_center": "121.140",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Logística",
+            "cost_center": "121.150",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente de Logística",
+            "cost_center": "121.150",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista de Logística",
+            "cost_center": "121.150",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Motorista",
+            "cost_center": "121.150",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Operador de Empilhadeira",
+            "cost_center": "121.150",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Gerente SAC",
+            "cost_center": "121.160",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Gerente MKT",
+            "cost_center": "121.170",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Gerente Gerencia Engenharia",
+            "cost_center": "131.100",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Projetos",
+            "cost_center": "131.110",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Desenhista Eletrico",
+            "cost_center": "131.110",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Projetista Eletrico",
+            "cost_center": "131.110",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Projetos",
+            "cost_center": "131.120",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Desenhista Mecanico",
+            "cost_center": "131.120",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Projetista Mecanico",
+            "cost_center": "131.120",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Gerente Processos Industriais",
+            "cost_center": "131.130",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Gerente Gerencia Industrial",
+            "cost_center": "131.200",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Ajudante Geral",
+            "cost_center": "131.211",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Produção",
+            "cost_center": "131.211",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Meio Of Operador de Maquina",
+            "cost_center": "131.211",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Operador de Maquina",
+            "cost_center": "131.211",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Meio Of Funileiro",
+            "cost_center": "131.211",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Of Funileiro",
+            "cost_center": "131.211",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Meio Of Serralheiro",
+            "cost_center": "131.211",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Of Serralheiro",
+            "cost_center": "131.211",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Gerente Pintura",
+            "cost_center": "131.212",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Ajudante Geral",
+            "cost_center": "131.221",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Produção",
+            "cost_center": "131.221",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Meio Of Mont Paineis Com.",
+            "cost_center": "131.221",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Of Montador de Paineis Com.",
+            "cost_center": "131.221",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Meio Oficial de Pré Teste",
+            "cost_center": "131.221",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Of de Pré Teste",
+            "cost_center": "131.221",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Ajudante Geral",
+            "cost_center": "131.222",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Produção",
+            "cost_center": "131.222",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Meio Of Mont Paineis",
+            "cost_center": "131.222",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Of Montador de Paineis",
+            "cost_center": "131.222",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Ajudante Geral",
+            "cost_center": "131.231",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Produção",
+            "cost_center": "131.231",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Meio Of Mont Paineis",
+            "cost_center": "131.231",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Of Montador de Paineis",
+            "cost_center": "131.231",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Ajudante Geral",
+            "cost_center": "131.232",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Produção",
+            "cost_center": "131.232",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Meio Of Mont Paineis",
+            "cost_center": "131.232",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Of Montador de Paineis",
+            "cost_center": "131.232",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Inspeção Final",
+            "cost_center": "131.240",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Inspetor de Qualidade Final",
+            "cost_center": "131.240",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Almoxarifado",
+            "cost_center": "131.251",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente de Almoxarifado",
+            "cost_center": "131.251",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Almoxarife",
+            "cost_center": "131.251",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de PCP",
+            "cost_center": "131.252",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente de PCP",
+            "cost_center": "131.252",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista de PCP",
+            "cost_center": "131.252",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar Apontador de Produção",
+            "cost_center": "131.252",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente Apontador de Produção",
+            "cost_center": "131.252",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista Apontador de Produção",
+            "cost_center": "131.252",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Ajudante Geral",
+            "cost_center": "131.253",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Expedição",
+            "cost_center": "131.253",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Meio Of. de Expedição",
+            "cost_center": "131.253",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Of. de Expedição",
+            "cost_center": "131.253",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Ajudante Geral",
+            "cost_center": "131.254",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Manutenção",
+            "cost_center": "131.254",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Meio Of. de Manutenção",
+            "cost_center": "131.254",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Of. de Manutenção",
+            "cost_center": "131.254",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar Eletricista de Manutenção",
+            "cost_center": "131.254",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Meio Of. Eletricista de Manutenção",
+            "cost_center": "131.254",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Of. Eletricista de Manutenção",
+            "cost_center": "131.254",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Técnico em Segurança do Trabalho",
+            "cost_center": "131.255",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Qualidade",
+            "cost_center": "131.256",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Assistente de Qualidade",
+            "cost_center": "131.256",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Analista de Qualidade",
+            "cost_center": "131.256",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Auxiliar de Inspeção Final",
+            "cost_center": "131.257",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Inspetor de Qualidade Final",
+            "cost_center": "131.257",
+            "company": "GPB"
+        }
+    },
+    {
+        "model": "employees.position",
+        "fields": {
+            "position": "Gerente Desenvolvimento Mecânico",
+            "cost_center": "131.258",
+            "company": "GPB"
+        }
+    }
+]
