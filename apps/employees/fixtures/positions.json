@@ -2,7 +2,7 @@
     {
         "model": "employees.position",
         "fields": {
-            "position": "Gerente Presidencia",
+            "position": "Funcionario Presidencia",
             "cost_center": "111.100",
             "company": "Gimi"
         }
@@ -10,7 +10,7 @@
     {
         "model": "employees.position",
         "fields": {
-            "position": "Gerente Planejamento Estrategico",
+            "position": "Funcionario Planejamento Estrategico",
             "cost_center": "111.210",
             "company": "Gimi"
         }
@@ -90,7 +90,7 @@
     {
         "model": "employees.position",
         "fields": {
-            "position": "Gerente Gerencia RH/FIN",
+            "position": "Funcionario Gerencia RH/FIN",
             "cost_center": "111.300",
             "company": "Gimi"
         }
@@ -338,7 +338,7 @@
     {
         "model": "employees.position",
         "fields": {
-            "position": "Gerente Juridico",
+            "position": "Funcionario Juridico",
             "cost_center": "111.330",
             "company": "Gimi"
         }
@@ -378,7 +378,7 @@
     {
         "model": "employees.position",
         "fields": {
-            "position": "Gerente TI",
+            "position": "Funcionario TI",
             "cost_center": "111.400",
             "company": "Gimi"
         }
@@ -458,7 +458,7 @@
     {
         "model": "employees.position",
         "fields": {
-            "position": "Gerente Gerencia Comercial",
+            "position": "Funcionario Gerencia Comercial",
             "cost_center": "121.100",
             "company": "Gimi"
         }
@@ -634,7 +634,7 @@
     {
         "model": "employees.position",
         "fields": {
-            "position": "Gerente SAC",
+            "position": "Funcionario SAC",
             "cost_center": "121.160",
             "company": "Gimi"
         }
@@ -642,7 +642,7 @@
     {
         "model": "employees.position",
         "fields": {
-            "position": "Gerente MKT",
+            "position": "Funcionario MKT",
             "cost_center": "121.170",
             "company": "Gimi"
         }
@@ -650,7 +650,7 @@
     {
         "model": "employees.position",
         "fields": {
-            "position": "Gerente Gerencia Engenharia",
+            "position": "Funcionario Gerencia Engenharia",
             "cost_center": "131.100",
             "company": "Gimi"
         }
@@ -706,7 +706,7 @@
     {
         "model": "employees.position",
         "fields": {
-            "position": "Gerente Processos Industriais",
+            "position": "Funcionario Processos Industriais",
             "cost_center": "131.130",
             "company": "Gimi"
         }
@@ -714,7 +714,7 @@
     {
         "model": "employees.position",
         "fields": {
-            "position": "Gerente Gerencia Industrial",
+            "position": "Funcionario Gerencia Industrial",
             "cost_center": "131.200",
             "company": "Gimi"
         }
@@ -786,7 +786,7 @@
     {
         "model": "employees.position",
         "fields": {
-            "position": "Gerente Pintura",
+            "position": "Funcionario Pintura",
             "cost_center": "131.212",
             "company": "Gimi"
         }
@@ -1162,7 +1162,7 @@
     {
         "model": "employees.position",
         "fields": {
-            "position": "Gerente Desenvolvimento Mecânico",
+            "position": "Funcionario Desenvolvimento Mecânico",
             "cost_center": "131.258",
             "company": "Gimi"
         }
@@ -1170,7 +1170,7 @@
     {
         "model": "employees.position",
         "fields": {
-            "position": "Gerente Presidencia",
+            "position": "Funcionario Presidencia",
             "cost_center": "111.100",
             "company": "GBL"
         }
@@ -1178,7 +1178,7 @@
     {
         "model": "employees.position",
         "fields": {
-            "position": "Gerente Planejamento Estrategico",
+            "position": "Funcionario Planejamento Estrategico",
             "cost_center": "111.210",
             "company": "GBL"
         }
@@ -1258,7 +1258,7 @@
     {
         "model": "employees.position",
         "fields": {
-            "position": "Gerente Gerencia RH/FIN",
+            "position": "Funcionario Gerencia RH/FIN",
             "cost_center": "111.300",
             "company": "GBL"
         }
@@ -1506,7 +1506,7 @@
     {
         "model": "employees.position",
         "fields": {
-            "position": "Gerente Juridico",
+            "position": "Funcionario Juridico",
             "cost_center": "111.330",
             "company": "GBL"
         }
@@ -1546,7 +1546,7 @@
     {
         "model": "employees.position",
         "fields": {
-            "position": "Gerente TI",
+            "position": "Funcionario TI",
             "cost_center": "111.400",
             "company": "GBL"
         }
@@ -1626,7 +1626,7 @@
     {
         "model": "employees.position",
         "fields": {
-            "position": "Gerente Gerencia Comercial",
+            "position": "Funcionario Gerencia Comercial",
             "cost_center": "121.100",
             "company": "GBL"
         }
@@ -1802,7 +1802,7 @@
     {
         "model": "employees.position",
         "fields": {
-            "position": "Gerente SAC",
+            "position": "Funcionario SAC",
             "cost_center": "121.160",
             "company": "GBL"
         }
@@ -1810,7 +1810,7 @@
     {
         "model": "employees.position",
         "fields": {
-            "position": "Gerente MKT",
+            "position": "Funcionario MKT",
             "cost_center": "121.170",
             "company": "GBL"
         }
@@ -1818,7 +1818,7 @@
     {
         "model": "employees.position",
         "fields": {
-            "position": "Gerente Gerencia Engenharia",
+            "position": "Funcionario Gerencia Engenharia",
             "cost_center": "131.100",
             "company": "GBL"
         }
@@ -1874,7 +1874,7 @@
     {
         "model": "employees.position",
         "fields": {
-            "position": "Gerente Processos Industriais",
+            "position": "Funcionario Processos Industriais",
             "cost_center": "131.130",
             "company": "GBL"
         }
@@ -1882,7 +1882,7 @@
     {
         "model": "employees.position",
         "fields": {
-            "position": "Gerente Gerencia Industrial",
+            "position": "Funcionario Gerencia Industrial",
             "cost_center": "131.200",
             "company": "GBL"
         }
@@ -1954,7 +1954,7 @@
     {
         "model": "employees.position",
         "fields": {
-            "position": "Gerente Pintura",
+            "position": "Funcionario Pintura",
             "cost_center": "131.212",
             "company": "GBL"
         }
@@ -2330,7 +2330,7 @@
     {
         "model": "employees.position",
         "fields": {
-            "position": "Gerente Desenvolvimento Mecânico",
+            "position": "Funcionario Desenvolvimento Mecânico",
             "cost_center": "131.258",
             "company": "GBL"
         }
@@ -2338,7 +2338,7 @@
     {
         "model": "employees.position",
         "fields": {
-            "position": "Gerente Presidencia",
+            "position": "Funcionario Presidencia",
             "cost_center": "111.100",
             "company": "GPB"
         }
@@ -2346,7 +2346,7 @@
     {
         "model": "employees.position",
         "fields": {
-            "position": "Gerente Planejamento Estrategico",
+            "position": "Funcionario Planejamento Estrategico",
             "cost_center": "111.210",
             "company": "GPB"
         }
@@ -2426,7 +2426,7 @@
     {
         "model": "employees.position",
         "fields": {
-            "position": "Gerente Gerencia RH/FIN",
+            "position": "Funcionario Gerencia RH/FIN",
             "cost_center": "111.300",
             "company": "GPB"
         }
@@ -2674,7 +2674,7 @@
     {
         "model": "employees.position",
         "fields": {
-            "position": "Gerente Juridico",
+            "position": "Funcionario Juridico",
             "cost_center": "111.330",
             "company": "GPB"
         }
@@ -2714,7 +2714,7 @@
     {
         "model": "employees.position",
         "fields": {
-            "position": "Gerente TI",
+            "position": "Funcionario TI",
             "cost_center": "111.400",
             "company": "GPB"
         }
@@ -2794,7 +2794,7 @@
     {
         "model": "employees.position",
         "fields": {
-            "position": "Gerente Gerencia Comercial",
+            "position": "Funcionario Gerencia Comercial",
             "cost_center": "121.100",
             "company": "GPB"
         }
@@ -2970,7 +2970,7 @@
     {
         "model": "employees.position",
         "fields": {
-            "position": "Gerente SAC",
+            "position": "Funcionario SAC",
             "cost_center": "121.160",
             "company": "GPB"
         }
@@ -2978,7 +2978,7 @@
     {
         "model": "employees.position",
         "fields": {
-            "position": "Gerente MKT",
+            "position": "Funcionario MKT",
             "cost_center": "121.170",
             "company": "GPB"
         }
@@ -2986,7 +2986,7 @@
     {
         "model": "employees.position",
         "fields": {
-            "position": "Gerente Gerencia Engenharia",
+            "position": "Funcionario Gerencia Engenharia",
             "cost_center": "131.100",
             "company": "GPB"
         }
@@ -3042,7 +3042,7 @@
     {
         "model": "employees.position",
         "fields": {
-            "position": "Gerente Processos Industriais",
+            "position": "Funcionario Processos Industriais",
             "cost_center": "131.130",
             "company": "GPB"
         }
@@ -3050,7 +3050,7 @@
     {
         "model": "employees.position",
         "fields": {
-            "position": "Gerente Gerencia Industrial",
+            "position": "Funcionario Gerencia Industrial",
             "cost_center": "131.200",
             "company": "GPB"
         }
@@ -3122,7 +3122,7 @@
     {
         "model": "employees.position",
         "fields": {
-            "position": "Gerente Pintura",
+            "position": "Funcionario Pintura",
             "cost_center": "131.212",
             "company": "GPB"
         }
@@ -3498,7 +3498,7 @@
     {
         "model": "employees.position",
         "fields": {
-            "position": "Gerente Desenvolvimento Mecânico",
+            "position": "Funcionario Desenvolvimento Mecânico",
             "cost_center": "131.258",
             "company": "GPB"
         }
