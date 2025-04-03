@@ -25,7 +25,6 @@ class ServiceList(CustomErrorHandlerMixin, generics.ListCreateAPIView):
     search_fields = []
     ordering_fields = ["created_at", "approval_date"]
     filterset_fields = [
-        # Campos do modelo Service
         "id",
         "company",
         "department__id",

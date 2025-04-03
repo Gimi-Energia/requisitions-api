@@ -6,15 +6,20 @@ class Freights(admin.ModelAdmin):
     list_display = (
         "id",
         "company",
+        "contract",
         "status",
         "department",
         "requester",
+        "created_at",
         "created_at",
     )
     list_display_links = ("id",)
     search_fields = ("requester__email", "approver__email", "contract__contract_number")
     list_filter = ("status", "company")
+    search_fields = ("requester__email", "approver__email", "contract__contract_number")
+    list_filter = ("status", "company")
     list_per_page = 25
+    ordering = ("-created_at",)
     ordering = ("-created_at",)
 
 

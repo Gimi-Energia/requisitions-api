@@ -8,18 +8,17 @@ from apps.users.models import User
 def send_status_change_email(instance):
     email_subject = ""
     email_body_intro = ""
-    emails = []
+    emails = [instance.requester]
 
     print(instance.status)
 
     if instance.status == "Scheduled":
         email_subject = "Solicitação de Manutenção Interna Programada"
         email_body_intro = f"""
-            Olá, {instance.requester}!<br>
+            Olá {instance.requester},<br>
             Sua solicitação foi programada
             para {instance.forecast_date.strftime("%d/%m/%Y")}.<br>
         """
-        emails.append(instance.requester)
     elif instance.status == "Opened":
         print("preparing email for Opened status")
         local_timezone = pytz.timezone("America/Sao_Paulo")
@@ -28,21 +27,26 @@ def send_status_change_email(instance):
         print(formatted_created_at)
         email_subject = "Solicitação de Manutenção Interna Criada"
         email_body_intro = f"""
-            Olá!<br>
+            Olá,<br>
             Uma solicitação foi criada em {formatted_created_at}<br>
             De {instance.requester}.<br>
         """
         print("getting emails")
-        emails = [user.email for user in User.objects.filter(groups__name="Maintenance")]
+        emails.extend(user.email for user in User.objects.filter(groups__name="Maintenance"))
         emails.append(instance.requester.email)
         print(f"email list {emails}")
-    elif instance.status == "Completed":
+    elif instance.status in ["Completed", "Denied"]:
         local_timezone = pytz.timezone("America/Sao_Paulo")
         local_end_date = instance.end_date.astimezone(local_timezone)
         formatted_end_date = local_end_date.strftime("%d/%m/%Y às %H:%M:%S")
-        email_subject = "Solicitação de Manutenção Interna Encerrada"
+
+        email_subject = (
+            "Solicitação de Manutenção Interna Encerrada"
+            if instance.status == "Completed"
+            else "Solicitação de Manutenção Interna Negada"
+        )
         email_body_intro = f"""
-            Olá {instance.requester}!<br>
+            Olá {instance.requester},<br>
             Sua solicitação foi encerrada em {formatted_end_date}<br>
         """
         emails.append(instance.requester)
@@ -129,4 +133,4 @@ def translate_status(status: str) -> str:
 
     translated = options.get(status)
 
-    return translated
+    return translated if translated is not None else ""
